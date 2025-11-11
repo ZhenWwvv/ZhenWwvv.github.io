@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Resume page">
+    <title>Resume</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&family=Overpass:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        :root { 
+            --white:#ffffff; --black:#000000;
+            --bg:var(--white); --bg-alt:#f3f4f6; --border:#e5e7eb;
+            --greystone-900:#111827; --greystone-600:#4b5563; --greystone-100:#f3f4f6;
+            --text-primary:var(--greystone-900); --text-secondary:var(--greystone-600);
+            --maroon-700:#5e0c0e; --maroon-600:#7B1113; --maroon-500:#8C3B1A;
+            --brick-700:#5e0c0e; --brick-600:#7B1113; --brick-500:#8C3B1A;
+            --gold-400:#F2C14E; --gold-600:#DAAA00; --gold-700:#A87600;
+            --brand:var(--maroon-600); --gold:var(--gold-600);
+        }
+        *{ box-sizing:border-box; }
+        html{ scroll-behavior:smooth; }
+        body{ margin:0; font-family:'Noto Sans',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; color:var(--text-primary); background:var(--bg); line-height:1.6; }
+        h1,h2,h3,h4,h5,h6,.page-title,.brand{ font-family:'Overpass',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; }
+        .site-header{ position:sticky; top:0; z-index:50; background:linear-gradient(90deg,#7B1113 0%, #8C3B1A 100%); border-bottom:0; box-shadow:0 10px 32px rgba(91,13,14,0.28); }
+        .nav-container{ max-width:1200px; margin:0 auto; padding:0 16px; display:flex; align-items:center; gap:20px; height:60px; position:relative; }
+        .brand{ font-weight:700; color:#ffffff; text-decoration:none; letter-spacing:0.5px; }
+        .nav{ margin:0; padding:0; list-style:none; display:flex; align-items:center; gap:20px; }
+        #nav-left, #nav-right{ flex:1 1 0; display:flex; align-items:center; justify-content:space-evenly; gap:20px; }
+        .nav>li{ position:relative; }
+        .nav a{ color:#ffffff; text-decoration:none; font-weight:500; padding:6px 4px; border-radius:6px; transition:color 0.2s ease, border-color 0.2s ease; }
+        .nav a:hover{ color:var(--gold); }
+        .nav>li:not(.active):hover > a,
+        .nav>li:not(.active):focus-within > a{ color:#ffffff; border-bottom:0; }
+        .nav>li.active > a{ color:var(--gold); border-bottom:2px solid var(--gold); }
+        .nav-icons{ display:flex; align-items:center; gap:16px; flex:0 0 auto; justify-content:center; }
+        .social-link{ width:38px; height:38px; border-radius:999px; border:1px solid rgba(255,255,255,0.45); display:inline-flex; align-items:center; justify-content:center; color:#ffffff; text-decoration:none; background:transparent; transition:background 0.2s ease, transform 0.2s ease, border-color 0.2s ease; }
+        .social-link:hover{ background:rgba(255,255,255,0.2); border-color:rgba(255,255,255,0.65); transform:translateY(-1px); color:#ffffff; }
+        .social-link svg{ width:20px; height:20px; }
+        .contact-btn{ padding:10px 24px; border-radius:999px; border:1px solid rgba(255,255,255,0.85); background:transparent; color:#ffffff; font-weight:700; text-decoration:none; display:inline-flex; align-items:center; gap:10px; transition:background 0.2s ease, color 0.2s ease, transform 0.2s ease; }
+        .contact-btn .contact-label{ font-size:16px; line-height:1; }
+        .contact-btn .contact-arrow{ font-size:16px; line-height:1; transition:transform 0.2s ease; }
+        .contact-btn:hover{ background:#ffffff; color:#7B1113; transform:translateY(-1px); }
+        .contact-btn:hover .contact-arrow{ transform:translateX(3px); }
+        @media (max-width:900px){
+            .nav{ display:none; position:absolute; left:0; right:0; top:60px; background:#fff; border-bottom:1px solid var(--border); padding:8px 12px; }
+            .nav.open{ display:flex; flex-direction:column; gap:4px; }
+            .nav>li{ width:100%; }
+            .dropdown{ position:static; display:none; border:0; box-shadow:none; padding:0; margin-left:8px; }
+            .nav>li.open .dropdown{ display:block; }
+            .menu-btn{ display:inline-flex; align-items:center; gap:6px; color:#ffffff; }
+            .nav-icons{ display:none; }
+            .nav.open a{ color:var(--text-primary); }
+            .nav.open a:hover{ color:var(--brand); }
+            .nav.open>li.active>a{ color:var(--brand); border-bottom:0; }
+        }
+        .dropdown-toggle{ display:inline-flex; align-items:center; gap:6px; cursor:pointer; }
+        .dropdown{ position:absolute; top:100%; left:0; min-width:220px; background:#fff; border:1px solid var(--border); border-radius:10px; box-shadow:0 10px 30px rgba(0,0,0,0.08); padding:8px; display:none; }
+        .dropdown a{ display:block; padding:10px 12px; border-radius:8px; color:var(--text-secondary); }
+        .nav .dropdown a{ color:var(--text-secondary); }
+        .dropdown a:hover{ background:var(--bg-alt); color:var(--text-primary); }
+        .nav>li:hover .dropdown{ display:block; }
+        .page{ max-width:1100px; margin:0 auto; padding:24px 16px 80px; }
+        .breadcrumb{ font-size:12px; color:var(--text-secondary); margin-top:12px; }
+        .page-title{ margin:18px 0 14px; font-size:clamp(24px,4vw,34px); line-height:1.2; font-weight:700; }
+        .card{ background:#fff; border:1px solid var(--border); border-radius:12px; padding:20px; }
+        .muted{ color:var(--text-secondary); }
+        .site-footer{ border-top:1px solid var(--border); background:var(--bg-alt); color:var(--text-secondary); font-size:14px; }
+        .footer-inner{ max-width:1100px; margin:0 auto; padding:20px 16px; display:flex; gap:16px; flex-wrap:wrap; align-items:center; justify-content:space-between; }
+        .footer-links{ display:flex; gap:16px; }
+        .footer-links a{ color:inherit; text-decoration:none; }
+        .footer-links a:hover{ color:var(--brand); }
+        .menu-btn{ display:none; background:none; border:0; font-size:18px; }
+        
+        /* Dark Mode Toggle */
+        .dark-mode-toggle{ position:fixed; top:20px; right:20px; z-index:1000; background:rgba(255,255,255,0.9); border:1px solid #e5e7eb; border-radius:8px; padding:8px; cursor:pointer; transition:all 0.3s ease; }
+        .dark-mode-toggle:hover{ background:rgba(255,255,255,1); box-shadow:0 4px 12px rgba(0,0,0,0.1); }
+        .dark-mode-toggle svg{ width:20px; height:20px; color:#374151; }
+        .dark-mode-toggle.dark{ background:rgba(31,41,55,0.9); border-color:#4b5563; }
+        .dark-mode-toggle.dark svg{ color:#f3f4f6; }
+        
+        /* Dark Mode Styles */
+        .dark-mode{ background:#1f2937 !important; color:#f3f4f6 !important; }
+        .dark-mode .page{ background:#1f2937 !important; color:#f3f4f6 !important; }
+        .dark-mode .card{ background:#374151 !important; border-color:#4b5563 !important; color:#f3f4f6 !important; }
+        .dark-mode .site-footer{ background:#111827 !important; color:#9ca3af !important; }
+        
+        /* Navigation Dark Mode */
+        .dark-mode .site-header{ background:linear-gradient(90deg, #1f2937 0%, #374151 100%) !important; }
+        .dark-mode .nav a{ color:#f3f4f6 !important; }
+        .dark-mode .nav a:hover{ color:var(--gold) !important; }
+        .dark-mode .nav>li.active > a{ color:var(--gold) !important; border-bottom-color:var(--gold) !important; }
+        .dark-mode .brand{ color:#f3f4f6 !important; }
+        .dark-mode .dropdown{ background:#374151 !important; border-color:#4b5563 !important; }
+        .dark-mode .dropdown a{ color:#f3f4f6 !important; }
+        .dark-mode .dropdown a:hover{ background:#4b5563 !important; color:#f3f4f6 !important; }
+        
+        /* Buttons and Interactive Elements */
+        .dark-mode .btn{ background:var(--brand) !important; color:#ffffff !important; border-color:var(--brand) !important; }
+        .dark-mode .btn:hover{ background:var(--maroon-700) !important; border-color:var(--maroon-700) !important; }
+        
+        /* Bottom Navigation Dark Mode */
+        .dark-mode .bottom-nav{ background:linear-gradient(135deg, #111827 0%, #1f2937 100%) !important; }
+        .dark-mode .bottom-nav-icon{ color:#f3f4f6 !important; }
+        .dark-mode .bottom-nav-icon:hover{ color:var(--gold) !important; }
+        .dark-mode .sparkle-icon{ color:var(--gold) !important; }
+        
+        /* Bottom Navigation */
+        .bottom-nav{ margin-top:60px; background:linear-gradient(135deg, #7B1113 0%, #8C3B1A 100%); padding:40px 0; position:relative; }
+        .bottom-nav::before{ content:''; position:absolute; top:0; left:0; right:0; bottom:0; background-image: radial-gradient(circle at 20% 20%, rgba(255,255,255,0.1) 1px, transparent 1px), radial-gradient(circle at 80% 80%, rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(45deg, transparent 40%, rgba(255,255,255,0.05) 50%, transparent 60%); background-size: 30px 30px, 30px 30px, 20px 20px; opacity:0.3; }
+        .bottom-nav-inner{ max-width:1200px; margin:0 auto; padding:0 20px; display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:30px; position:relative; z-index:1; }
+        .bottom-nav-links{ display:flex; align-items:center; gap:16px; flex-wrap:wrap; justify-content:center; }
+        @media (max-width:540px){
+            .bottom-nav-inner{ flex-direction:column; gap:16px; }
+            .bottom-nav-links{ justify-content:center; }
+        }
+        .bottom-nav-icon{ color:#ffffff; font-size:24px; text-decoration:none; transition:color 0.3s ease; }
+        .bottom-nav-icon:hover{ color:var(--gold); }
+        .sparkle-icon{ color:var(--gold); font-size:16px; margin:0 8px; }
+        /* Bottom nav icon order */
+        .bottom-nav-center a[aria-label="LinkedIn"]{ order:1; }
+        .bottom-nav-center a[aria-label="GitHub"]{ order:2; }
+        .bottom-nav-center a[aria-label="Instagram"]{ order:3; }
+        .bottom-nav-center .contact-btn{ order:4; }
+        @media (max-width:900px){ .nav{ display:none; position:absolute; left:0; right:0; top:56px; background:#fff; border-bottom:1px solid var(--border); padding:8px 12px; }
+            .nav.open{ display:flex; flex-direction:column; gap:4px; } .nav>li{ width:100%; }
+            .dropdown{ position:static; display:none; border:0; box-shadow:none; padding:0; margin-left:8px; }
+            .nav>li.open .dropdown{ display:block; } .menu-btn{ display:inline-flex; align-items:center; gap:6px; color:var(--text-primary); } }
+        /* UChicago theme overrides (fonts unchanged) */
+        @media (max-width:900px){ .menu-btn{ color:#ffffff; } }
+        /* Tencent Docs form embed */
+        .gform-wrap{ max-width:1100px; margin:24px auto 0; padding:0 16px; }
+        .gform-note{ color:var(--text-secondary); margin:6px 0 12px; font-size:14px; }
+        .gform-iframe{ width:100%; min-height:1300px; border:0; background:#fff; border-radius:12px; box-shadow:0 16px 40px rgba(0,0,0,0.08); }
+        @media (max-width:900px){ .gform-iframe{ min-height:1400px; } }
+        /* Download button */
+        .btn{ display:inline-flex; align-items:center; gap:8px; background:var(--brand); color:#fff; padding:10px 14px; border-radius:12px; text-decoration:none; font-weight:700; box-shadow:0 6px 18px rgba(123,17,19,0.22); }
+        .btn:hover{ filter:brightness(1.05); }
+        /* Hide leftmost brand Home */
+        .brand{ display:none; }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function(){
+            const menuBtn=document.getElementById('menu-btn');
+            const nav=document.getElementById('nav');
+            menuBtn?.addEventListener('click', ()=>{ nav.classList.toggle('open'); });
+            Array.from(document.querySelectorAll('.has-dropdown')).forEach(function(li){
+                li.querySelector('.dropdown-toggle')?.addEventListener('click', function(e){
+                    if (window.matchMedia('(max-width: 900px)').matches){ e.preventDefault(); li.classList.toggle('open'); }
+                });
+            });
+
+            // Active nav highlight by URL only
+            const currentPath = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
+            if (nav){
+                const allNavLinks = Array.from(nav.querySelectorAll('a[href]'));
+                const topLevelItems = Array.from(nav.children);
+
+                function clearActive(){
+                    topLevelItems.forEach(function(li){ li.classList.remove('active'); });
+                    allNavLinks.forEach(function(a){ a.removeAttribute('aria-current'); });
+                }
+
+                function activateLink(link){
+                    if (!link) return;
+                    link.setAttribute('aria-current','page');
+                    const parentLi = link.closest('li');
+                    (parentLi || link.parentElement)?.classList.add('active');
+                }
+
+                // Initial highlight based on URL
+                clearActive();
+                let matched = allNavLinks.find(function(a){
+                    const href = (a.getAttribute('href') || '').toLowerCase();
+                    if (!href || href === '#') return false;
+                    const hrefFile = href.split('/').pop();
+                    return hrefFile === currentPath || (currentPath === '' && hrefFile === 'index.html');
+                });
+                if (!matched && (currentPath === '' || currentPath === '/')){
+                    matched = allNavLinks.find(function(a){ return (a.getAttribute('href') || '').toLowerCase() === 'index.html'; });
+                }
+                activateLink(matched);
+
+                // Removed click-based highlight to keep color consistent
+            }
+            
+            // Dark Mode Toggle
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            const body = document.body;
+            
+            // Check for saved theme preference or default to light mode
+            const currentTheme = localStorage.getItem('theme') || 'light';
+            if (currentTheme === 'dark') {
+                body.classList.add('dark-mode');
+                darkModeToggle.classList.add('dark');
+            }
+            
+            darkModeToggle.addEventListener('click', function() {
+                body.classList.toggle('dark-mode');
+                darkModeToggle.classList.toggle('dark');
+                
+                // Save theme preference
+                const isDark = body.classList.contains('dark-mode');
+                localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            });
+        });
+    </script>
+</head>
+<body>
+    <!-- Dark Mode Toggle -->
+    <button class="dark-mode-toggle" id="darkModeToggle" aria-label="Toggle dark mode">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+    </button>
+
+    <header class="site-header">
+        <div class="nav-container">
+            <a class="brand" href="index.html">Home</a>
+            
+            <ul id="nav-left" class="nav" role="menubar" aria-label="Primary left">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="work-experience.html">Work Experience</a></li>
+                <li><a href="project.html">Project</a></li>
+            </ul>
+            <div class="nav-icons" id="nav-icons" aria-label="Social and contact">
+                <a href="https://www.linkedin.com/in/zhenwww" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="LinkedIn">
+                    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.226.792 24 1.771 24h20.451C23.2 24 24 23.226 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003zM6.556 20.452H4.113V9h2.443v11.452zM5.337 7.433a1.805 1.805 0 110-3.61 1.805 1.805 0 010 3.61zM20.447 20.452H17.2v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286z"/></svg>
+                </a>
+                <a href="https://github.com/ZhenWwvv" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="GitHub">
+                    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                </a>
+                <a href="https://www.instagram.com/nehzzhenwang/" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Instagram">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+                    </svg>
+                </a>
+                <a href="mailto:wangzh@iloguest.org" class="contact-btn" aria-label="Contact">
+                    <span class="contact-label">Contact</span>
+                    <span class="contact-arrow" aria-hidden="true">▸</span>
+                </a>
+            </div>
+            <ul id="nav-right" class="nav" role="menubar" aria-label="Primary right">
+                <li><a href="publications.html">Publications</a></li>
+                <li class="active"><a href="resume.html" aria-current="page">Resume</a></li>
+                <li><a href="some-fun.html">Some Fun</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <main class="page" role="main">
+        <h1 class="page-title">Resume</h1>
+        <p><a id="btn-download-resume" class="btn" href="#">Download Resume (PDF)</a></p>
+        <div id="resume-content" class="card"></div>
+        <!-- Google Docs embed -->
+        <section class="gform-wrap" aria-label="resume document">
+            <div class="gform-note">以下为 Google 表单。提交信息后我会尽快联系您。</div>
+            <iframe class="gform-iframe" src="https://docs.google.com/forms/d/e/1FAIpQLSdBWURDCw63mR-kK7IKh4DQYhxlYee4512az0TOR5DvJWh_Mw/viewform?embedded=true" title="Contact Zhen Wang" loading="lazy">加载中…</iframe>
+        </section>
+    </main>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav" role="navigation" aria-label="Bottom navigation">
+        <div class="bottom-nav-inner">
+            <div class="bottom-nav-links" role="group" aria-label="Social links">
+                <a href="https://www.linkedin.com/in/zhenwww" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="LinkedIn">
+                    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                        <path d="M22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.226.792 24 1.771 24h20.451C23.2 24 24 23.226 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003zM6.556 20.452H4.113V9h2.443v11.452zM5.337 7.433a1.805 1.805 0 110-3.61 1.805 1.805 0 010 3.61zM20.447 20.452H17.2v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.062V9h3.112v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286z"/>
+                    </svg>
+                </a>
+                <a href="https://github.com/ZhenWwvv" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="GitHub">
+                    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                        <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.387.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.726-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.809 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23a11.5 11.5 0 013.003-.404c1.019.005 2.045.138 3.003.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                    </svg>
+                </a>
+                <a href="https://www.instagram.com/nehzzhenwang/" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Instagram">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+                    </svg>
+                </a>
+            </div>
+            <a href="mailto:wangzh@iloguest.org" class="contact-btn" aria-label="Contact">
+                <span class="contact-label">Contact</span>
+                <span class="contact-arrow" aria-hidden="true">▸</span>
+            </a>
+        </div>
+    </nav>
+
+    <footer class="site-footer" role="contentinfo">
+        <div class="footer-inner">
+            <span>Page details</span>
+            <div class="footer-links">
+                <a href="#" rel="nofollow">Report abuse</a>
+                <a href="#" rel="nofollow">Accessibility</a>
+            </div>
+        </div>
+    </footer>
+    <script src="site-content.js"></script>
+    <script src="render-utils.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function(){
+            const container = document.getElementById('resume-content');
+            if (window.RenderUtils && container){ window.RenderUtils.renderResume(container); }
+
+            // Generate PDF from the rendered resume content
+            const btn = document.getElementById('btn-download-resume');
+            if (btn && container){
+                btn.addEventListener('click', function(e){
+                    e.preventDefault();
+                    if (typeof html2pdf === 'undefined') {
+                        // Fallback to print if library not loaded
+                        window.print();
+                        return;
+                    }
+                    try{
+                        btn.textContent = 'Generating PDF...';
+                        btn.disabled = true;
+                        const opt = {
+                            margin: [10, 10, 10, 10],
+                            filename: 'resume.pdf',
+                            image: { type: 'jpeg', quality: 0.98 },
+                            html2canvas: { scale: 2, useCORS: true },
+                            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+                        };
+                        html2pdf().set(opt).from(container).save().then(function(){
+                            btn.textContent = 'Download Resume (PDF)';
+                            btn.disabled = false;
+                        }).catch(function(err){
+                            console.error('PDF generation error:', err);
+                            btn.textContent = 'Download Resume (PDF)';
+                            btn.disabled = false;
+                            window.print();
+                        });
+                    }catch(err){ 
+                        console.error(err);
+                        btn.textContent = 'Download Resume (PDF)';
+                        btn.disabled = false;
+                        window.print();
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
+
+

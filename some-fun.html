@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Some Fun page">
+    <title>Some Fun</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&family=Overpass:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root { 
+            --white:#ffffff; --black:#000000;
+            --bg:var(--white); --bg-alt:#f3f4f6; --border:#e5e7eb;
+            --greystone-900:#111827; --greystone-600:#4b5563; --greystone-100:#f3f4f6;
+            --text-primary:var(--greystone-900); --text-secondary:var(--greystone-600);
+            --maroon-700:#5e0c0e; --maroon-600:#7B1113; --maroon-500:#8C3B1A;
+            --brick-700:#5e0c0e; --brick-600:#7B1113; --brick-500:#8C3B1A;
+            --gold-400:#F2C14E; --gold-600:#DAAA00; --gold-700:#A87600;
+            --brand:var(--maroon-600); --gold:var(--gold-600);
+        }
+        *{ box-sizing:border-box; }
+        html{ scroll-behavior:smooth; }
+        body{ margin:0; font-family:'Noto Sans',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; color:var(--text-primary); background:var(--bg); line-height:1.6; }
+        h1,h2,h3,h4,h5,h6,.page-title,.brand{ font-family:'Overpass',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; }
+        .site-header{ position:sticky; top:0; z-index:40; background:linear-gradient(90deg,#7B1113 0%, #8C3B1A 100%); box-shadow:0 10px 32px rgba(91,13,14,0.28); }
+        .social-link{ width:38px; height:38px; border-radius:999px; border:1px solid rgba(255,255,255,0.45); display:inline-flex; align-items:center; justify-content:center; color:#ffffff; text-decoration:none; background:transparent; transition:background 0.2s ease, transform 0.2s ease, border-color 0.2s ease; }
+        .social-link:hover{ background:rgba(255,255,255,0.2); border-color:rgba(255,255,255,0.65); transform:translateY(-1px); }
+        .social-link svg{ width:20px; height:20px; }
+        .contact-btn{ padding:10px 24px; border-radius:999px; border:1px solid rgba(255,255,255,0.85); background:transparent; color:#ffffff; font-weight:700; text-decoration:none; display:inline-flex; align-items:center; gap:10px; box-shadow:none; transition:background 0.2s ease, color 0.2s ease, transform 0.2s ease; }
+        .contact-btn .contact-label{ font-size:16px; line-height:1; }
+        .contact-btn .contact-arrow{ font-size:16px; line-height:1; transition:transform 0.2s ease; }
+        .contact-btn:hover{ background:#ffffff; color:#7B1113; transform:translateY(-1px); }
+        .contact-btn:hover .contact-arrow{ transform:translateX(3px); }
+        .nav-container{ max-width:1200px; margin:0 auto; padding:0 16px; display:flex; align-items:center; gap:20px; height:60px; position:relative; }
+        .brand{ font-weight:700; color:#ffffff; text-decoration:none; letter-spacing:0.5px; display:none; }
+        .nav{ margin:0; padding:0; list-style:none; display:flex; align-items:center; gap:20px; }
+        #nav-left, #nav-right{ flex:1 1 0; display:flex; align-items:center; justify-content:space-evenly; gap:20px; }
+        .nav a{ color:#ffffff; text-decoration:none; font-weight:500; padding:6px 4px; border-radius:6px; transition:color 0.2s ease, border-color 0.2s ease; }
+        .nav>li{ position:relative; }
+        .nav a:hover{ color:var(--gold); }
+        .nav>li.active > a{ color:var(--gold); border-bottom:2px solid var(--gold); }
+        .nav-icons{ display:flex; align-items:center; gap:16px; flex:0 0 auto; }
+        .nav-icons .contact-btn{ margin-left:8px; }
+        @media (max-width:900px){
+            .nav-container{ padding:0 14px; gap:12px; }
+            .nav-icons{ display:none; }
+            #nav-left, #nav-right{ flex:0 0 auto; }
+            .brand{ display:inline-block; color:#ffffff; font-size:18px; }
+        }
+        .page{ max-width:1100px; margin:0 auto; padding:24px 16px 80px; }
+        .breadcrumb{ font-size:12px; color:var(--text-secondary); margin-top:12px; }
+        .page-title{ margin:18px 0 14px; font-size:clamp(24px,4vw,34px); line-height:1.2; font-weight:700; }
+        .card{ background:#fff; border:1px solid var(--border); border-radius:12px; padding:20px; }
+        .muted{ color:var(--text-secondary); }
+        .site-footer{ border-top:1px solid var(--border); background:var(--bg-alt); color:var(--text-secondary); font-size:14px; }
+        .footer-inner{ max-width:1100px; margin:0 auto; padding:20px 16px; display:flex; gap:16px; flex-wrap:wrap; align-items:center; justify-content:space-between; }
+        .footer-links{ display:flex; gap:16px; }
+        .footer-links a{ color:inherit; text-decoration:none; }
+        .footer-links a:hover{ color:var(--brand); }
+        .menu-btn{ display:none; background:none; border:0; font-size:18px; }
+        
+        /* Dark Mode Toggle */
+        .dark-mode-toggle{ position:fixed; top:20px; right:20px; z-index:1000; background:rgba(255,255,255,0.9); border:1px solid #e5e7eb; border-radius:8px; padding:8px; cursor:pointer; transition:all 0.3s ease; }
+        .dark-mode-toggle:hover{ background:rgba(255,255,255,1); box-shadow:0 4px 12px rgba(0,0,0,0.1); }
+        .dark-mode-toggle svg{ width:20px; height:20px; color:#374151; }
+        .dark-mode-toggle.dark{ background:rgba(31,41,55,0.9); border-color:#4b5563; }
+        .dark-mode-toggle.dark svg{ color:#f3f4f6; }
+        
+        /* Dark Mode Styles */
+        .dark-mode{ background:#1f2937 !important; color:#f3f4f6 !important; }
+        .dark-mode .page{ background:#1f2937 !important; color:#f3f4f6 !important; }
+        .dark-mode .card{ background:#374151 !important; border-color:#4b5563 !important; color:#f3f4f6 !important; }
+        .dark-mode .site-footer{ background:#111827 !important; color:#9ca3af !important; }
+        
+        /* Navigation Dark Mode */
+        .dark-mode .site-header{ background:linear-gradient(90deg, #1f2937 0%, #374151 100%) !important; }
+        .dark-mode .nav a{ color:#f3f4f6 !important; }
+        .dark-mode .nav a:hover{ color:var(--gold) !important; }
+        .dark-mode .nav>li.active > a{ color:var(--gold) !important; border-bottom-color:var(--gold) !important; }
+        .dark-mode .brand{ color:#f3f4f6 !important; }
+        .dark-mode .dropdown{ background:#374151 !important; border-color:#4b5563 !important; }
+        .dark-mode .dropdown a{ color:#f3f4f6 !important; }
+        .dark-mode .dropdown a:hover{ background:#4b5563 !important; color:#f3f4f6 !important; }
+        
+        /* Buttons and Interactive Elements */
+        .dark-mode .btn{ background:var(--brand) !important; color:#ffffff !important; border-color:var(--brand) !important; }
+        .dark-mode .btn:hover{ background:var(--maroon-700) !important; border-color:var(--maroon-700) !important; }
+        
+        /* Top / Bottom Bar Dark Mode */
+        .dark-mode .bottom-nav{ background:linear-gradient(135deg, #111827 0%, #1f2937 100%) !important; box-shadow:0 -8px 24px rgba(0,0,0,0.4) !important; }
+        .dark-mode .social-link{ border-color:rgba(243,244,246,0.45) !important; color:#f3f4f6 !important; }
+        .dark-mode .social-link:hover{ background:rgba(243,244,246,0.15) !important; }
+        .dark-mode .contact-btn{ border-color:rgba(243,244,246,0.75) !important; color:#f3f4f6 !important; }
+        .dark-mode .contact-btn:hover{ color:#111827 !important; }
+        /* Bottom Navigation */
+        .bottom-nav{ margin-top:60px; background:linear-gradient(135deg, #7B1113 0%, #8C3B1A 100%); padding:40px 0; position:relative; }
+        .bottom-nav::before{ content:''; position:absolute; top:0; left:0; right:0; bottom:0; background-image: radial-gradient(circle at 20% 20%, rgba(255,255,255,0.1) 1px, transparent 1px), radial-gradient(circle at 80% 80%, rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(45deg, transparent 40%, rgba(255,255,255,0.05) 50%, transparent 60%); background-size: 30px 30px, 30px 30px, 20px 20px; opacity:0.3; }
+        .bottom-nav-inner{ max-width:1200px; margin:0 auto; padding:0 20px; display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:30px; position:relative; z-index:1; }
+        .bottom-nav-links{ display:flex; align-items:center; gap:16px; flex-wrap:wrap; justify-content:center; }
+        @media (max-width:540px){
+            .bottom-nav-inner{ flex-direction:column; gap:16px; }
+            .bottom-nav-links{ justify-content:center; }
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function(){
+            const menuBtn=document.getElementById('menu-btn');
+            const nav=document.getElementById('nav');
+            menuBtn?.addEventListener('click', ()=>{ nav.classList.toggle('open'); });
+            Array.from(document.querySelectorAll('.has-dropdown')).forEach(function(li){
+                li.querySelector('.dropdown-toggle')?.addEventListener('click', function(e){
+                    if (window.matchMedia('(max-width: 900px)').matches){ e.preventDefault(); li.classList.toggle('open'); }
+                });
+            });
+            const currentPath = (location.pathname.split('/').pop() || 'some-fun.html').toLowerCase();
+            if (nav){
+                const allNavLinks = Array.from(nav.querySelectorAll('a[href]'));
+                const topLevelItems = Array.from(nav.children);
+                function clearActive(){ topLevelItems.forEach(function(li){ li.classList.remove('active'); }); allNavLinks.forEach(function(a){ a.removeAttribute('aria-current'); }); }
+                function activateLink(link){ if (!link) return; link.setAttribute('aria-current','page'); const parentLi = link.closest('li'); (parentLi || link.parentElement)?.classList.add('active'); }
+                clearActive();
+                let matched = allNavLinks.find(function(a){ const href=(a.getAttribute('href')||'').toLowerCase(); if(!href||href==='#') return false; const hrefFile=href.split('/').pop(); return hrefFile===currentPath || (currentPath===''&&hrefFile==='index.html'); });
+                activateLink(matched);
+            }
+            
+            // Dark Mode Toggle
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            const body = document.body;
+            
+            // Check for saved theme preference or default to light mode
+            const currentTheme = localStorage.getItem('theme') || 'light';
+            if (currentTheme === 'dark') {
+                body.classList.add('dark-mode');
+                darkModeToggle.classList.add('dark');
+            }
+            
+            darkModeToggle.addEventListener('click', function() {
+                body.classList.toggle('dark-mode');
+                darkModeToggle.classList.toggle('dark');
+                
+                // Save theme preference
+                const isDark = body.classList.contains('dark-mode');
+                localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            });
+        });
+    </script>
+</head>
+<body>
+    <!-- Dark Mode Toggle -->
+    <button class="dark-mode-toggle" id="darkModeToggle" aria-label="Toggle dark mode">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+    </button>
+
+    <header class="site-header">
+        <div class="nav-container">
+            <a class="brand" href="index.html">Home</a>
+            
+            <ul id="nav-left" class="nav" role="menubar" aria-label="Primary left">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="work-experience.html">Work Experience</a></li>
+                <li><a href="project.html">Project</a></li>
+            </ul>
+            <div class="nav-icons" id="nav-icons" aria-label="Social and contact">
+                <a href="https://www.linkedin.com/in/zhenwww" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="LinkedIn">
+                    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                        <path d="M22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.226.792 24 1.771 24h20.451C23.2 24 24 23.226 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003zM6.556 20.452H4.113V9h2.443v11.452zM5.337 7.433a1.805 1.805 0 110-3.61 1.805 1.805 0 010 3.61zM20.447 20.452H17.2v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.062V9h3.112v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286z"/>
+                    </svg>
+                </a>
+                <a href="https://github.com/ZhenWwvv" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="GitHub">
+                    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                        <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.387.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.726-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.809 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23a11.5 11.5 0 013.003-.404c1.019.005 2.045.138 3.003.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                    </svg>
+                </a>
+                <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Instagram">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+                    </svg>
+                </a>
+                <a href="mailto:wangzh@iloguest.org" class="contact-btn" aria-label="Contact">
+                    <span class="contact-label">Contact</span>
+                    <span class="contact-arrow" aria-hidden="true">▸</span>
+                </a>
+            </div>
+            <ul id="nav-right" class="nav" role="menubar" aria-label="Primary right">
+                <li><a href="publications.html">Publications</a></li>
+                <li><a href="resume.html">Resume</a></li>
+                <li class="active"><a href="some-fun.html" aria-current="page">Some Fun</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <main class="page" role="main">
+        <h1 class="page-title">Some Fun</h1>
+        <section id="fun-root"></section>
+    </main>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav" role="navigation" aria-label="Bottom navigation">
+        <div class="bottom-nav-inner">
+            <div class="bottom-nav-links" role="group" aria-label="Social links">
+                <a href="https://www.linkedin.com/in/zhenwww" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="LinkedIn">
+                    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                        <path d="M22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.226.792 24 1.771 24h20.451C23.2 24 24 23.226 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003zM6.556 20.452H4.113V9h2.443v11.452zM5.337 7.433a1.805 1.805 0 110-3.61 1.805 1.805 0 010 3.61zM20.447 20.452H17.2v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.062V9h3.112v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286z"/>
+                    </svg>
+                </a>
+                <a href="https://github.com/ZhenWwvv" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="GitHub">
+                    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                        <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.387.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.726-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.809 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23a11.5 11.5 0 013.003-.404c1.019.005 2.045.138 3.003.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                    </svg>
+                </a>
+                <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Instagram">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+                    </svg>
+                </a>
+            </div>
+            <a href="mailto:wangzh@iloguest.org" class="contact-btn" aria-label="Contact">
+                <span class="contact-label">Contact</span>
+                <span class="contact-arrow" aria-hidden="true">▸</span>
+            </a>
+        </div>
+    </nav>
+
+    <footer class="site-footer" role="contentinfo">
+        <div class="footer-inner">
+            <span>Page details</span>
+            <div class="footer-links">
+                <a href="#" rel="nofollow">Report abuse</a>
+                <a href="#" rel="nofollow">Accessibility</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+    (function(){
+      const DEFAULT_SECTIONS = [
+        { key:'innovation', title:'Innovation & Exploration', quote:'Curiosity drives creation — every new place and idea starts with the courage to explore.', images:['inno1.jpg', 'inno2.jpg', 'inno3.jpg'] },
+        { key:'tech', title:'Tech Moments', quote:"Technology is not just tools — it's how we turn innovation into impact.", images:['tech.jpg'] },
+        { key:'encounters', title:'People & Inspiration', quote:"In every meet, there's a spark that reshapes how I think.", images:['微信图片_20251110231042_48_252.jpg', '微信图片_20251110231039_47_252.jpg', '微信图片_20251110231036_46_252.jpg', '微信图片_20251110231028_45_252.jpg'] },
+        { key:'travel', title:'Travel & Places', quote:'The world is a living dataset — each journey reveals another layer of insight.', images:['t1.jpg', 't2.jpg', 't3.jpg', 't.jpg'] }
+      ];
+
+      const styles = document.createElement('style');
+      styles.textContent = `
+      .fun-sec{ margin-bottom:34px; }
+      .fun-head{ display:flex; align-items:flex-end; gap:14px; margin:0 0 8px; }
+      .fun-title{ font-family:'Overpass'; font-size:22px; font-weight:800; color:var(--brand); margin:0; }
+      .fun-quote{ margin:0 0 14px; color:var(--text-secondary); }
+      .fun-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+      .fun-grid .tile{ position:relative; border-radius:10px; overflow:hidden; background:transparent; box-shadow:0 6px 16px rgba(0,0,0,0.06); aspect-ratio:4/3; }
+      .fun-grid img{ width:100%; height:100%; display:block; border-radius:10px; object-fit:cover; }
+      .fun-grid canvas{ width:100%; height:100%; display:block; border-radius:10px; object-fit:cover; }
+      @media (max-width:900px){ .fun-grid{ grid-template-columns:repeat(2,1fr);} }
+      @media (max-width:600px){ .fun-grid{ grid-template-columns:1fr;} }
+      /* Scrollable gallery (Travel & Places, People & Inspiration) */
+      .travel-scrollable{ display:flex !important; gap:10px; overflow-x:auto; overflow-y:hidden; scroll-snap-type:x mandatory; scroll-behavior:smooth; -webkit-overflow-scrolling:touch; scrollbar-width:thin; scrollbar-color:rgba(0,0,0,0.2) transparent; padding-bottom:8px; }
+      .travel-scrollable .tile{ flex:0 0 calc((100% - 20px) / 3); min-width:calc((100% - 20px) / 3); max-width:calc((100% - 20px) / 3); scroll-snap-align:start; background:transparent; aspect-ratio:4/3; overflow:hidden; }
+      .travel-scrollable img{ width:100%; height:100%; display:block; border-radius:10px; object-fit:cover; }
+      .travel-scrollable canvas{ width:100%; height:100%; display:block; border-radius:10px; object-fit:cover; }
+      .travel-scrollable::-webkit-scrollbar{ height:6px; }
+      .travel-scrollable::-webkit-scrollbar-track{ background:transparent; }
+      .travel-scrollable::-webkit-scrollbar-thumb{ background:rgba(0,0,0,0.2); border-radius:3px; }
+      .travel-scrollable::-webkit-scrollbar-thumb:hover{ background:rgba(0,0,0,0.3); }
+      @media (max-width:900px){ .travel-scrollable .tile{ flex:0 0 calc((100% - 10px) / 2); min-width:calc((100% - 10px) / 2); max-width:calc((100% - 10px) / 2); } }
+      @media (max-width:600px){ .travel-scrollable .tile{ flex:0 0 calc(100% - 10px); min-width:calc(100% - 10px); max-width:calc(100% - 10px); } }
+      .travel-scrollable.people-fit{ align-items:flex-start; }
+      .travel-scrollable.people-fit .tile{ flex:0 0 auto; min-width:auto; max-width:none; aspect-ratio:auto; }
+      .travel-scrollable.people-fit img{ width:auto; height:auto; max-height:260px; object-fit:contain; }
+      .scroll-wrapper{ position:relative; }
+      .scroll-controls{ margin-top:8px; }
+      .scroll-slider{ width:100%; appearance:none; height:4px; border-radius:999px; background:linear-gradient(90deg, var(--brand) 0%, var(--brand) 100%); outline:none; }
+      .scroll-slider::-webkit-slider-thumb{ appearance:none; width:14px; height:14px; border-radius:50%; background:var(--brand); cursor:pointer; border:2px solid #fff; box-shadow:0 0 2px rgba(0,0,0,0.2); }
+      .scroll-slider::-moz-range-thumb{ width:14px; height:14px; border-radius:50%; background:var(--brand); cursor:pointer; border:2px solid #fff; box-shadow:0 0 2px rgba(0,0,0,0.2); }
+      `;
+      document.head.appendChild(styles);
+
+      function makePh(title){
+        const c=document.createElement('canvas'); const w=1200, h=900; c.width=w; c.height=h; const ctx=c.getContext('2d');
+        const g=ctx.createLinearGradient(0,0,w,h); g.addColorStop(0,'#243b55'); g.addColorStop(1,'#141e30'); ctx.fillStyle=g; ctx.fillRect(0,0,w,h);
+        ctx.globalAlpha=0.15; ctx.strokeStyle='#fff';
+        for(let i=0;i<22;i++){ ctx.beginPath(); let x=Math.random()*w; let y=0; ctx.moveTo(x,y); for(let j=0;j<5;j++){ x+=(Math.random()-0.5)*140; y+=h/5; ctx.lineTo(x,y);} ctx.stroke(); }
+        ctx.globalAlpha=1; ctx.fillStyle='#fff'; ctx.font='800 54px Overpass, system-ui, Arial'; ctx.textAlign='left'; ctx.textBaseline='middle';
+        ctx.fillText(title, 36, h-70);
+        return c;
+      }
+
+      function el(tag, attrs, children){ const n=document.createElement(tag); if(attrs){ Object.keys(attrs).forEach(k=>{ if(k==='class') n.className=attrs[k]; else if(k==='text') n.textContent=attrs[k]; else n.setAttribute(k, attrs[k]); }); } if(children){ children.forEach(c=>c&&n.appendChild(c)); } return n; }
+
+      function render(sections){
+        const root=document.getElementById('fun-root'); if(!root) return; root.innerHTML='';
+        sections.forEach(sec=>{
+          const block=el('section', {class:'fun-sec'});
+          const head=el('div', {class:'fun-head'}, [ el('h2', {class:'fun-title', text:sec.title||''}) ]);
+          block.appendChild(head);
+          if (sec.quote) block.appendChild(el('p', {class:'fun-quote', text:sec.quote}));
+          const title = (sec.title||'').toLowerCase();
+          const isScrollable = title === 'travel & places' || title === 'people & inspiration';
+          const isPeople = title === 'people & inspiration';
+          const gridClass = ['fun-grid'];
+          if (isScrollable) gridClass.push('travel-scrollable');
+          if (isPeople) gridClass.push('people-fit');
+          const grid=el('div', {class: gridClass.join(' ')});
+          let wrapper = null;
+          if (isScrollable){
+            wrapper = el('div', {class:'scroll-wrapper'});
+            wrapper.appendChild(grid);
+          }
+          const images = Array.isArray(sec.images)? sec.images : [];
+          if (!images.length){
+            const count = isScrollable ? 4 : 3;
+            for(let i=0;i<count;i++){ const tile=el('div', {class:'tile'}); tile.appendChild(makePh(sec.title||'')); grid.appendChild(tile); }
+          } else {
+            images.forEach(src=>{ const tile=el('div', {class:'tile'}); const img=new Image(); img.src=src; img.alt=sec.title||''; tile.appendChild(img); grid.appendChild(tile); });
+          }
+          if (isScrollable){
+            const slider = el('input', {class:'scroll-slider', type:'range', min:'0', max:'100', value:'0', 'aria-label':(sec.title||'')+' gallery scroll'});
+            let isSyncingSlider = false;
+            function updateSlider(){
+              const maxScroll = Math.max(grid.scrollWidth - grid.clientWidth, 0);
+              if (maxScroll <= 1){
+                slider.value = '0';
+                slider.disabled = true;
+                slider.style.background = 'rgba(0,0,0,0.1)';
+              } else {
+                slider.disabled = false;
+                const percent = (grid.scrollLeft / maxScroll) * 100;
+                slider.value = String(Math.min(Math.max(percent, 0), 100));
+                slider.style.background = `linear-gradient(90deg, var(--brand) ${slider.value}%, rgba(0,0,0,0.15) ${slider.value}%)`;
+              }
+            }
+            slider.addEventListener('input', function(){
+              const maxScroll = Math.max(grid.scrollWidth - grid.clientWidth, 0);
+              const targetScroll = maxScroll * (Number(slider.value) / 100);
+              isSyncingSlider = true;
+              grid.scrollTo({ left: targetScroll, behavior:'smooth' });
+              setTimeout(()=>{ isSyncingSlider = false; }, 350);
+              slider.style.background = `linear-gradient(90deg, var(--brand) ${slider.value}%, rgba(0,0,0,0.15) ${slider.value}%)`;
+            });
+            grid.addEventListener('scroll', function(){
+              if (isSyncingSlider) return;
+              updateSlider();
+            });
+            const controls = el('div', {class:'scroll-controls'}, [slider]);
+            wrapper.appendChild(controls);
+            const imgLoaders = Array.from(grid.querySelectorAll('img'));
+            let pending = imgLoaders.length;
+            if (!pending) updateSlider();
+            imgLoaders.forEach(function(img){
+              if (img.complete){
+                pending -=1;
+                if (pending<=0) updateSlider();
+              } else {
+                img.addEventListener('load', function(){
+                  pending -=1;
+                  if (pending<=0) updateSlider();
+                });
+                img.addEventListener('error', function(){
+                  pending -=1;
+                  if (pending<=0) updateSlider();
+                });
+              }
+            });
+            window.addEventListener('resize', updateSlider);
+            block.appendChild(wrapper);
+          } else {
+            block.appendChild(grid);
+          }
+          root.appendChild(block);
+        });
+      }
+
+      function parseFunMd(md){
+        const lines = md.split(/\r?\n/);
+        const result=[]; let cur=null;
+        const flush=()=>{ if(cur){ cur.images = cur.images||[]; result.push(cur); cur=null; } };
+        lines.forEach(raw=>{
+          const t = raw.trim(); if(!t) return;
+          const m = t.match(/^#\s*(.+)$/) || t.match(/^\[(.+?)\]\s*$/);
+          if (m){ flush(); cur = { title:m[1].trim(), images:[], quote:'' }; return; }
+          const q = t.match(/^>\s*(.+)$/); if(q){ if(!cur) cur={ title:'', images:[], quote:'' }; cur.quote = q[1]; return; }
+          if (/^https?:\/\//.test(t) || /\.(jpg|jpeg|png|webp|gif)$/i.test(t)){ if(!cur) cur={ title:'', images:[], quote:'' }; cur.images.push(t); return; }
+        });
+        flush();
+        return result;
+      }
+
+      function mergeWithDefaults(parsed){
+        const byTitle = Object.create(null);
+        parsed.forEach(s=>{ byTitle[(s.title||'').toLowerCase()] = s; });
+        const merged = DEFAULT_SECTIONS.map(d=>{
+          const hit = byTitle[d.title.toLowerCase()];
+          return hit ? { title: hit.title||d.title, quote: hit.quote||d.quote, images: hit.images||[], key:d.key } : { ...d, images:[] };
+        });
+        return merged;
+      }
+
+      // Try to load fun.md, but gracefully fall back to defaults if it fails
+      // This prevents CORS errors when opening the file directly (file:// protocol)
+      const url = 'fun.md?t=' + Date.now();
+      // Check if we're in a file:// protocol context
+      const isFileProtocol = window.location.protocol === 'file:';
+      
+      if (isFileProtocol) {
+        // When using file:// protocol, skip fetch and use defaults
+        render(DEFAULT_SECTIONS);
+      } else {
+        // When using http/https, try to fetch fun.md
+        fetch(url)
+          .then(r=>{ if(!r.ok) throw new Error('fetch'); return r.text(); })
+          .then(txt=>{ const parsed=parseFunMd(txt); const merged=mergeWithDefaults(parsed); render(merged); })
+          .catch(()=>{ render(DEFAULT_SECTIONS); });
+      }
+    })();
+    </script>
+</body>
+</html>
+
+

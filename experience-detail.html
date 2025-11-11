@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Experience Detail</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&family=Overpass:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root{ --border:#e5e7eb; --bg:#ffffff; --bg-alt:#f3f4f6; --brand:#7B1113; --gold:#DAAA00; --brick-700:#5e0c0e; }
+        *{ box-sizing: border-box; }
+        body{ margin:0; font-family:'Noto Sans', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; background:var(--bg); color:#111827; }
+        /* Header (same as main) */
+        .site-header{ position:sticky; top:0; z-index:50; background:linear-gradient(90deg,var(--brand) 0%, #8C3B1A 100%); border-bottom:0; }
+        .nav-container{ max-width:none; width:100%; margin:0 auto; padding:0 24px; display:flex; align-items:center; gap:24px; height:56px; }
+        .brand{ font-weight:700; color:#ffffff; text-decoration:none; letter-spacing:0.5px; }
+        .nav{ display:flex; align-items:center; gap:20px; justify-content:center; }
+        #nav-left, #nav-right{ flex:1 1 0; justify-content:space-evenly; }
+        .nav>li{ list-style:none; position:relative; }
+        .nav a{ color:#ffffff; text-decoration:none; font-weight:500; padding:6px 4px; border-radius:6px; }
+        .nav a:hover{ color:var(--gold); }
+        .nav>li.active > a{ color:var(--gold); border-bottom:2px solid var(--gold); }
+        .nav-icons{ display:flex; align-items:center; gap:16px; justify-content:center; flex:0 0 auto; }
+        .nav-icon{ color:#ffffff; text-decoration:none; display:grid; place-items:center; height:28px; width:28px; }
+        .nav-icon:hover{ color:var(--gold); }
+        .nav-icon svg{ width:22px; height:22px; }
+        .nav-icons a[aria-label="LinkedIn"]{ order:1; }
+        .nav-icons a[aria-label="GitHub"]{ order:2; }
+        .nav-icons a[aria-label="Instagram"]{ order:3; }
+        .nav-icons .header-contact-btn{ order:4; }
+        .header-contact-btn{ display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:12px; border:1px solid rgba(255,255,255,0.9); color:#ffffff; text-decoration:none; font-weight:800; box-shadow:0 10px 22px rgba(0,0,0,0.12); }
+        .header-contact-btn:hover{ color:var(--gold); border-color:var(--gold); }
+        /* Hide leftmost brand Home to match main */
+        .brand{ display:none; }
+
+        main{ max-width:1100px; margin:24px auto; padding:0 16px; }
+        .hero{ display:flex; gap:24px; align-items:center; margin-bottom:20px; }
+        .logo{ width:96px; height:96px; border-radius:50%; background:linear-gradient(135deg,#7B1113,#8C3B1A); overflow:hidden; display:grid; place-items:center; box-shadow:0 10px 26px rgba(0,0,0,0.12); }
+        .logo img{ width:100%; height:100%; object-fit:contain; background:#fff; display:block; }
+        .title{ font-family:'Overpass', system-ui, Arial; font-weight:800; font-size:28px; margin:0 0 6px; color:var(--brand); }
+        .role{ font-weight:700; color:var(--brick-700); margin:0 0 4px; }
+        .meta{ color:#4b5563; margin:0 0 12px; }
+        .card{ background:#fff; border:1px solid var(--border); border-radius:12px; padding:16px; box-shadow:0 8px 20px rgba(0,0,0,0.06); }
+        .section-title{ font-family:'Overpass'; font-size:18px; font-weight:800; margin:0 0 10px; }
+        .card > div:not(.section-title){ margin-bottom:10px; line-height:1.6; }
+        .card > div:not(.section-title):last-child{ margin-bottom:0; }
+        ul{ margin:8px 0 0; padding-left:18px; }
+        /* Gallery styles - horizontal scrollable */
+        .gallery-grid{ display:flex !important; gap:20px; overflow-x:auto; overflow-y:hidden; scroll-snap-type:x mandatory; scroll-behavior:smooth; -webkit-overflow-scrolling:touch; scrollbar-width:thin; scrollbar-color:rgba(0,0,0,0.2) transparent; padding-bottom:8px; margin-top:12px; }
+        .gallery-item{ flex:0 0 calc((100% - 40px) / 3); min-width:calc((100% - 40px) / 3); max-width:calc((100% - 40px) / 3); scroll-snap-align:start; position:relative; border-radius:10px; overflow:hidden; background:#f3f4f6; aspect-ratio:4/3; box-shadow:0 4px 12px rgba(0,0,0,0.08); transition:transform 0.2s ease, box-shadow 0.2s ease; }
+        .gallery-item:hover{ transform:translateY(-2px); box-shadow:0 6px 16px rgba(0,0,0,0.12); }
+        .gallery-item img{ width:100%; height:100%; object-fit:contain; display:block; background:#f3f4f6; }
+        .gallery-item video{ width:100%; height:100%; object-fit:contain; display:block; background:#f3f4f6; }
+        .gallery-item-placeholder{ width:100%; height:100%; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg, #e5e7eb 0%, #d1d5db 100%); color:#6b7280; font-size:14px; text-align:center; padding:20px; }
+        .gallery-item-title{ position:absolute; bottom:0; left:0; right:0; background:linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0.5), transparent); color:#fff; padding:16px 14px 12px; font-size:14px; font-weight:600; line-height:1.4; }
+        .gallery-grid::-webkit-scrollbar{ height:6px; }
+        .gallery-grid::-webkit-scrollbar-track{ background:transparent; }
+        .gallery-grid::-webkit-scrollbar-thumb{ background:rgba(0,0,0,0.2); border-radius:3px; }
+        .gallery-grid::-webkit-scrollbar-thumb:hover{ background:rgba(0,0,0,0.3); }
+        @media (max-width:900px){ .gallery-item{ flex:0 0 calc((100% - 20px) / 2); min-width:calc((100% - 20px) / 2); max-width:calc((100% - 20px) / 2); } }
+        @media (max-width:600px){ .gallery-item{ flex:0 0 calc(100% - 10px); min-width:calc(100% - 10px); max-width:calc(100% - 10px); } }
+        /* Buttons */
+        .btn{ display:inline-block; padding:8px 14px; border-radius:999px; border:1px solid var(--border); background:#fff; color:#111827; text-decoration:none; font-weight:600; transition:all .2s ease; }
+        .btn:hover{ background:var(--bg-alt); color:var(--brand); }
+        .btn-row{ display:flex; justify-content:flex-start; margin:6px 0 12px; }
+
+        /* Bottom Navigation Style (same as main) */
+        .bottom-nav{ background:linear-gradient(135deg, var(--brand) 0%, #8C3B1A 100%); position:relative; padding:40px 0; margin-top:60px; }
+        .bottom-nav::before{ content:''; position:absolute; top:0; left:0; right:0; bottom:0; background-image: radial-gradient(circle at 20% 20%, rgba(255,255,255,0.1) 1px, transparent 1px), radial-gradient(circle at 80% 80%, rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(45deg, transparent 40%, rgba(255,255,255,0.05) 50%, transparent 60%); background-size: 30px 30px, 30px 30px, 20px 20px; opacity:0.3; }
+        .bottom-nav-container{ max-width:1200px; margin:0 auto; padding:0 20px; display:flex; align-items:center; justify-content:space-between; position:relative; z-index:1; }
+        .bottom-nav-left{ display:flex; align-items:center; gap:40px; }
+        .bottom-nav-center{ display:flex; align-items:center; gap:30px; }
+        .bottom-nav-right{ display:flex; align-items:center; gap:40px; }
+        .bottom-nav-icon{ color:#ffffff; font-size:24px; text-decoration:none; transition:color 0.3s ease; }
+        .bottom-nav-icon:hover{ color:var(--gold); }
+        .sparkle-icon{ color:var(--gold); font-size:16px; margin:0 8px; }
+    </style>
+    <script>
+    function toYear(str){ const m=(str||'').match(/^(\d{4})/); return m? parseInt(m[1],10):null; }
+    function fmtYears(p){ if(!p) return ''; const s=toYear(p.start); if(!s) return ''; const e=toYear(p.end)||new Date().getFullYear(); const yrs=Math.max(1,e - s + 1); return yrs + (yrs>1?' yrs':' yr'); }
+    function fmtStartEnd(p){ const s=toYear(p?.start)||''; const e=p?.end? (toYear(p.end)||'') : 'Present'; return s + ' — ' + e; }
+    function makeAvatar(text, domain, url, svg){
+        const makeFallback=()=>{ const i=new Image(); i.src='data:image/svg+xml;utf8,'+encodeURIComponent("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='#7B1113'/><stop offset='1' stop-color='#8C3B1A'/></linearGradient></defs><rect width='96' height='96' rx='48' fill='url(#g)'/><text x='50%' y='54%' font-family='Overpass, Arial' font-weight='700' font-size='36' fill='#fff' text-anchor='middle'>" + (text||'?').slice(0,2).toUpperCase() + "</text></svg>"); return i; };
+        if (svg){ const i=new Image(); i.src='data:image/svg+xml;utf8,'+encodeURIComponent(svg); return i; }
+        const tryGoogle=(img)=>{ if(!domain){ img.replaceWith(makeFallback()); return;} img.onerror=()=>{ img.replaceWith(makeFallback()); }; img.src='https://www.google.com/s2/favicons?domain='+domain+'&sz=128'; };
+        const tryClearbit=(img)=>{ if(!domain){ tryGoogle(img); return;} img.onerror=()=>{ tryGoogle(img); }; img.src='https://logo.clearbit.com/'+domain+'?size=192'; };
+        if (url){ const img=new Image(); img.crossOrigin='anonymous'; img.onerror=()=>{ tryClearbit(img); }; img.src=url; return img; }
+        if (domain){ const img=new Image(); img.crossOrigin='anonymous'; tryClearbit(img); return img; }
+        return makeFallback();
+    }
+    </script>
+</head>
+<body>
+    <header class="site-header">
+        <div class="nav-container">
+            <a class="brand" href="index.html">Home</a>
+            <ul id="nav-left" class="nav" role="menubar" aria-label="Primary left">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="work-experience.html">Work Experience</a></li>
+                <li><a href="project.html">Project</a></li>
+            </ul>
+            <div class="nav-icons" id="nav-icons" aria-label="Social center">
+                <a href="https://www.linkedin.com/in/zhenwww" target="_blank" rel="noopener noreferrer" class="nav-icon" aria-label="LinkedIn"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.226.792 24 1.771 24h20.451C23.2 24 24 23.226 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003zM6.556 20.452H4.113V9h2.443v11.452zM5.337 7.433a1.805 1.805 0 110-3.61 1.805 1.805 0 010 3.61zM20.447 20.452H17.2v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.062V9h3.112v1.561h.045c.434-.82 1.494-1.684 3.073-1.684 3.287 0 3.894 2.164 3.894 4.977v6.598z"/></svg></a>
+                <a href="https://github.com/ZhenWwvv" target="_blank" rel="noopener noreferrer" class="nav-icon" aria-label="GitHub"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.387.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.726-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.757-1.333-1.757-1.089-.745.084-.729.084-.729 1.205.084 1.84 1.236 1.84 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.418-1.305.762-1.605-2.665-.304-5.466-1.332-5.466-5.93 0-1.31.469-2.381 1.236-3.221-.124-.303-.536-1.523.117-3.176 0 0 1.008-.322 3.301 1.23a11.5 11.5 0 013.003-.404c1.019.005 2.045.138 3.003.404 2.291-1.552 3.297-1.23 3.297-1.23.655 1.653.243 2.873.119 3.176.77.84 1.235 1.911 1.235 3.221 0 4.61-2.807 5.624-5.479 5.921.43.371.814 1.102.814 2.222v3.293c0 .319.216.694.825.576C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12z"/></svg></a>
+                <a href="https://www.instagram.com/nehzzhenwang/" target="_blank" rel="noopener noreferrer" class="nav-icon" aria-label="Instagram"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.35 3.608 1.325.975.975 1.262 2.242 1.324 3.608.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.062 1.366-.35 2.633-1.324 3.608-.975.975-2.242 1.262-3.608 1.324-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.366-.062-2.633-.35-3.608-1.324-.975-.975-1.262-2.242-1.324-3.608C2.175 15.747 2.163 15.367 2.163 12s.012-3.584.07-4.85c.062-1.366.35-2.633 1.324-3.608C4.532 2.583 5.799 2.296 7.165 2.234 8.431 2.176 8.811 2.163 12 2.163zm0-2.163C8.741 0 8.332.014 7.052.072 5.771.13 4.659.428 3.678 1.409 2.697 2.39 2.399 3.502 2.341 4.783 2.283 6.063 2.269 6.472 2.269 12s.014 5.937.072 7.217c.058 1.281.356 2.393 1.337 3.374.981.981 2.093 1.279 3.374 1.337 1.28.058 1.689.072 7.217.072s5.937-.014 7.217-.072c1.281-.058 2.393-.356 3.374-1.337.981-.981 1.279-2.093 1.337-3.374.058-1.28.072-1.689.072-7.217s-.014-5.937-.072-7.217c-.058-1.281-.356-2.393-1.337-3.374C21.393.428 20.281.13 19 .072 17.72.014 17.311 0 12 0zM12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zm0 10.162a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 11-2.881 0 1.44 1.44 0 012.881 0z"/></svg></a>
+                <a href="mailto:wangzh@iloguest.org" class="header-contact-btn" aria-label="Contact">Contact ▸</a>
+            </div>
+            <ul id="nav-right" class="nav" role="menubar" aria-label="Primary right">
+                <li><a href="publications.html">Publications</a></li>
+                <li><a href="resume.html">Resume</a></li>
+                <li><a href="some-fun.html">Some Fun</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <main>
+        <div class="btn-row"><a id="backBtn" class="btn" href="work-experience.html" aria-label="Back to Work Experience">← Back</a></div>
+        <div id="content"></div>
+    </main>
+
+    <nav class="bottom-nav" role="navigation" aria-label="Bottom navigation">
+        <div class="bottom-nav-container">
+            <div class="bottom-nav-left">
+                <span class="sparkle-icon">✦</span>
+                <span class="sparkle-icon">✦</span>
+                <span class="sparkle-icon">✦</span>
+            </div>
+            <div class="bottom-nav-center">
+                <a href="https://www.linkedin.com/in/zhenwww" target="_blank" rel="noopener noreferrer" class="bottom-nav-icon" aria-label="LinkedIn"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.226.792 24 1.771 24h20.451C23.2 24 24 23.226 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003zM6.556 20.452H4.113V9h2.443v11.452zM5.337 7.433a1.805 1.805 0 110-3.61 1.805 1.805 0 010 3.61zM20.447 20.452H17.2v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.062V9h3.112v1.561h.045c.434-.82 1.494-1.684 3.073-1.684 3.287 0 3.894 2.164 3.894 4.977v6.598z"/></svg></a>
+                <a href="https://github.com/ZhenWwvv" target="_blank" rel="noopener noreferrer" class="bottom-nav-icon" aria-label="GitHub"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.387.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.726-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.757-1.333-1.757-1.089-.745.084-.729.084-.729 1.205.084 1.84 1.236 1.84 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.418-1.305.762-1.605-2.665-.304-5.466-1.332-5.466-5.93 0-1.31.469-2.381 1.236-3.221-.124-.303-.536-1.523.117-3.176 0 0 1.008-.322 3.301 1.23a11.5 11.5 0 013.003-.404c1.019.005 2.045.138 3.003.404 2.291-1.552 3.297-1.23 3.297-1.23.655 1.653.243 2.873.119 3.176.77.84 1.235 1.911 1.235 3.221 0 4.61-2.807 5.624-5.479 5.921.43.371.814 1.102.814 2.222v3.293c0 .319.216.694.825.576C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12z"/></svg></a>
+                <a href="https://www.instagram.com/nehzzhenwang/" target="_blank" rel="noopener noreferrer" class="bottom-nav-icon" aria-label="Instagram"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.35 3.608 1.325.975.975 1.262 2.242 1.324 3.608.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.062 1.366-.35 2.633-1.324 3.608-.975.975-2.242 1.262-3.608 1.324-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.366-.062-2.633-.35-3.608-1.324-.975-.975-1.262-2.242-1.324-3.608C2.175 15.747 2.163 15.367 2.163 12s.012-3.584.07-4.85c.062-1.366.35-2.633 1.324-3.608C4.532 2.583 5.799 2.296 7.165 2.234 8.431 2.176 8.811 2.163 12 2.163zm0-2.163C8.741 0 8.332.014 7.052.072 5.771.13 4.659.428 3.678 1.409 2.697 2.39 2.399 3.502 2.341 4.783 2.283 6.063 2.269 6.472 2.269 12s.014 5.937.072 7.217c.058 1.281.356 2.393 1.337 3.374.981.981 2.093 1.279 3.374 1.337 1.28.058 1.689.072 7.217.072s5.937-.014 7.217-.072c1.281-.058 2.393-.356 3.374-1.337.981-.981 1.279-2.093 1.337-3.374.058-1.28.072-1.689.072-7.217s-.014-5.937-.072-7.217c-.058-1.281-.356-2.393-1.337-3.374C21.393.428 20.281.13 19 .072 17.72.014 17.311 0 12 0zM12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zm0 10.162a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 11-2.881 0 1.44 1.44 0 012.881 0z"/></svg></a>
+                <a href="mailto:wangzh@iloguest.org" class="header-contact-btn" aria-label="Contact">Contact ▸</a>
+            </div>
+            <div class="bottom-nav-right">
+                <span class="sparkle-icon">✦</span>
+                <span class="sparkle-icon">✦</span>
+                <span class="sparkle-icon">✦</span>
+            </div>
+        </div>
+    </nav>
+
+    <script src="site-content.js"></script>
+    <script>
+    (function(){
+        const params=new URLSearchParams(location.search); const id=(params.get('id')||'').toLowerCase();
+        const data=window.SITE_CONTENT||{}; const list=Array.isArray(data.experience)?data.experience:[];
+        const item=list.find(x=> String(x.id||'').toLowerCase()===id) || null;
+        const mount=document.getElementById('content'); if(!mount) return;
+        if(!item){ mount.innerHTML='<div class="card">Entry not found.</div>'; return; }
+
+        const hero=document.createElement('div'); hero.className='hero';
+        const logo=document.createElement('div'); logo.className='logo'; logo.appendChild(makeAvatar(item.organization||'', item.logoDomain, item.logoUrl, item.logoSvg));
+        const text=document.createElement('div');
+        const title=document.createElement('div'); title.className='title'; title.textContent=item.organization||'';
+        const role=document.createElement('div'); role.className='role'; role.textContent=item.role||'';
+        const meta=document.createElement('div'); meta.className='meta'; meta.textContent=[fmtYears(item.period), fmtStartEnd(item.period), item.location].filter(Boolean).join(' · ');
+        text.appendChild(title); text.appendChild(role); text.appendChild(meta);
+        hero.appendChild(logo); hero.appendChild(text);
+        mount.appendChild(hero);
+
+        if (item.orgInfo){
+            const about=document.createElement('div'); about.className='card';
+            const h=document.createElement('div'); h.className='section-title'; h.textContent=item.orgInfo.name||'About the company';
+            const p1=document.createElement('div'); p1.textContent=item.orgInfo.desc1||'';
+            const p2=document.createElement('div'); p2.textContent=item.orgInfo.desc2||'';
+            about.appendChild(h); if(p1.textContent) about.appendChild(p1); if(p2.textContent) about.appendChild(p2);
+            if (item.orgInfo.url){ const a=document.createElement('a'); a.href=item.orgInfo.url; a.target='_blank'; a.rel='noopener noreferrer'; a.textContent=item.orgInfo.url; a.style.display='inline-block'; a.style.marginTop='6px'; about.appendChild(a); }
+            mount.appendChild(about);
+        }
+
+        if (item.roleInfo){
+            const role=document.createElement('div'); role.className='card';
+            const h=document.createElement('div'); h.className='section-title'; h.textContent=item.roleInfo.name||'My Role and Responsibilities';
+            const p1=document.createElement('div'); p1.textContent=item.roleInfo.desc1||'';
+            const p2=document.createElement('div'); p2.textContent=item.roleInfo.desc2||'';
+            role.appendChild(h); if(p1.textContent) role.appendChild(p1); if(p2.textContent) role.appendChild(p2);
+            if (item.roleInfo.url){ const a=document.createElement('a'); a.href=item.roleInfo.url; a.target='_blank'; a.rel='noopener noreferrer'; a.textContent=item.roleInfo.url; a.style.display='inline-block'; a.style.marginTop='6px'; role.appendChild(a); }
+            mount.appendChild(role);
+        }
+
+        if (item.gallery){
+            const gallery=document.createElement('div'); gallery.className='card';
+            const h=document.createElement('div'); h.className='section-title'; h.textContent=item.gallery.name||'Events Photo Gallery';
+            gallery.appendChild(h);
+            const grid=document.createElement('div'); grid.className='gallery-grid';
+            
+            // Add images (with placeholder if no src)
+            if (Array.isArray(item.gallery.images)){
+                item.gallery.images.forEach(function(img){
+                    const item=document.createElement('div'); item.className='gallery-item';
+                    if (img.src){
+                        const imgEl=document.createElement('img'); imgEl.src=img.src; imgEl.alt=img.title||''; imgEl.loading='lazy';
+                        item.appendChild(imgEl);
+                    } else {
+                        const placeholder=document.createElement('div'); placeholder.className='gallery-item-placeholder';
+                        placeholder.textContent='Photo Placeholder';
+                        item.appendChild(placeholder);
+                    }
+                    if (img.title){
+                        const title=document.createElement('div'); title.className='gallery-item-title'; title.textContent=img.title;
+                        item.appendChild(title);
+                    }
+                    grid.appendChild(item);
+                });
+            }
+            
+            gallery.appendChild(grid);
+            mount.appendChild(gallery);
+        }
+
+        if (item.teamMoments){
+            const team=document.createElement('div'); team.className='card';
+            const h=document.createElement('div'); h.className='section-title'; h.textContent=item.teamMoments.name||'Team Moments & Behind the Scenes';
+            team.appendChild(h);
+            const grid=document.createElement('div'); grid.className='gallery-grid';
+            
+            // Add videos
+            if (Array.isArray(item.teamMoments.videos)){
+                item.teamMoments.videos.forEach(function(vid){
+                    const item=document.createElement('div'); item.className='gallery-item';
+                    if (vid.src){
+                        const vidEl=document.createElement('video'); vidEl.src=vid.src; vidEl.controls=true; vidEl.preload='metadata';
+                        item.appendChild(vidEl);
+                    }
+                    if (vid.title){
+                        const title=document.createElement('div'); title.className='gallery-item-title'; title.textContent=vid.title;
+                        item.appendChild(title);
+                    }
+                    grid.appendChild(item);
+                });
+            }
+            
+            team.appendChild(grid);
+            mount.appendChild(team);
+        }
+
+        // Back button: prefer history.back within same origin, fallback to Work Experience
+        const backBtn=document.getElementById('backBtn');
+        try{
+            const ref=document.referrer||''; const sameOrigin=ref && new URL(ref, location.href).origin===location.origin;
+            if (sameOrigin){ backBtn.addEventListener('click', function(e){ e.preventDefault(); history.back(); }); }
+        }catch(_){}
+        // Highlight active nav item (Work Experience)
+        const nav=document.getElementById('nav-left');
+        if (nav){
+            const lis=Array.from(nav.children);
+            lis.forEach(li=>li.classList.remove('active'));
+            const link=[...nav.querySelectorAll('a')].find(a=> (a.getAttribute('href')||'').includes('work-experience.html'));
+            if (link){ link.parentElement.classList.add('active'); }
+        }
+    })();
+    </script>
+</body>
+</html>
+
+
