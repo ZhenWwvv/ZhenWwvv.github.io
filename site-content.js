@@ -144,6 +144,7 @@ window.SITE_CONTENT = {
       location: "Guangzhou, China",
       period: { start: "2021-05", end: "2022-06" },
       logoDomain: "moen.com",
+      logoUrl: "moen.png",
       orgInfo: {
         name: "Fortune Brands Innovations (NYSE: FBIN)",
         desc1: "A leader in home, security and commercial building markets, focused on accelerating growth through innovation, brand strength and connected-product.",
@@ -170,7 +171,7 @@ window.SITE_CONTENT = {
       location: "Guangzhou, China",
       period: { start: "2017-06", end: "2021-05" },
       logoDomain: "jatco.co.jp",
-      logoSvg: "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 320 110\"><defs><linearGradient id=\"nissanBg\" x1=\"0%\" y1=\"0%\" x2=\"100%\" y2=\"100%\"><stop offset=\"0%\" stop-color=\"#3a090b\"/><stop offset=\"100%\" stop-color=\"#8c1d1f\"/></linearGradient></defs><rect width=\"320\" height=\"110\" rx=\"18\" fill=\"url(#nissanBg)\"/><text x=\"160\" y=\"62\" text-anchor=\"middle\" font-family=\"'Helvetica Neue', 'Arial Black', Arial, sans-serif\" font-size=\"56\" font-weight=\"700\" fill=\"#ffffff\" letter-spacing=\"8\">NISSAN</text><text x=\"160\" y=\"90\" text-anchor=\"middle\" font-family=\"'Helvetica Neue', Arial, sans-serif\" font-size=\"20\" font-weight=\"600\" fill=\"#ffffff\" letter-spacing=\"4\">GROUP OF CHINA</text></svg>",
+      logoUrl: "nissan .png",
       orgInfo: {
         name: "Nissan Motor Corporation",
         desc1: "Nissan Motor Corporation is a leading global automobile manufacturer headquartered in Yokohama, Japan, dedicated to \"driving innovation to enrich people's lives.\" Nissan designs, manufactures, and sells a diverse range of vehicles and mobility technologies worldwide.",
@@ -193,7 +194,7 @@ window.SITE_CONTENT = {
       role: "Senior Purchasing Specialist",
       location: "Guangzhou, China",
       period: { start: "2013-04", end: "2017-05" },
-      logoSvg: "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 60\"><rect width=\"200\" height=\"60\" fill=\"white\"/><defs><linearGradient id=\"nidecG\" x1=\"0\" y1=\"0\" x2=\"200\" y2=\"0\"><stop offset=\"0%\" stop-color=\"#00A651\"/><stop offset=\"100%\" stop-color=\"#00B956\"/></linearGradient></defs><text x=\"100\" y=\"42\" font-family=\"Arial, sans-serif\" font-size=\"36\" font-weight=\"900\" fill=\"url(#nidecG)\" text-anchor=\"middle\" transform=\"skewX(-6)\" letter-spacing=\"-1.5\">Nidec</text></svg>",
+      logoUrl: "nidec.png",
       bullets: [
         "Designed analysis models and led VAVE to manage cross-departmental cost goals, saved an annual of $6 million.",
         "Developed mold management models to oversee service life and investment planning."

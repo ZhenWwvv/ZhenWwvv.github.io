@@ -291,6 +291,117 @@
     sec.appendChild(list); container.appendChild(sec);
   }
 
+  function renderResearchPublications(container){
+    const data = ensureContent();
+    if (!container) return;
+    container.innerHTML = '';
+    const researchItems = Array.isArray(data.research) ? data.research : [];
+    const pubItems = Array.isArray(data.publications) ? data.publications : [];
+    if (!researchItems.length && !pubItems.length){
+      container.appendChild(el('p', {class:'muted', text:'No research or publications yet.'}));
+      return;
+    }
+
+    function createEntry(entry, type){
+      const isResearch = type === 'research';
+      const header = entry.title || 'Untitled';
+      
+      // Right-aligned date/venue info
+      let rightInfo = '';
+      if (isResearch){
+        if (entry.period && entry.period.start && entry.period.end){
+          rightInfo = entry.period.start + '-' + entry.period.end;
+        } else if (entry.year){
+          rightInfo = entry.year;
+        }
+      } else {
+        // For publications, use venue or year
+        if (entry.venue){
+          // Extract short venue name (e.g., "FIBA 2023" from full venue text)
+          const match = entry.venue.match(/([A-Z]+ \d{4})/);
+          rightInfo = match ? match[1] : (entry.year || entry.venue.split(';')[0].trim());
+        } else if (entry.year){
+          rightInfo = entry.year;
+        }
+      }
+
+      const entryDiv = el('div', {class:'pub-entry', 'data-type': type});
+      
+      // Title row with left title and right date/venue
+      const titleRow = el('div', {class:'pub-title-row'});
+      const titleLeft = el('div', {class:'pub-title-left'});
+      if (entry.link && entry.link !== '#'){
+        titleLeft.appendChild(el('a', {href: entry.link, text: header, class:'pub-title-link'}));
+      } else {
+        titleLeft.appendChild(document.createTextNode(header));
+      }
+      titleRow.appendChild(titleLeft);
+      if (rightInfo){
+        const titleRight = el('div', {class:'pub-title-right', text: rightInfo});
+        titleRow.appendChild(titleRight);
+      }
+      entryDiv.appendChild(titleRow);
+
+      // Bullet points
+      const bullets = el('ul', {class:'pub-bullets'});
+      if (isResearch){
+        if (entry.supervisor){
+          const li = el('li', {text: 'Supervisor: ' + entry.supervisor});
+          if (entry.supervisor.match(/Kempthorne/i)){
+            const parts = entry.supervisor.split('Kempthorne');
+            li.innerHTML = parts[0] + '<u>Kempthorne</u>' + (parts[1] || '');
+          }
+          bullets.appendChild(li);
+        }
+        if (entry.description){
+          const li = el('li', {text: entry.description});
+          // Underline specific terms
+          let desc = entry.description;
+          desc = desc.replace(/(Metaverse's?)/gi, '<u>$1</u>');
+          desc = desc.replace(/(autocorrelation)/gi, '<u>$1</u>');
+          desc = desc.replace(/(residual)/gi, '<u>$1</u>');
+          desc = desc.replace(/(ARIMA model)/gi, '<u>$1</u>');
+          li.innerHTML = desc;
+          bullets.appendChild(li);
+        }
+      } else {
+        // For publications, show venue as bullet point
+        if (entry.venue){
+          bullets.appendChild(el('li', {text: entry.venue}));
+        }
+      }
+      if (bullets.children.length > 0){
+        entryDiv.appendChild(bullets);
+      }
+
+      return entryDiv;
+    }
+
+    // Render sections with uppercase titles and horizontal lines
+    function renderSection(title, items, type){
+      if (!items.length) return null;
+      const section = el('section', {class:'pub-section'});
+      const sectionTitle = el('h2', {class:'pub-section-title', text: title.toUpperCase()});
+      section.appendChild(sectionTitle);
+      section.appendChild(el('hr', {class:'pub-section-divider'}));
+      
+      items.forEach(function(item){
+        section.appendChild(createEntry(item, type));
+      });
+      return section;
+    }
+
+    // Render Publications first, then Research
+    if (pubItems.length){
+      const pubSection = renderSection('PUBLICATION', pubItems, 'publication');
+      if (pubSection) container.appendChild(pubSection);
+    }
+    if (researchItems.length){
+      const researchSection = renderSection('RESEARCH', researchItems, 'research');
+      if (researchSection) container.appendChild(researchSection);
+    }
+  }
+
   function renderHonorsList(container){
     const data = ensureContent();
     if (!container) return; container.innerHTML = '';
@@ -338,7 +449,7 @@
     container.appendChild(ul);
   }
 
-  window.RenderUtils = { renderResume, renderSectorList, renderResearchList, renderResearchOnly, renderPublicationsOnly, renderHonorsList, renderCommunityList, renderMediaList };
+  window.RenderUtils = { renderResume, renderSectorList, renderResearchList, renderResearchOnly, renderPublicationsOnly, renderResearchPublications, renderHonorsList, renderCommunityList, renderMediaList };
 })();
 
 

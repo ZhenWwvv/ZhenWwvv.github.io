@@ -70,16 +70,21 @@
         .sidebar-link{ display:block; padding:10px 12px; border-radius:8px; text-decoration:none; color:var(--text-secondary); font-weight:500; border:1px solid transparent; transition:all .2s ease; }
         .sidebar-link:hover{ background:var(--bg-alt); color:var(--brand); }
         .sidebar-link.active{ background:rgba(123,17,19,0.08); color:var(--brand); border-color:rgba(123,17,19,0.16); }
-        .rp-list{ display:flex; flex-direction:column; gap:18px; }
-        .rp-card{ border:1px solid var(--border); border-radius:14px; padding:20px 24px; background:#fff; box-shadow:0 8px 20px rgba(0,0,0,0.05); transition:transform 0.2s ease, box-shadow 0.2s ease; }
-        .rp-card:hover{ transform:translateY(-2px); box-shadow:0 12px 26px rgba(0,0,0,0.1); }
-        .rp-card.hidden{ display:none; }
-        .rp-type{ display:inline-block; font-size:12px; letter-spacing:0.6px; text-transform:uppercase; font-weight:700; background:rgba(123,17,19,0.12); color:var(--brand); padding:4px 10px; border-radius:999px; margin-bottom:10px; }
-        .rp-title{ margin:0; font-size:20px; line-height:1.3; }
-        .rp-title a{ color:inherit; text-decoration:none; }
-        .rp-title a:hover{ color:var(--brand); text-decoration:underline; }
-        .rp-meta{ font-size:14px; margin-top:8px; }
-        .rp-desc{ margin:10px 0 0; color:var(--text-secondary); font-size:15px; line-height:1.65; }
+        /* Publication/Research sections */
+        .pub-section{ margin-bottom:32px; }
+        .pub-section-title{ font-size:18px; font-weight:700; text-transform:uppercase; margin:0 0 8px; color:var(--text-primary); }
+        .pub-section-divider{ border:0; border-top:1px solid var(--border); margin:0 0 16px; }
+        .pub-entry{ margin-bottom:20px; }
+        .pub-entry.hidden{ display:none; }
+        .pub-title-row{ display:flex; justify-content:space-between; align-items:flex-start; gap:16px; margin-bottom:8px; }
+        .pub-title-left{ flex:1; }
+        .pub-title-left, .pub-title-link{ font-size:15px; line-height:1.5; color:var(--text-primary); }
+        .pub-title-link{ text-decoration:underline; }
+        .pub-title-link:hover{ color:var(--brand); }
+        .pub-title-right{ font-size:15px; font-weight:700; color:var(--text-primary); white-space:nowrap; flex-shrink:0; }
+        .pub-bullets{ margin:8px 0 0; padding-left:20px; list-style-type:disc; }
+        .pub-bullets li{ margin:4px 0; font-size:14px; line-height:1.6; color:var(--text-secondary); }
+        .pub-bullets li u{ text-decoration:underline; }
         .menu-btn{ display:none; background:none; border:0; font-size:18px; }
         
         /* Dark Mode Toggle */
@@ -121,10 +126,11 @@
         .dark-mode .filter-sidebar{ background:#1f2937; border-color:#374151; }
         .dark-mode .sidebar-link{ color:#d1d5db; }
         .dark-mode .sidebar-link.active{ background:rgba(123,17,19,0.24); border-color:rgba(123,17,19,0.32); color:#f3f4f6; }
-        .dark-mode .rp-card{ background:#1f2937; border-color:#374151; box-shadow:0 8px 20px rgba(17,24,39,0.45); }
-        .dark-mode .rp-card:hover{ box-shadow:0 12px 30px rgba(17,24,39,0.6); }
-        .dark-mode .rp-desc{ color:#d1d5db; }
-        .dark-mode .rp-type{ background:rgba(218,170,0,0.2); color:var(--gold); }
+        .dark-mode .pub-section-title{ color:#f3f4f6; }
+        .dark-mode .pub-section-divider{ border-color:#4b5563; }
+        .dark-mode .pub-title-left, .dark-mode .pub-title-link{ color:#f3f4f6; }
+        .dark-mode .pub-title-right{ color:#f3f4f6; }
+        .dark-mode .pub-bullets li{ color:#d1d5db; }
         /* Hide leftmost brand Home */
         .brand{ display:none; }
         
@@ -310,11 +316,17 @@
                 });
             }
             function applyFilter(filter){
-                const cards = list.querySelectorAll('.rp-card');
-                cards.forEach(function(card){
-                    const type = card.getAttribute('data-type');
+                const entries = list.querySelectorAll('.pub-entry');
+                entries.forEach(function(entry){
+                    const type = entry.getAttribute('data-type');
                     const show = filter === 'all' || type === filter;
-                    card.classList.toggle('hidden', !show);
+                    entry.classList.toggle('hidden', !show);
+                });
+                // Also hide sections if all entries are hidden
+                const sections = list.querySelectorAll('.pub-section');
+                sections.forEach(function(section){
+                    const visibleEntries = section.querySelectorAll('.pub-entry:not(.hidden)');
+                    section.style.display = visibleEntries.length > 0 ? '' : 'none';
                 });
             }
             const initial = menu.querySelector('.sidebar-link[data-filter="all"]');
