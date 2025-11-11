@@ -194,6 +194,12 @@
         .gform-note{ color:var(--text-secondary); margin:6px 0 12px; font-size:14px; }
         .gform-iframe{ width:100%; min-height:1100px; border:0; background:#fff; border-radius:12px; box-shadow:0 16px 40px rgba(0,0,0,0.08); }
         @media (max-width:900px){ .gform-iframe{ min-height:1200px; } }
+        .home-gform{ max-width:none; margin:24px 0 0; padding:0; }
+        .home-gform .gform-note{ padding:0 16px; }
+        .home-gform .gform-iframe{ border-radius:16px; }
+        @media (max-width:900px){
+            .home-gform{ padding:0 16px; }
+        }
         /* Lightbox */
         .lightbox-overlay{ position:fixed; inset:0; background:rgba(0,0,0,0.7); display:none; align-items:center; justify-content:center; z-index:1000; }
         .lightbox-overlay.open{ display:flex; }
@@ -727,6 +733,11 @@
             <div id="coffee-img" class="coffee-img" aria-label="Coffee/place photo">
                 <img id="coffee-photo" src="微信图片_20251110233207_58_252.jpg" alt="Geneva view" loading="lazy" decoding="async" />
             </div>
+        </section>
+
+        <section class="gform-wrap home-gform" aria-label="contact form">
+            <div class="gform-note">Please fill out the Google Form below. I will get back to you shortly.</div>
+            <iframe class="gform-iframe" src="https://docs.google.com/forms/d/e/1FAIpQLSdBWURDCw63mR-kK7IKh4DQYhxlYee4512az0TOR5DvJWh_Mw/viewform?embedded=true" title="Contact Zhen Wang" loading="lazy">Loading…</iframe>
         </section>
     </main>
 
