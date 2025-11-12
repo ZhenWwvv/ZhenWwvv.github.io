@@ -362,29 +362,30 @@
           entryDiv.appendChild(bullets);
         }
       } else {
-        // PUBLICATION format: Author + italic title + venue
+        // PUBLICATION format: Title with year on right + venue
         const author = entry.authors || '';
         const title = entry.title || 'Untitled';
         const venue = entry.venue || '';
+        const year = entry.year || '';
         
-        // Author (standard font)
-        if (author){
-          const authorDiv = el('div', {class:'pub-author', text: author});
-          entryDiv.appendChild(authorDiv);
-        }
-        
-        // Title (italic)
+        // Title row with year on the right
         const titleRow = el('div', {class:'pub-title-row'});
         const titleLeft = el('div', {class:'pub-title-left'});
-        const titleItalic = el('i', {text: title});
+        const titleText = el('span', {text: title});
         if (entry.link && entry.link !== '#'){
           const titleLink = el('a', {href: entry.link, class:'pub-title-link'});
-          titleLink.appendChild(titleItalic);
+          titleLink.appendChild(titleText);
           titleLeft.appendChild(titleLink);
         } else {
-          titleLeft.appendChild(titleItalic);
+          titleLeft.appendChild(titleText);
         }
         titleRow.appendChild(titleLeft);
+        
+        // Year on the right
+        if (year){
+          const titleRight = el('div', {class:'pub-title-right', text: year});
+          titleRow.appendChild(titleRight);
+        }
         entryDiv.appendChild(titleRow);
         
         // Venue (standard font)

@@ -64,10 +64,10 @@
         .page{ max-width:1100px; margin:0 auto; padding:24px 16px 80px; }
         .breadcrumb{ font-size:12px; color:var(--text-secondary); margin-top:12px; }
         .page-title{ margin:18px 0 14px; font-size:clamp(24px,4vw,34px); line-height:1.2; font-weight:700; }
-        .hero{ margin:28px calc(50% - 50vw) 28px; position:relative; width:100vw; max-width:none; }
+        .hero{ margin:12px calc(50% - 50vw) 28px; position:relative; width:100vw; max-width:none; }
         .hero img{ width:100%; height:auto; display:block; border-radius:12px; border:0; box-shadow:0 8px 24px rgba(0,0,0,0.12); }
         @media (max-width:600px){
-            .hero{ margin:24px calc(50% - 50vw) 24px; }
+            .hero{ margin:12px calc(50% - 50vw) 24px; }
         }
         .card{ background:#fff; border:1px solid var(--border); border-radius:12px; padding:20px; }
         .muted{ color:var(--text-secondary); }
@@ -79,9 +79,9 @@
         .menu-btn{ display:none; background:none; border:0; font-size:18px; }
         
         /* Dark Mode Toggle */
-        .dark-mode-toggle{ position:fixed; top:20px; right:20px; z-index:1000; background:transparent; border:none; border-radius:8px; padding:8px; cursor:pointer; transition:all 0.3s ease; display:flex; align-items:center; justify-content:center; width:36px; height:36px; }
-        .dark-mode-toggle:hover{ background:rgba(0,0,0,0.05); }
-        .dark-mode-toggle svg{ width:20px; height:20px; color:#374151; display:block; }
+        .dark-mode-toggle{ position:fixed; top:12px; right:20px; z-index:1000; background:transparent; border:none; border-radius:8px; padding:8px; cursor:pointer; transition:all 0.3s ease; display:flex; align-items:center; justify-content:center; width:36px; height:36px; }
+        .dark-mode-toggle:hover{ background:rgba(255,255,255,0.1); }
+        .dark-mode-toggle svg{ width:20px; height:20px; color:#ffffff; display:block; }
         .dark-mode-toggle.dark{ background:transparent; }
         .dark-mode-toggle.dark:hover{ background:rgba(255,255,255,0.1); }
         .dark-mode-toggle.dark svg{ color:#f3f4f6; }
@@ -244,6 +244,14 @@
                 const img=new Image(); img.src=canvas.toDataURL('image/png'); img.alt=title+' banner';
                 hero.appendChild(img); main.insertBefore(hero, main.firstChild);
             })();
+            
+            // Ensure download works without navigation
+            const downloadBtn = document.getElementById('btn-download-resume');
+            if (downloadBtn && downloadBtn.hasAttribute('download')) {
+                // Modern browsers should handle download attribute automatically
+                // The download attribute tells the browser to download instead of navigate
+                // No additional JavaScript needed for modern browsers
+            }
         });
     </script>
 </head>
@@ -293,7 +301,7 @@
 
     <main class="page" role="main">
         <h1 class="page-title">Resume</h1>
-        <p><a id="btn-download-resume" class="btn" href="CV_Zhen_Wang-转长图.jpg" download="CV_Zhen_Wang-转长图.jpg">Download Resume (Image)</a></p>
+        <p><a id="btn-download-resume" class="btn" href="CV_Zhen_Wang.pdf" download="CV_Zhen_Wang.pdf">Download Resume (PDF)</a></p>
         <!-- Resume Image Preview -->
         <div class="card" style="margin-top:20px; padding:0; overflow:hidden;">
             <img src="CV_Zhen_Wang-转长图.jpg" alt="Resume" style="width:100%; height:auto; display:block; border-radius:12px;" title="Resume Preview">

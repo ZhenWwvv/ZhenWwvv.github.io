@@ -222,16 +222,16 @@ window.SITE_CONTENT = {
       authors: "Zhen Wang",
       link: "#",
       supervisor: "Dr. Peter Kempthorne, MIT (Massachusetts Institute of Technology)",
-      description: "Team lead, Led a time series forecasting project on the Metaverse's prospects (autocorrelation, residual, ARIMA model)"
+      description: "Team lead, led a time series forecasting project on the Metaverse's prospects (autocorrelation, residual, ARIMA model)"
     }
   ],
   // Optional separate publications list; displayed alongside Research on the Research page
   publications: [
     {
-      title: "Analysis of the Future Possibility of Metaverse - A Case Study of Tencent",
-      authors: "Zhen Wang",
-      venue: "2023 2nd International Conference on Finance, Investment and Business Analysis (FIBA 2023)",
-      year: "2023",
+      title: "Zhen Wang, Analysis of the Future Possibility of Metaverse - A Case Study of Tencent",
+      authors: "",
+      venue: "Accepted by the \"2023 2nd International Conference on Finance, Investment and Business Analysis (FIBA 2023)\"",
+      year: "FIBA 2023",
       link: "#"
     }
   ],
@@ -265,7 +265,8 @@ window.SITE_CONTENT = {
       tags: ["Streamlit", "Data Visualization", "Policy Analytics"],
       period: { start: "2024", end: "2027" },
       bullets: [
-        "The YEAP Data Analysis Dashboard is a web-based data visualization platform developed by the International Labour Organization (ILO) to support its global Youth Employment Action Plan (YEAP) from 2024 to 2027. Built with the Streamlit framework, the dashboard enables interactive analysis of survey data submitted by ILO regional offices and partners. It provides thematic insights across implementation clusters, capacity development, technical assistance, knowledge dissemination, and advocacy. With a modular architecture, auto-generated charts, and unified visual styling, the tool enhances cross-country data interpretation and supports evidence-based policymaking. The dashboard is publicly deployed on Streamlit Cloud."
+        "The YEAP Data Analysis Dashboard is a web-based data visualization platform developed by the International Labour Organization (ILO) to support its global Youth Employment Action Plan (YEAP) from 2024 to 2027.",
+        "Built with the Streamlit framework, the dashboard enables interactive analysis of survey data submitted by ILO regional offices and partners. It provides thematic insights across implementation clusters, capacity development, technical assistance, knowledge dissemination, and advocacy. With a modular architecture, auto-generated charts, and unified visual styling, the tool enhances cross-country data interpretation and supports evidence-based policymaking. The dashboard is publicly deployed on Streamlit Cloud."
       ],
       link: "https://github.com/emplabyouth/emplabyeap"
     },
@@ -275,7 +276,9 @@ window.SITE_CONTENT = {
       tags: ["Plotly Dash", "Geospatial", "Full‑stack"],
       period: { start: "2024", end: "2024" },
       bullets: [
-        "The AccessBridge Regional Investment Support System is an interactive web-based analytics tool developed to support industrial site selection and investment decision-making in Mexico's emerging sectors, including semiconductors and new energy vehicles. The dashboard integrates economic, geographic, workforce, and real estate data to help policymakers and investors identify optimal locations based on multi-dimensional criteria. The architecture is modular and scalable, enabling deployment both locally and on cloud environments. This system demonstrates how data engineering and visualization can drive evidence-based policy and strategic investment planning for cross-border industrial development."
+        "The AccessBridge Regional Investment Support System is an interactive web-based analytics tool developed to support industrial site selection and investment decision-making in Mexico's emerging sectors, including semiconductors and new energy vehicles. The dashboard integrates economic, geographic, workforce, and real estate data to help policymakers and investors identify optimal locations based on multi-dimensional criteria.",
+        "Built with Python's Dash framework, the platform combines Plotly for dynamic visualizations and Folium for geospatial analysis, featuring modules for economic complexity mapping, workforce distribution, salary analysis, sectoral performance, and supply chain integration. Custom callback functions allow real-time interactivity—users can filter datasets, visualize trends, and calculate distances between industrial zones.",
+        "The architecture is modular and scalable, enabling deployment both locally and on cloud environments. This system demonstrates how data engineering and visualization can drive evidence-based policy and strategic investment planning for cross-border industrial development."
       ],
       link: "https://github.com/ZhenWwvv/AccessBridge_Regional_Investment_Support_System"
     },
@@ -285,7 +288,8 @@ window.SITE_CONTENT = {
       tags: ["Flask", "Google Cloud Datastore", "Automation"],
       period: { start: "2024", end: "2025" },
       bullets: [
-        "CHIRP Radio is a community radio station in Chicago that maintains a large independent music library. This project focuses on enhancing their digital music ingestion pipeline and web-based admin interface. The system allows music department staff to import, manage, and sync local audio metadata to Google Cloud Datastore, enabling DJs to browse and curate tracks via the station's live broadcast platform, NextUp. The revamp aimed to modernize infrastructure, replace legacy components like Samba, and support non-technical users through a web interface."
+        "CHIRP Radio is a community radio station in Chicago that maintains a large independent music library. This project focuses on enhancing their digital music ingestion pipeline and web-based admin interface. The system allows music department staff to import, manage, and sync local audio metadata to Google Cloud Datastore, enabling DJs to browse and curate tracks via the station's live broadcast platform, NextUp.",
+        "The revamp aimed to modernize infrastructure, replace legacy components like Samba, and support non-technical users through a web interface."
       ],
       link: "https://github.com/ZhenWwvv/CHIRP-Radio-Application/tree/python3"
     },
@@ -294,7 +298,8 @@ window.SITE_CONTENT = {
       tags: ["NLP", "LDA", "Sentiment Analysis"],
       period: { start: "2023", end: "2023" },
       bullets: [
-        "Python-based dashboard to analyze and compare Chinese (Douban) and American (Rotten Tomatoes) user reviews of war movies. Used web scraping, NLP (sentiment analysis, word clouds), LDA topic modeling, and timeline-based rating analysis to uncover cultural differences in film perception. Tech stack: Python, BeautifulSoup, pandas, spaCy, matplotlib, LDA, CLI dashboard (Poetry)."
+        "Python-based dashboard to analyze and compare Chinese (Douban) and American (Rotten Tomatoes) user reviews of war movies. Used web scraping, NLP (sentiment analysis, word clouds), LDA topic modeling, and timeline-based rating analysis to uncover cultural differences in film perception.",
+        "Tech stack: Python, BeautifulSoup, pandas, spaCy, matplotlib, LDA, CLI dashboard (Poetry)."
       ],
       link: "https://github.com/ZhenWwvv/30122-Film-Insight"
     }

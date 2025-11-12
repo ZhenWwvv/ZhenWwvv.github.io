@@ -64,10 +64,10 @@
         .page{ max-width:1100px; margin:0 auto; padding:24px 16px 80px; }
         .breadcrumb{ font-size:12px; color:var(--text-secondary); margin-top:12px; }
         .page-title{ margin:18px 0 14px; font-size:clamp(24px,4vw,34px); line-height:1.2; font-weight:700; }
-        .hero{ margin:28px calc(50% - 50vw) 28px; position:relative; width:100vw; max-width:none; }
+        .hero{ margin:12px calc(50% - 50vw) 28px; position:relative; width:100vw; max-width:none; }
         .hero img{ width:100%; height:auto; display:block; border-radius:12px; border:0; box-shadow:0 8px 24px rgba(0,0,0,0.12); }
         @media (max-width:600px){
-            .hero{ margin:24px calc(50% - 50vw) 24px; }
+            .hero{ margin:12px calc(50% - 50vw) 24px; }
         }
         .card{ background:#fff; border:1px solid var(--border); border-radius:12px; padding:20px; }
         .muted{ color:var(--text-secondary); }
@@ -109,9 +109,9 @@
         .bottom-nav-center .contact-btn{ order:4; }
         
         /* Dark Mode Toggle */
-        .dark-mode-toggle{ position:fixed; top:20px; right:20px; z-index:1000; background:transparent; border:none; border-radius:8px; padding:8px; cursor:pointer; transition:all 0.3s ease; display:flex; align-items:center; justify-content:center; width:36px; height:36px; }
-        .dark-mode-toggle:hover{ background:rgba(0,0,0,0.05); }
-        .dark-mode-toggle svg{ width:20px; height:20px; color:#374151; display:block; }
+        .dark-mode-toggle{ position:fixed; top:12px; right:20px; z-index:1000; background:transparent; border:none; border-radius:8px; padding:8px; cursor:pointer; transition:all 0.3s ease; display:flex; align-items:center; justify-content:center; width:36px; height:36px; }
+        .dark-mode-toggle:hover{ background:rgba(255,255,255,0.1); }
+        .dark-mode-toggle svg{ width:20px; height:20px; color:#ffffff; display:block; }
         .dark-mode-toggle.dark{ background:transparent; }
         .dark-mode-toggle.dark:hover{ background:rgba(255,255,255,0.1); }
         .dark-mode-toggle.dark svg{ color:#f3f4f6; }
@@ -333,7 +333,16 @@ document.addEventListener('DOMContentLoaded', function(){
       }
       const text=document.createElement('div');
       const h=document.createElement('h2'); h.className='proj-title'; h.textContent=p.title||''; text.appendChild(h);
-      if (p.desc){ const d=document.createElement('p'); d.className='proj-body'; d.textContent=p.desc; text.appendChild(d); }
+      if (p.desc || (p.bullets && p.bullets.length)){ 
+        const d=document.createElement('p'); 
+        d.className='proj-body'; 
+        if (Array.isArray(p.bullets) && p.bullets.length > 0){
+          d.innerHTML = p.bullets.join('<br><br>');
+        } else {
+          d.textContent=p.desc || ''; 
+        }
+        text.appendChild(d); 
+      }
       const links=document.createElement('div'); links.className='proj-links';
       if (p.site){ const a=document.createElement('a'); a.href=p.site; a.target='_blank'; a.rel='noopener noreferrer'; a.textContent='Project site'; links.appendChild(a); }
       if (p.repo){ if (links.childNodes.length) links.appendChild(document.createTextNode(' · ')); const a=document.createElement('a'); a.href=p.repo; a.target='_blank'; a.rel='noopener noreferrer'; a.textContent='Repository'; links.appendChild(a); }
@@ -374,6 +383,7 @@ document.addEventListener('DOMContentLoaded', function(){
       return {
         title: p.title || '',
         desc: (Array.isArray(p.bullets)? p.bullets.join(' ') : ''),
+        bullets: p.bullets || [],
         site: p.site || '',
         repo: p.link || p.repo || '',
         image: p.image || ''
