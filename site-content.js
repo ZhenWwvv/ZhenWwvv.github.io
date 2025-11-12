@@ -60,6 +60,7 @@ window.SITE_CONTENT = {
       location: "Geneva, Switzerland",
       period: { start: "2025-05", end: "current" },
       logoDomain: "ilo.org",
+      logoUrl: "ilo.png",
       orgInfo: {
         name: "Our Organization & Unit Overview",
         desc1: "The International Labour Organization (ILO) is the only tripartite UN agency that brings together governments, employers, and workers to set labour standards, promote decent work, and advance social justice worldwide.",
@@ -114,6 +115,7 @@ window.SITE_CONTENT = {
       location: "Chicago, IL",
       period: { start: "2024-09", end: "2025-05" },
       logoDomain: "chirpradio.org",
+      logoUrl: "chir.png",
       bullets: [
         "Led a team of 15 members to design a SaaS-based music library system. Structured project plans, milestones, resource allocation, created roadmaps, timelines, and define assignments/deliverables from scratch.",
         "Developed automated workflows and deployed website for DJs and users by leveraging Python, JS, Flask, SQL, and Mutagen, to improve metadata accuracy, user accessibility, system performance and processing time (40%+).",
@@ -127,6 +129,7 @@ window.SITE_CONTENT = {
       location: "Memphis, TN",
       period: { start: "2024-07", end: "2024-09" },
       logoDomain: "deltahealthalliance.org",
+      logoUrl: "alice.png",
       bullets: [
         "Delivered the research, data analysis and visualization for education and health programs, producing reports.",
         "Analyzed teenage pregnancy, STDs awareness, and infant mortality trends in the U.S. Delta region, assessing intervention impact and demographic disparities."
