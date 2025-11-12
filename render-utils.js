@@ -304,74 +304,94 @@
 
     function createEntry(entry, type){
       const isResearch = type === 'research';
-      const header = entry.title || 'Untitled';
-      
-      // Right-aligned date/venue info
-      let rightInfo = '';
-      if (isResearch){
-        if (entry.period && entry.period.start && entry.period.end){
-          rightInfo = entry.period.start + '-' + entry.period.end;
-        } else if (entry.year){
-          rightInfo = entry.year;
-        }
-      } else {
-        // For publications, use venue or year
-        if (entry.venue){
-          // Extract short venue name (e.g., "FIBA 2023" from full venue text)
-          const match = entry.venue.match(/([A-Z]+ \d{4})/);
-          rightInfo = match ? match[1] : (entry.year || entry.venue.split(';')[0].trim());
-        } else if (entry.year){
-          rightInfo = entry.year;
-        }
-      }
-
       const entryDiv = el('div', {class:'pub-entry', 'data-type': type});
       
-      // Title row with left title and right date/venue
-      const titleRow = el('div', {class:'pub-title-row'});
-      const titleLeft = el('div', {class:'pub-title-left'});
-      if (entry.link && entry.link !== '#'){
-        titleLeft.appendChild(el('a', {href: entry.link, text: header, class:'pub-title-link'}));
-      } else {
-        titleLeft.appendChild(document.createTextNode(header));
-      }
-      titleRow.appendChild(titleLeft);
-      if (rightInfo){
-        const titleRight = el('div', {class:'pub-title-right', text: rightInfo});
-        titleRow.appendChild(titleRight);
-      }
-      entryDiv.appendChild(titleRow);
-
-      // Bullet points
-      const bullets = el('ul', {class:'pub-bullets'});
       if (isResearch){
+        // RESEARCH format: Bold title + right-aligned date + Supervisor (italic) + description
+        const titleRow = el('div', {class:'pub-title-row'});
+        const titleLeft = el('div', {class:'pub-title-left'});
+        const titleStrong = el('strong', {text: entry.title || 'Untitled'});
+        titleLeft.appendChild(titleStrong);
+        titleRow.appendChild(titleLeft);
+        
+        // Right-aligned date
+        let dateStr = '';
+        if (entry.period && entry.period.start && entry.period.end){
+          // Format: 09/2022-12/2022 from YYYY-MM format
+          const startParts = entry.period.start.split('-');
+          const endParts = entry.period.end.split('-');
+          if (startParts.length >= 2 && endParts.length >= 2){
+            const start = startParts[1] + '/' + startParts[0]; // MM/YYYY
+            const end = endParts[1] + '/' + endParts[0]; // MM/YYYY
+            dateStr = start + '-' + end;
+          } else {
+            dateStr = entry.period.start + '-' + entry.period.end;
+          }
+        } else if (entry.year){
+          dateStr = entry.year;
+        }
+        if (dateStr){
+          const titleRight = el('div', {class:'pub-title-right', text: dateStr});
+          titleRow.appendChild(titleRight);
+        }
+        entryDiv.appendChild(titleRow);
+        
+        // Supervisor and description
+        const bullets = el('ul', {class:'pub-bullets'});
         if (entry.supervisor){
-          const li = el('li', {text: 'Supervisor: ' + entry.supervisor});
-          if (entry.supervisor.match(/Kempthorne/i)){
-            const parts = entry.supervisor.split('Kempthorne');
-            li.innerHTML = parts[0] + '<u>Kempthorne</u>' + (parts[1] || '');
+          const li = el('li');
+          const supervisorText = entry.supervisor;
+          // Check if "Supervisor:" is already in the text
+          if (supervisorText.match(/^Supervisor:/i)){
+            const parts = supervisorText.split(/^Supervisor:\s*/i);
+            const italicSupervisor = el('i', {text: 'Supervisor: '});
+            li.appendChild(italicSupervisor);
+            li.appendChild(document.createTextNode(parts[1] || parts[0]));
+          } else {
+            const italicSupervisor = el('i', {text: 'Supervisor: '});
+            li.appendChild(italicSupervisor);
+            li.appendChild(document.createTextNode(supervisorText));
           }
           bullets.appendChild(li);
         }
         if (entry.description){
           const li = el('li', {text: entry.description});
-          // Underline specific terms
-          let desc = entry.description;
-          desc = desc.replace(/(Metaverse's?)/gi, '<u>$1</u>');
-          desc = desc.replace(/(autocorrelation)/gi, '<u>$1</u>');
-          desc = desc.replace(/(residual)/gi, '<u>$1</u>');
-          desc = desc.replace(/(ARIMA model)/gi, '<u>$1</u>');
-          li.innerHTML = desc;
           bullets.appendChild(li);
         }
-      } else {
-        // For publications, show venue as bullet point
-        if (entry.venue){
-          bullets.appendChild(el('li', {text: entry.venue}));
+        if (bullets.children.length > 0){
+          entryDiv.appendChild(bullets);
         }
-      }
-      if (bullets.children.length > 0){
-        entryDiv.appendChild(bullets);
+      } else {
+        // PUBLICATION format: Author + italic title + venue
+        const author = entry.authors || '';
+        const title = entry.title || 'Untitled';
+        const venue = entry.venue || '';
+        
+        // Author (standard font)
+        if (author){
+          const authorDiv = el('div', {class:'pub-author', text: author});
+          entryDiv.appendChild(authorDiv);
+        }
+        
+        // Title (italic)
+        const titleRow = el('div', {class:'pub-title-row'});
+        const titleLeft = el('div', {class:'pub-title-left'});
+        const titleItalic = el('i', {text: title});
+        if (entry.link && entry.link !== '#'){
+          const titleLink = el('a', {href: entry.link, class:'pub-title-link'});
+          titleLink.appendChild(titleItalic);
+          titleLeft.appendChild(titleLink);
+        } else {
+          titleLeft.appendChild(titleItalic);
+        }
+        titleRow.appendChild(titleLeft);
+        entryDiv.appendChild(titleRow);
+        
+        // Venue (standard font)
+        if (venue){
+          const venueDiv = el('div', {class:'pub-venue', text: venue});
+          entryDiv.appendChild(venueDiv);
+        }
       }
 
       return entryDiv;

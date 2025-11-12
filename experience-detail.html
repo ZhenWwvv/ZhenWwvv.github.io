@@ -179,6 +179,7 @@
             mount.appendChild(role);
         }
 
+        // Render Events Photo Gallery first (images + videos from Team Moments)
         if (item.gallery){
             const gallery=document.createElement('div'); gallery.className='card';
             const h=document.createElement('div'); h.className='section-title'; h.textContent=item.gallery.name||'Events Photo Gallery';
@@ -205,18 +206,8 @@
                 });
             }
             
-            gallery.appendChild(grid);
-            mount.appendChild(gallery);
-        }
-
-        if (item.teamMoments){
-            const team=document.createElement('div'); team.className='card';
-            const h=document.createElement('div'); h.className='section-title'; h.textContent=item.teamMoments.name||'Team Moments & Behind the Scenes';
-            team.appendChild(h);
-            const grid=document.createElement('div'); grid.className='gallery-grid';
-            
-            // Add videos
-            if (Array.isArray(item.teamMoments.videos)){
+            // Add videos from Team Moments & Behind the Scenes after images
+            if (item.teamMoments && Array.isArray(item.teamMoments.videos)){
                 item.teamMoments.videos.forEach(function(vid){
                     const item=document.createElement('div'); item.className='gallery-item';
                     if (vid.src){
@@ -231,7 +222,45 @@
                 });
             }
             
-            team.appendChild(grid);
+            gallery.appendChild(grid);
+            mount.appendChild(gallery);
+        }
+
+        // Render Team Moments & Behind the Scenes section (title only, videos moved to gallery)
+        if (item.teamMoments){
+            const team=document.createElement('div'); team.className='card';
+            const h=document.createElement('div'); h.className='section-title'; h.textContent=item.teamMoments.name||'Team Moments & Behind the Scenes';
+            team.appendChild(h);
+            const grid=document.createElement('div'); grid.className='gallery-grid';
+            let hasItems=false;
+
+            if (Array.isArray(item.teamMoments.images)){
+                item.teamMoments.images.forEach(function(img){
+                    const itemEl=document.createElement('div'); itemEl.className='gallery-item';
+                    if (img.src){
+                        const imgEl=document.createElement('img'); imgEl.src=img.src; imgEl.alt=img.title||''; imgEl.loading='lazy';
+                        itemEl.appendChild(imgEl);
+                    } else {
+                        const placeholder=document.createElement('div'); placeholder.className='gallery-item-placeholder';
+                        placeholder.textContent='Photo Placeholder';
+                        itemEl.appendChild(placeholder);
+                    }
+                    if (img.title){
+                        const title=document.createElement('div'); title.className='gallery-item-title'; title.textContent=img.title;
+                        itemEl.appendChild(title);
+                    }
+                    grid.appendChild(itemEl);
+                    hasItems=true;
+                });
+            }
+
+            if (hasItems){
+                team.appendChild(grid);
+            } else {
+                const note=document.createElement('div'); note.textContent='Team moments coming soon.';
+                team.appendChild(note);
+            }
+            // Videos are now displayed in Events Photo Gallery above
             mount.appendChild(team);
         }
 

@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Publications page">
-    <title>Publications</title>
+    <meta name="description" content="Publication page">
+    <title>Publication</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&family=Overpass:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -60,10 +60,16 @@
         .dropdown a:hover{ background:var(--bg-alt); color:var(--text-primary); }
         .nav>li:hover .dropdown{ display:block; }
         .page{ max-width:1100px; margin:0 auto; padding:24px 16px 80px; }
+        .hero{ margin:28px calc(50% - 50vw) 28px; position:relative; width:100vw; max-width:none; }
+        .hero img{ width:100%; height:auto; display:block; border-radius:12px; border:0; box-shadow:0 8px 24px rgba(0,0,0,0.12); }
+        @media (max-width:600px){
+            .hero{ margin:24px calc(50% - 50vw) 24px; }
+        }
         .card{ background:#fff; border:1px solid var(--border); border-radius:12px; padding:20px; }
-        .main-grid{ display:grid; grid-template-columns:240px 1fr; gap:32px; }
+        .main-grid{ display:grid; grid-template-columns:170px 1fr; gap:0; }
         @media (max-width:900px){ .main-grid{ grid-template-columns:1fr; gap:20px; } }
-        .filter-sidebar{ background:#fff; border:1px solid var(--border); border-radius:12px; padding:20px 16px; height:fit-content; position:sticky; top:80px; }
+        .filter-sidebar{ background:#fff; border:1px solid var(--border); border-radius:12px; padding:20px 12px; height:fit-content; position:sticky; top:80px; }
+        #pub-content{ margin-left:-8px; }
         @media (max-width:900px){ .filter-sidebar{ position:static; } }
         .sidebar-title{ font-size:18px; font-weight:700; margin:0 0 16px; border-bottom:2px solid var(--border); padding-bottom:8px; }
         .sidebar-list{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:6px; }
@@ -72,26 +78,30 @@
         .sidebar-link.active{ background:rgba(123,17,19,0.08); color:var(--brand); border-color:rgba(123,17,19,0.16); }
         /* Publication/Research sections */
         .pub-section{ margin-bottom:32px; }
-        .pub-section-title{ font-size:18px; font-weight:700; text-transform:uppercase; margin:0 0 8px; color:var(--text-primary); }
+        .pub-section-title{ font-size:18px; font-weight:700; text-transform:uppercase; margin:0 0 8px; color:var(--text-primary); text-decoration:underline; }
         .pub-section-divider{ border:0; border-top:1px solid var(--border); margin:0 0 16px; }
         .pub-entry{ margin-bottom:20px; }
         .pub-entry.hidden{ display:none; }
         .pub-title-row{ display:flex; justify-content:space-between; align-items:flex-start; gap:16px; margin-bottom:8px; }
         .pub-title-left{ flex:1; }
         .pub-title-left, .pub-title-link{ font-size:15px; line-height:1.5; color:var(--text-primary); }
-        .pub-title-link{ text-decoration:underline; }
+        .pub-title-link{ text-decoration:none; }
         .pub-title-link:hover{ color:var(--brand); }
         .pub-title-right{ font-size:15px; font-weight:700; color:var(--text-primary); white-space:nowrap; flex-shrink:0; }
+        .pub-author{ font-size:15px; line-height:1.5; color:var(--text-primary); margin-bottom:4px; }
+        .pub-venue{ font-size:15px; line-height:1.5; color:var(--text-primary); margin-top:4px; }
         .pub-bullets{ margin:8px 0 0; padding-left:20px; list-style-type:disc; }
-        .pub-bullets li{ margin:4px 0; font-size:14px; line-height:1.6; color:var(--text-secondary); }
+        .pub-bullets li{ margin:4px 0; font-size:14px; line-height:1.6; color:var(--text-primary); }
+        .pub-bullets li i{ font-style:italic; }
         .pub-bullets li u{ text-decoration:underline; }
         .menu-btn{ display:none; background:none; border:0; font-size:18px; }
         
         /* Dark Mode Toggle */
-        .dark-mode-toggle{ position:fixed; top:20px; right:20px; z-index:1000; background:rgba(255,255,255,0.9); border:1px solid #e5e7eb; border-radius:8px; padding:8px; cursor:pointer; transition:all 0.3s ease; }
-        .dark-mode-toggle:hover{ background:rgba(255,255,255,1); box-shadow:0 4px 12px rgba(0,0,0,0.1); }
-        .dark-mode-toggle svg{ width:20px; height:20px; color:#374151; }
-        .dark-mode-toggle.dark{ background:rgba(31,41,55,0.9); border-color:#4b5563; }
+        .dark-mode-toggle{ position:fixed; top:20px; right:20px; z-index:1000; background:transparent; border:none; border-radius:8px; padding:8px; cursor:pointer; transition:all 0.3s ease; display:flex; align-items:center; justify-content:center; width:36px; height:36px; }
+        .dark-mode-toggle:hover{ background:rgba(0,0,0,0.05); }
+        .dark-mode-toggle svg{ width:20px; height:20px; color:#374151; display:block; }
+        .dark-mode-toggle.dark{ background:transparent; }
+        .dark-mode-toggle.dark:hover{ background:rgba(255,255,255,0.1); }
         .dark-mode-toggle.dark svg{ color:#f3f4f6; }
         
         /* Dark Mode Styles */
@@ -130,7 +140,9 @@
         .dark-mode .pub-section-divider{ border-color:#4b5563; }
         .dark-mode .pub-title-left, .dark-mode .pub-title-link{ color:#f3f4f6; }
         .dark-mode .pub-title-right{ color:#f3f4f6; }
-        .dark-mode .pub-bullets li{ color:#d1d5db; }
+        .dark-mode .pub-author{ color:#f3f4f6; }
+        .dark-mode .pub-venue{ color:#f3f4f6; }
+        .dark-mode .pub-bullets li{ color:#f3f4f6; }
         /* Hide leftmost brand Home */
         .brand{ display:none; }
         
@@ -200,6 +212,27 @@
                 const isDark = body.classList.contains('dark-mode');
                 localStorage.setItem('theme', isDark ? 'dark' : 'light');
             });
+            
+            // Auto-generate hero image from title
+            (function(){
+                const main=document.querySelector('main.page');
+                if(!main) return; const titleEl=main.querySelector('.page-title')||document.querySelector('title');
+                const title=(titleEl?.textContent||document.title||'').trim(); if(!title) return;
+                const hero=document.createElement('div'); hero.className='hero';
+                const canvas=document.createElement('canvas'); const width=1600, height=240; canvas.width=width; canvas.height=height;
+                const ctx=canvas.getContext('2d'); if(!ctx) return;
+                const grad=ctx.createLinearGradient(0,0,width,height); grad.addColorStop(0,'#5e0c0e'); grad.addColorStop(1,'#8C3B1A');
+                ctx.fillStyle=grad; ctx.fillRect(0,0,width,height);
+                ctx.strokeStyle='rgba(255,255,255,0.08)'; ctx.lineWidth=2;
+                for(let i=0;i<42;i++){ ctx.beginPath(); let x=Math.random()*width; let y=0; ctx.moveTo(x,y); for(let j=0;j<5;j++){ x+=(Math.random()-0.5)*120; y+=height/5; ctx.lineTo(x,y);} ctx.stroke(); }
+                ctx.font='700 48px Overpass, system-ui, Arial, sans-serif'; ctx.fillStyle='#ffffff'; ctx.textAlign='center'; ctx.textBaseline='middle';
+                const tw=ctx.measureText(title).width; const bw=tw+80, bh=84; const bx=(width-bw)/2, by=(height-bh)/2;
+                function roundRect(x,y,w,h,r){ r=Math.min(r,w/2,h/2); ctx.beginPath(); ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r); ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath(); }
+                ctx.strokeStyle='rgba(255,255,255,0.9)'; ctx.lineWidth=6; roundRect(bx,by,bw,bh,16); ctx.stroke();
+                ctx.fillText(title,width/2,height/2);
+                const img=new Image(); img.src=canvas.toDataURL('image/png'); img.alt=title+' banner';
+                hero.appendChild(img); main.insertBefore(hero, main.firstChild);
+            })();
         });
     </script>
 </head>
@@ -240,7 +273,7 @@
                 </a>
             </div>
             <ul id="nav-right" class="nav" role="menubar" aria-label="Primary right">
-                <li class="active"><a href="publications.html" aria-current="page">Publications</a></li>
+                <li class="active"><a href="publications.html" aria-current="page">Publication</a></li>
                 <li><a href="resume.html">Resume</a></li>
                 <li><a href="some-fun.html">Some Fun</a></li>
             </ul>
@@ -254,12 +287,34 @@
                 <nav>
                     <ul class="sidebar-list" id="filter-menu">
                         <li><a href="#" class="sidebar-link active" data-filter="all">All</a></li>
+                        <li><a href="#" class="sidebar-link" data-filter="publication">Publication</a></li>
                         <li><a href="#" class="sidebar-link" data-filter="research">Research</a></li>
-                        <li><a href="#" class="sidebar-link" data-filter="publication">Publications</a></li>
                     </ul>
                 </nav>
             </aside>
-            <div id="rp-content"></div>
+            <div id="pub-content">
+                <section class="card pub-section" data-type="publication">
+                    <h2 class="pub-section-title">Publication</h2>
+                    <div class="pub-entry">
+                        <div class="pub-author">Zhen Wang</div>
+                        <div class="pub-title-row">
+                            <div class="pub-title-left"><i>Analysis of the Future Possibility of Metaverse - A Case Study of Tencent</i></div>
+                        </div>
+                        <div class="pub-venue">Accepted by the 2023 2nd International Conference on Finance, Investment and Business Analysis (FIBA 2023)</div>
+                    </div>
+                </section>
+                <section class="card pub-section" data-type="research">
+                    <h2 class="pub-section-title">Research</h2>
+                    <div class="pub-entry">
+                        <div class="pub-title-row">
+                            <div class="pub-title-left"><strong>Time Series Modeling With Applications in Economics and Public Health (R Programming)</strong></div>
+                            <div class="pub-title-right">09/2022-12/2022</div>
+                        </div>
+                        <div class="pub-detail"><i>Supervisor:</i> Dr. Peter Kempthorne, MIT (Massachusetts Institute of Technology)</div>
+                        <div class="pub-detail">Team lead, Led a time series forecasting project on the Metaverse's prospects (autocorrelation, residual, ARIMA model)</div>
+                    </div>
+                </section>
+            </div>
         </div>
     </main>
 
@@ -301,45 +356,32 @@
             </div>
         </div>
     </footer>
-    <script src="site-content.js"></script>
-    <script src="render-utils.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function(){
-            const list = document.getElementById('rp-content');
-            const menu = document.getElementById('filter-menu');
-            if (window.RenderUtils && list){
-                window.RenderUtils.renderResearchPublications(list);
-            }
-            function setActive(link){
-                Array.from(menu.querySelectorAll('.sidebar-link')).forEach(function(a){
-                    a.classList.toggle('active', a === link);
-                });
-            }
-            function applyFilter(filter){
-                const entries = list.querySelectorAll('.pub-entry');
-                entries.forEach(function(entry){
-                    const type = entry.getAttribute('data-type');
-                    const show = filter === 'all' || type === filter;
-                    entry.classList.toggle('hidden', !show);
-                });
-                // Also hide sections if all entries are hidden
-                const sections = list.querySelectorAll('.pub-section');
-                sections.forEach(function(section){
-                    const visibleEntries = section.querySelectorAll('.pub-entry:not(.hidden)');
-                    section.style.display = visibleEntries.length > 0 ? '' : 'none';
-                });
-            }
-            const initial = menu.querySelector('.sidebar-link[data-filter="all"]');
-            if (initial) applyFilter('all');
-            menu?.addEventListener('click', function(e){
-                const link = e.target.closest('.sidebar-link');
-                if (!link) return;
-                e.preventDefault();
-                const filter = link.getAttribute('data-filter') || 'all';
-                setActive(link);
-                applyFilter(filter);
+    document.addEventListener('DOMContentLoaded', function(){
+        const menu = document.getElementById('filter-menu');
+        const sections = Array.from(document.querySelectorAll('#pub-content [data-type]'));
+        function setActive(link){
+            Array.from(menu.querySelectorAll('.sidebar-link')).forEach(function(a){
+                a.classList.toggle('active', a === link);
             });
+        }
+        function apply(filter){
+            sections.forEach(function(sec){
+                const type = sec.getAttribute('data-type');
+                const show = filter === 'all' || filter === type;
+                sec.style.display = show ? '' : 'none';
+            });
+        }
+        apply('all');
+        menu?.addEventListener('click', function(e){
+            const link = e.target.closest('.sidebar-link');
+            if (!link){ return; }
+            e.preventDefault();
+            const filter = link.getAttribute('data-filter') || 'all';
+            setActive(link);
+            apply(filter);
         });
+    });
     </script>
 </body>
 </html>

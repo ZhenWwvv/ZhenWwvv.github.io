@@ -86,6 +86,15 @@ window.SITE_CONTENT = {
       },
       teamMoments: {
         name: "Team Moments & Behind the Scenes",
+        images: [
+          { src: "1_Group photo of my branch.jpg", title: "Group photo of my branch" },
+          { src: "2_Intern Board meeting.jpg", title: "Intern Board meeting" },
+          { src: "3_Fund Raise for events.jpg", title: "Fund Raise for events" },
+          { src: "4_Protest in ILO.jpeg", title: "Protest in ILO" },
+          { src: "5_Colleagues party.jpg", title: "Colleagues party" },
+          { src: "6_Me with flags at the United Nations.jpeg", title: "Me with flags at the United Nations" },
+          { src: "7_Me with sheep at the United Nations.jpeg", title: "Me with sheep at the United Nations" }
+        ],
         videos: [
           { src: "IMG_3609.MOV", title: "Video 1" },
           { src: "IMG_6272.MOV", title: "Video 2" },
@@ -206,29 +215,15 @@ window.SITE_CONTENT = {
       title: "Time Series Modeling With Applications in Economics and Public Health (R Programming)",
       venue: "MIT (Massachusetts Institute of Technology)",
       year: "2023",
+      period: { start: "2022-09", end: "2022-12" },
       authors: "Zhen Wang",
       link: "#",
       supervisor: "Dr. Peter Kempthorne, MIT (Massachusetts Institute of Technology)",
       description: "Team lead, Led a time series forecasting project on the Metaverse's prospects (autocorrelation, residual, ARIMA model)"
-    },
-    {
-      title: "Analysis of the Future Possibility of Metaverse - A Case Study of Tencent",
-      venue: "FIBA 2023; to be published in BCP Business & Management (ISSN: 2692-6156)",
-      year: "2023",
-      authors: "Zhen Wang",
-      link: "#"
     }
   ],
   // Optional separate publications list; displayed alongside Research on the Research page
-  publications: [
-    {
-      title: "Analysis of the Future Possibility of Metaverse - A Case Study of Tencent",
-      venue: "Accepted by the 2023 2nd International Conference on Finance, Investment and Business Analysis (FIBA 2023)",
-      year: "2023",
-      authors: "Zhen Wang",
-      link: "#"
-    }
-  ],
+  publications: [],
   honors: [
     {
       title: "High Five Award",
@@ -255,6 +250,7 @@ window.SITE_CONTENT = {
   projects: [
     {
       title: "Youth Employment Action Plan (YEAP) Analysis Dashboard",
+      image: "1.jpg",
       tags: ["Streamlit", "Data Visualization", "Policy Analytics"],
       period: { start: "2024", end: "2027" },
       bullets: [
@@ -264,6 +260,7 @@ window.SITE_CONTENT = {
     },
     {
       title: "AccessBridge Regional Investment Support System",
+      image: "2.jpg",
       tags: ["Plotly Dash", "Geospatial", "Full‑stack"],
       period: { start: "2024", end: "2024" },
       bullets: [
@@ -273,6 +270,7 @@ window.SITE_CONTENT = {
     },
     {
       title: "CHIRP Radio Library Application",
+      image: "3.png",
       tags: ["Flask", "Google Cloud Datastore", "Automation"],
       period: { start: "2024", end: "2025" },
       bullets: [

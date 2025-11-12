@@ -8,7 +8,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&family=Overpass:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
         :root { 
             --white:#ffffff; --black:#000000;
@@ -65,6 +64,11 @@
         .page{ max-width:1100px; margin:0 auto; padding:24px 16px 80px; }
         .breadcrumb{ font-size:12px; color:var(--text-secondary); margin-top:12px; }
         .page-title{ margin:18px 0 14px; font-size:clamp(24px,4vw,34px); line-height:1.2; font-weight:700; }
+        .hero{ margin:28px calc(50% - 50vw) 28px; position:relative; width:100vw; max-width:none; }
+        .hero img{ width:100%; height:auto; display:block; border-radius:12px; border:0; box-shadow:0 8px 24px rgba(0,0,0,0.12); }
+        @media (max-width:600px){
+            .hero{ margin:24px calc(50% - 50vw) 24px; }
+        }
         .card{ background:#fff; border:1px solid var(--border); border-radius:12px; padding:20px; }
         .muted{ color:var(--text-secondary); }
         .site-footer{ border-top:1px solid var(--border); background:var(--bg-alt); color:var(--text-secondary); font-size:14px; }
@@ -75,10 +79,11 @@
         .menu-btn{ display:none; background:none; border:0; font-size:18px; }
         
         /* Dark Mode Toggle */
-        .dark-mode-toggle{ position:fixed; top:20px; right:20px; z-index:1000; background:rgba(255,255,255,0.9); border:1px solid #e5e7eb; border-radius:8px; padding:8px; cursor:pointer; transition:all 0.3s ease; }
-        .dark-mode-toggle:hover{ background:rgba(255,255,255,1); box-shadow:0 4px 12px rgba(0,0,0,0.1); }
-        .dark-mode-toggle svg{ width:20px; height:20px; color:#374151; }
-        .dark-mode-toggle.dark{ background:rgba(31,41,55,0.9); border-color:#4b5563; }
+        .dark-mode-toggle{ position:fixed; top:20px; right:20px; z-index:1000; background:transparent; border:none; border-radius:8px; padding:8px; cursor:pointer; transition:all 0.3s ease; display:flex; align-items:center; justify-content:center; width:36px; height:36px; }
+        .dark-mode-toggle:hover{ background:rgba(0,0,0,0.05); }
+        .dark-mode-toggle svg{ width:20px; height:20px; color:#374151; display:block; }
+        .dark-mode-toggle.dark{ background:transparent; }
+        .dark-mode-toggle.dark:hover{ background:rgba(255,255,255,0.1); }
         .dark-mode-toggle.dark svg{ color:#f3f4f6; }
         
         /* Dark Mode Styles */
@@ -135,6 +140,19 @@
         .gform-note{ color:var(--text-secondary); margin:6px 0 12px; font-size:14px; }
         .gform-iframe{ width:100%; min-height:1300px; border:0; background:#fff; border-radius:12px; box-shadow:0 16px 40px rgba(0,0,0,0.08); }
         @media (max-width:900px){ .gform-iframe{ min-height:1400px; } }
+        /* Resume Image Styles */
+        #resume-image{ border-radius:12px; }
+        /* Resume Content Styles */
+        #resume-content{ font-size:14px; line-height:1.8; }
+        #resume-content h2{ font-size:20px; font-weight:700; margin:24px 0 12px; color:var(--text-primary); border-bottom:2px solid var(--border); padding-bottom:6px; }
+        #resume-content h3{ font-size:16px; font-weight:700; margin:18px 0 8px; color:var(--text-primary); }
+        #resume-content p{ margin:8px 0; color:var(--text-primary); }
+        #resume-content ul{ margin:8px 0; padding-left:20px; }
+        #resume-content li{ margin:4px 0; color:var(--text-primary); }
+        #resume-content strong{ font-weight:700; color:var(--text-primary); }
+        .dark-mode #resume-content{ color:#f3f4f6; }
+        .dark-mode #resume-content h2, .dark-mode #resume-content h3{ color:#f3f4f6; border-bottom-color:#4b5563; }
+        .dark-mode #resume-content p, .dark-mode #resume-content li{ color:#f3f4f6; }
         /* Download button */
         .btn{ display:inline-flex; align-items:center; gap:8px; background:var(--brand); color:#fff; padding:10px 14px; border-radius:12px; text-decoration:none; font-weight:700; box-shadow:0 6px 18px rgba(123,17,19,0.22); }
         .btn:hover{ filter:brightness(1.05); }
@@ -205,6 +223,27 @@
                 const isDark = body.classList.contains('dark-mode');
                 localStorage.setItem('theme', isDark ? 'dark' : 'light');
             });
+            
+            // Auto-generate hero image from title
+            (function(){
+                const main=document.querySelector('main.page');
+                if(!main) return; const titleEl=main.querySelector('.page-title')||document.querySelector('title');
+                const title=(titleEl?.textContent||document.title||'').trim(); if(!title) return;
+                const hero=document.createElement('div'); hero.className='hero';
+                const canvas=document.createElement('canvas'); const width=1600, height=240; canvas.width=width; canvas.height=height;
+                const ctx=canvas.getContext('2d'); if(!ctx) return;
+                const grad=ctx.createLinearGradient(0,0,width,height); grad.addColorStop(0,'#5e0c0e'); grad.addColorStop(1,'#8C3B1A');
+                ctx.fillStyle=grad; ctx.fillRect(0,0,width,height);
+                ctx.strokeStyle='rgba(255,255,255,0.08)'; ctx.lineWidth=2;
+                for(let i=0;i<42;i++){ ctx.beginPath(); let x=Math.random()*width; let y=0; ctx.moveTo(x,y); for(let j=0;j<5;j++){ x+=(Math.random()-0.5)*120; y+=height/5; ctx.lineTo(x,y);} ctx.stroke(); }
+                ctx.font='700 48px Overpass, system-ui, Arial, sans-serif'; ctx.fillStyle='#ffffff'; ctx.textAlign='center'; ctx.textBaseline='middle';
+                const tw=ctx.measureText(title).width; const bw=tw+80, bh=84; const bx=(width-bw)/2, by=(height-bh)/2;
+                function roundRect(x,y,w,h,r){ r=Math.min(r,w/2,h/2); ctx.beginPath(); ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r); ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath(); }
+                ctx.strokeStyle='rgba(255,255,255,0.9)'; ctx.lineWidth=6; roundRect(bx,by,bw,bh,16); ctx.stroke();
+                ctx.fillText(title,width/2,height/2);
+                const img=new Image(); img.src=canvas.toDataURL('image/png'); img.alt=title+' banner';
+                hero.appendChild(img); main.insertBefore(hero, main.firstChild);
+            })();
         });
     </script>
 </head>
@@ -254,12 +293,121 @@
 
     <main class="page" role="main">
         <h1 class="page-title">Resume</h1>
-        <p><a id="btn-download-resume" class="btn" href="#">Download Resume (PDF)</a></p>
-        <div id="resume-content" class="card"></div>
+        <p><a id="btn-download-resume" class="btn" href="简历6.pdf" download="resume.pdf">Download Resume (PDF)</a></p>
+        <!-- Resume Content -->
+        <div class="card" style="margin-top:20px; padding:24px;">
+            <div style="white-space:pre-wrap; font-family:inherit; line-height:1.8; color:var(--text-primary); font-size:14px;">
+Grace Zhen Wang
+
+
+
+5035 S East End Ave., Chicago, IL, 60615 U.S.; Tell: +41 762685041; wangzh@iloguest.org
+
+EDUCATION
+
+The University of Chicago Chicago, Illinois
+
+Master of Science in Computational Analysis and Public Policy (MSCAPP) 08/2023-06/2026
+
+SKILLS
+
+R, Python, SQL, JS, MATLAB, Git, GCP, Databricks; Machine Learning, NLP, Reinforcement Learning, Bayesian
+
+BigQuery, OBIEE, Tableau, Power BI, Streamlit, Flourish, Qlik, Looker Studio, Power Query, Power Pivot, VBA
+
+WORK EXPERIENCE
+
+International Labour Organization (ILO) Geneva, Switzerland
+
+Data Scientist Intern 05/2025-current
+
+• Develop interactive dashboards using Dash, Streamlit and Google Looker Studio to visualize global youth employment survey data (YEAP), enabling cross-country policy insights and stakeholder engagement.
+
+• Design scalable data pipeline for the Youth Employment Barometer 2025, capturing trends across 100+ countries, addressing sampling bias and regional disparities through automated data cleaning and analysis scripts. Developed custom visual templates (e.g., Sankey, butterfly charts) to support dynamic reporting and global policy advocacy.
+
+CHIRP Radio (Part-time) Chicago, IL
+
+Full Stack Team Leader & Project Manager 09/2024-05/2025
+
+• Led a team of 15 members to design a SaaS-based music library system. Structured project plans, milestones, resource allocation, created roadmaps, timelines, and define assignments/deliverables from scratch.
+
+• Developed automated workflows and deployed website for DJs and users by leveraging Python, JS, Flask, SQL, and Mutagen, to improve metadata accuracy, user accessibility, system performance and processing time (40%+).
+
+• Implemented cloud integration solutions to drive collaborative technical solutions across applications.
+
+Delta Health Alliance Memphis, TN
+
+Health & Education Data Scientist 07/2024-09/2024
+
+• Delivered the research, data analysis and visualization for education and health programs, producing reports.
+
+• Analyzed teenage pregnancy, STDs awareness, and infant mortality trends in the U.S. Delta region, assessing intervention impact and demographic disparities.
+
+AccessBridge International Washington, D.C.
+
+International Trade, Economic Data Scientist 06/2024-08/2024
+
+• Led supplier consultations and stakeholders' collaboration to gather, clean, and integrate multi-source datasets for investment site selection in Mexico's semiconductor and NEV sectors, addressing key criteria including economy, education, real estate, cost, and policy.
+
+• Developed full-stack dashboard using Python (Plotly Dash), JavaScript, and geospatial tools; integrated APIs, Matplotlib, and Seaborn for real-time visualization and insights, optimizing predictive capabilities, and preparing data infrastructure for future machine learning models.
+
+Moen Incorporated / Fortune Brands Guangzhou, China
+
+Global Category Sourcing Manager 05/2021-06/2022
+
+• Led 34 new category projects, from market analysis, Brand Design & Innovation Conference planning, budgeting to implementation. Optimized supply chain of 5 entry level faucets, saving more than $1.12 million.
+
+• Created analytical reports with Qlik for purchasing management, raw material studies, and project analysis.
+
+• Won the High Five Award (The top 5 best practice teams with significant projects and achievements)
+
+JATCO Automatic Transmission Ltd / Nissan Guangzhou, China
+
+Assistant Manager in Supply Chain Management 06/2017-05/2021
+
+• Conducted global EV supply chain and OEM research, supporting EV transformation and market expansion. Led deep localization of 260+ target parts, yearly saving 12.3% (approx.$95.45million).
+
+• Designed data-driven systems for purchase performance review and personnel evaluation, enabling 3-year cost reduction forecasting, multidimensional decision analytics, and a skill-based incentive framework.
+
+• Received the President Award (for top departmental professional excellence)
+
+Nidec (Guangzhou) Auto Drive System Co., Ltd Guangzhou, China
+
+Senior Purchasing Specialist 04/2013-05/2017
+
+• Designed analysis models and led VAVE to manage cross-departmental cost goals, saved an annual of $6 million.
+
+• Developed mold management models to oversee service life and investment planning.
+
+PROJECT EXPERIENCE
+
+Movie Review Comparison | Bayesian Models, LDA, Data Visualization 01/2024-03/2024
+
+Scraped data, utilized NLP and machine learning to conduct comparative analyses of films from different countries. Focused on sentiment analysis with Bayesian models and LDA topics mining, deployed a dashboard App.
+
+Detecting Fake News | Python, NLP, machine learning 03/2024-05/2024
+
+Developed NLP and ML models (Decision Tree, BiLSTM, Logistic Regression) for fake news detection, achieving 96% accuracy.
+
+PUBLICATION
+
+Zhen Wang, Analysis of the Future Possibility of Metaverse - A Case Study of Tencent
+
+Accepted by the 2023 2nd International Conference on Finance, Investment and Business Analysis (FIBA 2023)
+
+RESEARCH
+
+Time Series Modeling With Applications in Economics and Public Health (R Programming)
+
+Supervisor: Dr. Peter Kempthorne, MIT (Massachusetts Institute of Technology) 09/2022-12/2022
+
+Team lead, Led a time series forecasting project on the Metaverse's prospects (autocorrelation, residual, ARIMA model)
+            </div>
+        </div>
         <!-- Google Docs embed -->
-        <section class="gform-wrap" aria-label="resume document">
+        <section class="gform-wrap" aria-label="resume document" style="margin-top:40px;">
             <div class="gform-note">Please fill out the Google Form below. I will get back to you shortly.</div>
-            <iframe class="gform-iframe" src="https://docs.google.com/forms/d/e/1FAIpQLSdBWURDCw63mR-kK7IKh4DQYhxlYee4512az0TOR5DvJWh_Mw/viewform?embedded=true" title="Contact Zhen Wang" loading="lazy">加载中…</iframe>
+            <iframe class="gform-iframe" src="https://docs.google.com/forms/d/e/1FAIpQLSdBWURDCw63mR-kK7IKh4DQYhxlYee4512az0TOR5DvJWh_Mw/viewform?embedded=true" title="Contact Zhen Wang" loading="lazy">Loading…</iframe>
         </section>
     </main>
 
@@ -301,52 +449,6 @@
             </div>
         </div>
     </footer>
-    <script src="site-content.js"></script>
-    <script src="render-utils.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function(){
-            const container = document.getElementById('resume-content');
-            if (window.RenderUtils && container){ window.RenderUtils.renderResume(container); }
-
-            // Generate PDF from the rendered resume content
-            const btn = document.getElementById('btn-download-resume');
-            if (btn && container){
-                btn.addEventListener('click', function(e){
-                    e.preventDefault();
-                    if (typeof html2pdf === 'undefined') {
-                        // Fallback to print if library not loaded
-                        window.print();
-                        return;
-                    }
-                    try{
-                        btn.textContent = 'Generating PDF...';
-                        btn.disabled = true;
-                        const opt = {
-                            margin: [10, 10, 10, 10],
-                            filename: 'resume.pdf',
-                            image: { type: 'jpeg', quality: 0.98 },
-                            html2canvas: { scale: 2, useCORS: true },
-                            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-                        };
-                        html2pdf().set(opt).from(container).save().then(function(){
-                            btn.textContent = 'Download Resume (PDF)';
-                            btn.disabled = false;
-                        }).catch(function(err){
-                            console.error('PDF generation error:', err);
-                            btn.textContent = 'Download Resume (PDF)';
-                            btn.disabled = false;
-                            window.print();
-                        });
-                    }catch(err){ 
-                        console.error(err);
-                        btn.textContent = 'Download Resume (PDF)';
-                        btn.disabled = false;
-                        window.print();
-                    }
-                });
-            }
-        });
-    </script>
 </body>
 </html>
 

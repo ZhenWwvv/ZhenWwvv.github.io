@@ -64,6 +64,11 @@
         .page{ max-width:1100px; margin:0 auto; padding:24px 16px 80px; }
         .breadcrumb{ font-size:12px; color:var(--text-secondary); margin-top:12px; }
         .page-title{ margin:18px 0 14px; font-size:clamp(24px,4vw,34px); line-height:1.2; font-weight:700; }
+        .hero{ margin:28px calc(50% - 50vw) 28px; position:relative; width:100vw; max-width:none; }
+        .hero img{ width:100%; height:auto; display:block; border-radius:12px; border:0; box-shadow:0 8px 24px rgba(0,0,0,0.12); }
+        @media (max-width:600px){
+            .hero{ margin:24px calc(50% - 50vw) 24px; }
+        }
         .card{ background:#fff; border:1px solid var(--border); border-radius:12px; padding:20px; }
         .muted{ color:var(--text-secondary); }
         .site-footer{ border-top:1px solid var(--border); background:var(--bg-alt); color:var(--text-secondary); font-size:14px; }
@@ -104,10 +109,11 @@
         .bottom-nav-center .contact-btn{ order:4; }
         
         /* Dark Mode Toggle */
-        .dark-mode-toggle{ position:fixed; top:20px; right:20px; z-index:1000; background:rgba(255,255,255,0.9); border:1px solid #e5e7eb; border-radius:8px; padding:8px; cursor:pointer; transition:all 0.3s ease; }
-        .dark-mode-toggle:hover{ background:rgba(255,255,255,1); box-shadow:0 4px 12px rgba(0,0,0,0.1); }
-        .dark-mode-toggle svg{ width:20px; height:20px; color:#374151; }
-        .dark-mode-toggle.dark{ background:rgba(31,41,55,0.9); border-color:#4b5563; }
+        .dark-mode-toggle{ position:fixed; top:20px; right:20px; z-index:1000; background:transparent; border:none; border-radius:8px; padding:8px; cursor:pointer; transition:all 0.3s ease; display:flex; align-items:center; justify-content:center; width:36px; height:36px; }
+        .dark-mode-toggle:hover{ background:rgba(0,0,0,0.05); }
+        .dark-mode-toggle svg{ width:20px; height:20px; color:#374151; display:block; }
+        .dark-mode-toggle.dark{ background:transparent; }
+        .dark-mode-toggle.dark:hover{ background:rgba(255,255,255,0.1); }
         .dark-mode-toggle.dark svg{ color:#f3f4f6; }
         
         /* Dark Mode Styles */
@@ -191,6 +197,27 @@
                 const isDark = body.classList.contains('dark-mode');
                 localStorage.setItem('theme', isDark ? 'dark' : 'light');
             });
+            
+            // Auto-generate hero image from title
+            (function(){
+                const main=document.querySelector('main.page');
+                if(!main) return; const titleEl=main.querySelector('.page-title')||document.querySelector('title');
+                const title=(titleEl?.textContent||document.title||'').trim(); if(!title) return;
+                const hero=document.createElement('div'); hero.className='hero';
+                const canvas=document.createElement('canvas'); const width=1600, height=240; canvas.width=width; canvas.height=height;
+                const ctx=canvas.getContext('2d'); if(!ctx) return;
+                const grad=ctx.createLinearGradient(0,0,width,height); grad.addColorStop(0,'#5e0c0e'); grad.addColorStop(1,'#8C3B1A');
+                ctx.fillStyle=grad; ctx.fillRect(0,0,width,height);
+                ctx.strokeStyle='rgba(255,255,255,0.08)'; ctx.lineWidth=2;
+                for(let i=0;i<42;i++){ ctx.beginPath(); let x=Math.random()*width; let y=0; ctx.moveTo(x,y); for(let j=0;j<5;j++){ x+=(Math.random()-0.5)*120; y+=height/5; ctx.lineTo(x,y);} ctx.stroke(); }
+                ctx.font='700 48px Overpass, system-ui, Arial, sans-serif'; ctx.fillStyle='#ffffff'; ctx.textAlign='center'; ctx.textBaseline='middle';
+                const tw=ctx.measureText(title).width; const bw=tw+80, bh=84; const bx=(width-bw)/2, by=(height-bh)/2;
+                function roundRect(x,y,w,h,r){ r=Math.min(r,w/2,h/2); ctx.beginPath(); ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r); ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath(); }
+                ctx.strokeStyle='rgba(255,255,255,0.9)'; ctx.lineWidth=6; roundRect(bx,by,bw,bh,16); ctx.stroke();
+                ctx.fillText(title,width/2,height/2);
+                const img=new Image(); img.src=canvas.toDataURL('image/png'); img.alt=title+' banner';
+                hero.appendChild(img); main.insertBefore(hero, main.firstChild);
+            })();
         });
     </script>
 </head>
@@ -297,7 +324,13 @@ document.addEventListener('DOMContentLoaded', function(){
     feed.innerHTML='';
     items.forEach(function(p){
       const row=document.createElement('section'); row.className='proj-row';
-      const imgBox=document.createElement('div'); imgBox.className='proj-img'; imgBox.appendChild(makeImage(p.title||''));
+      const imgBox=document.createElement('div'); imgBox.className='proj-img';
+      if (p.image){
+        const img=document.createElement('img'); img.src=p.image; img.alt=p.title||'Project image'; img.loading='lazy';
+        imgBox.appendChild(img);
+      } else {
+        imgBox.appendChild(makeImage(p.title||''));
+      }
       const text=document.createElement('div');
       const h=document.createElement('h2'); h.className='proj-title'; h.textContent=p.title||''; text.appendChild(h);
       if (p.desc){ const d=document.createElement('p'); d.className='proj-body'; d.textContent=p.desc; text.appendChild(d); }
@@ -319,8 +352,10 @@ document.addEventListener('DOMContentLoaded', function(){
       // Labeled links
       const siteMatch = t.match(/^site\s*:\s*(https?:\/\/\S+)/i);
       const repoMatch = t.match(/^repo\s*:\s*(https?:\/\/\S+)/i);
+      const imageMatch = t.match(/^image\s*:\s*(\S+)/i);
       if (siteMatch){ cur.site = siteMatch[1]; return; }
       if (repoMatch){ cur.repo = repoMatch[1]; return; }
+      if (imageMatch){ cur.image = imageMatch[1]; return; }
       // Bare URL lines: try to classify non‑GitHub as site, GitHub as repo
       if (/^https?:\/\//.test(t)){
         if (/github\.com/i.test(t)){ if (!cur.repo) cur.repo = t; else if (!cur.site) cur.site = t; }
@@ -340,7 +375,8 @@ document.addEventListener('DOMContentLoaded', function(){
         title: p.title || '',
         desc: (Array.isArray(p.bullets)? p.bullets.join(' ') : ''),
         site: p.site || '',
-        repo: p.link || p.repo || ''
+        repo: p.link || p.repo || '',
+        image: p.image || ''
       };
     });
     if (mapped.length){ render(mapped); }
