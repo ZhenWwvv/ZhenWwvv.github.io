@@ -60,7 +60,7 @@ window.SITE_CONTENT = {
       location: "Geneva, Switzerland",
       period: { start: "2025-05", end: "current" },
       logoDomain: "ilo.org",
-      logoUrl: "ilo.png",
+      logoUrl: "image003.png",
       orgInfo: {
         name: "Our Organization & Unit Overview",
         desc1: "The International Labour Organization (ILO) is the only tripartite UN agency that brings together governments, employers, and workers to set labour standards, promote decent work, and advance social justice worldwide.",
@@ -115,7 +115,7 @@ window.SITE_CONTENT = {
       location: "Chicago, IL",
       period: { start: "2024-09", end: "2025-05" },
       logoDomain: "chirpradio.org",
-      logoUrl: "chir.png",
+      logoUrl: "niao.jpg",
       bullets: [
         "Led a team of 15 members to design a SaaS-based music library system. Structured project plans, milestones, resource allocation, created roadmaps, timelines, and define assignments/deliverables from scratch.",
         "Developed automated workflows and deployed website for DJs and users by leveraging Python, JS, Flask, SQL, and Mutagen, to improve metadata accuracy, user accessibility, system performance and processing time (40%+).",
@@ -131,8 +131,8 @@ window.SITE_CONTENT = {
       logoDomain: "deltahealthalliance.org",
       logoUrl: "alice.png",
       bullets: [
-        "Delivered the research, data analysis and visualization for education and health programs, producing reports.",
-        "Analyzed teenage pregnancy, STDs awareness, and infant mortality trends in the U.S. Delta region, assessing intervention impact and demographic disparities."
+        "Delivered research, data analysis, and visualization for education and health programs.",
+        "Analyzed teenage pregnancy, STDs, and infant mortality trends in the U.S. Delta region."
       ]
     },
     {
@@ -144,8 +144,8 @@ window.SITE_CONTENT = {
       period: { start: "2024-06", end: "2024-08" },
       logoUrl: "屏幕截图 2025-11-11 151635.png",
       bullets: [
-        "Led supplier consultations and stakeholders' collaboration to gather, clean, and integrate multi-source datasets for investment site selection in Mexico's semiconductor and NEV sectors, addressing key criteria including economy, education, real estate, cost, and policy.",
-        "Developed full-stack dashboard using Python (Plotly Dash), JavaScript, and geospatial tools; integrated APIs, Matplotlib, and Seaborn for real-time visualization and insights, optimizing predictive capabilities, and preparing data infrastructure for future machine learning models."
+        "Led supplier consultations for investment site selection in Mexico's semiconductor and NEV sectors.",
+        "Developed full-stack dashboard using Python (Plotly Dash), JavaScript, and geospatial tools for real-time visualization and predictive capabilities."
       ]
     },
     {
@@ -170,9 +170,9 @@ window.SITE_CONTENT = {
         url: "https://www.moen.com/"
       },
       bullets: [
-        "Led 34 new category projects, from market analysis, Brand Design & Innovation Conference planning, budgeting to implementation. Optimized supply chain of 5 entry level faucets, saving more than $1.12 million.",
-        "Created analytical reports with Qlik for purchasing management, raw material studies, and project analysis.",
-        "Won the High Five Award (The top 5 best practice teams with significant projects and achievements)."
+        "Led 34 new category projects, optimized supply chain saving over $1.12 million.",
+        "Created analytical reports with Qlik.",
+        "Won the High Five Award."
       ]
     },
     {
@@ -195,9 +195,9 @@ window.SITE_CONTENT = {
         url: "https://www.jatco.co.jp/english/"
       },
       bullets: [
-        "Conducted global EV supply chain and OEM research, supporting EV transformation and market expansion. Led deep localization of 260+ target parts, yearly saving 12.3% (approx.$95.45million).",
-        "Designed data-driven systems for purchase performance review and personnel evaluation, enabling 3-year cost reduction forecasting, multidimensional decision analytics, and a skill-based incentive framework.",
-        "Received the President Award (for top departmental professional excellence)."
+        "Conducted global EV supply chain and OEM research, led deep localization of 260+ target parts saving approx. $95.45 million annually.",
+        "Designed data-driven systems for purchase performance review and personnel evaluation.",
+        "Received the President Award."
       ]
     },
     {
@@ -208,8 +208,8 @@ window.SITE_CONTENT = {
       period: { start: "2013-04", end: "2017-05" },
       logoUrl: "nidec.png",
       bullets: [
-        "Designed analysis models and led VAVE to manage cross-departmental cost goals, saved an annual of $6 million.",
-        "Developed mold management models to oversee service life and investment planning."
+        "Designed analysis models and led VAVE to manage cross-departmental cost goals, saving an annual of $6 million.",
+        "Developed mold management models."
       ]
     }
   ],
@@ -226,7 +226,15 @@ window.SITE_CONTENT = {
     }
   ],
   // Optional separate publications list; displayed alongside Research on the Research page
-  publications: [],
+  publications: [
+    {
+      title: "Analysis of the Future Possibility of Metaverse - A Case Study of Tencent",
+      authors: "Zhen Wang",
+      venue: "2023 2nd International Conference on Finance, Investment and Business Analysis (FIBA 2023)",
+      year: "2023",
+      link: "#"
+    }
+  ],
   honors: [
     {
       title: "High Five Award",
@@ -257,7 +265,7 @@ window.SITE_CONTENT = {
       tags: ["Streamlit", "Data Visualization", "Policy Analytics"],
       period: { start: "2024", end: "2027" },
       bullets: [
-        "Web-based dashboard for ILO's YEAP enabling interactive analysis across implementation clusters, capacity development, technical assistance, knowledge dissemination, and advocacy; modular architecture with auto-generated charts and unified styling to support cross-country insights and evidence-based policymaking; publicly deployed on Streamlit Cloud."
+        "The YEAP Data Analysis Dashboard is a web-based data visualization platform developed by the International Labour Organization (ILO) to support its global Youth Employment Action Plan (YEAP) from 2024 to 2027. Built with the Streamlit framework, the dashboard enables interactive analysis of survey data submitted by ILO regional offices and partners. It provides thematic insights across implementation clusters, capacity development, technical assistance, knowledge dissemination, and advocacy. With a modular architecture, auto-generated charts, and unified visual styling, the tool enhances cross-country data interpretation and supports evidence-based policymaking. The dashboard is publicly deployed on Streamlit Cloud."
       ],
       link: "https://github.com/emplabyouth/emplabyeap"
     },
@@ -267,7 +275,7 @@ window.SITE_CONTENT = {
       tags: ["Plotly Dash", "Geospatial", "Full‑stack"],
       period: { start: "2024", end: "2024" },
       bullets: [
-        "Interactive analytics platform for industrial site selection in Mexico's semiconductor and NEV sectors; integrates economic, geographic, workforce, and real estate data to identify optimal locations; modular, scalable architecture for local and cloud deployment to support evidence-based policy and cross-border investment planning."
+        "The AccessBridge Regional Investment Support System is an interactive web-based analytics tool developed to support industrial site selection and investment decision-making in Mexico's emerging sectors, including semiconductors and new energy vehicles. The dashboard integrates economic, geographic, workforce, and real estate data to help policymakers and investors identify optimal locations based on multi-dimensional criteria. The architecture is modular and scalable, enabling deployment both locally and on cloud environments. This system demonstrates how data engineering and visualization can drive evidence-based policy and strategic investment planning for cross-border industrial development."
       ],
       link: "https://github.com/ZhenWwvv/AccessBridge_Regional_Investment_Support_System"
     },
@@ -277,7 +285,7 @@ window.SITE_CONTENT = {
       tags: ["Flask", "Google Cloud Datastore", "Automation"],
       period: { start: "2024", end: "2025" },
       bullets: [
-        "Enhances digital music ingestion pipeline and admin interface for CHIRP Radio; enables staff to import, manage, and sync audio metadata to Google Cloud Datastore, supporting DJs on the live broadcast platform NextUp; modernizes infrastructure and replaces legacy components to improve accessibility for non-technical users."
+        "CHIRP Radio is a community radio station in Chicago that maintains a large independent music library. This project focuses on enhancing their digital music ingestion pipeline and web-based admin interface. The system allows music department staff to import, manage, and sync local audio metadata to Google Cloud Datastore, enabling DJs to browse and curate tracks via the station's live broadcast platform, NextUp. The revamp aimed to modernize infrastructure, replace legacy components like Samba, and support non-technical users through a web interface."
       ],
       link: "https://github.com/ZhenWwvv/CHIRP-Radio-Application/tree/python3"
     },
@@ -286,7 +294,7 @@ window.SITE_CONTENT = {
       tags: ["NLP", "LDA", "Sentiment Analysis"],
       period: { start: "2023", end: "2023" },
       bullets: [
-        "Python dashboard comparing Chinese (Douban) and American (Rotten Tomatoes) user reviews of war movies; web scraping, sentiment analysis, word clouds, LDA topic modeling, and timeline-based rating analysis to uncover cultural differences; CLI dashboard built with Poetry."
+        "Python-based dashboard to analyze and compare Chinese (Douban) and American (Rotten Tomatoes) user reviews of war movies. Used web scraping, NLP (sentiment analysis, word clouds), LDA topic modeling, and timeline-based rating analysis to uncover cultural differences in film perception. Tech stack: Python, BeautifulSoup, pandas, spaCy, matplotlib, LDA, CLI dashboard (Poetry)."
       ],
       link: "https://github.com/ZhenWwvv/30122-Film-Insight"
     }

@@ -73,14 +73,14 @@
         .blob{ position:absolute; width:100%; height:100%; border-radius:50%; background:linear-gradient(135deg, var(--brand) 0%, var(--brick-500) 100%); z-index:0; opacity:0.9; filter:blur(2px); top:0; left:0; }
         .portrait{ width:100%; height:100%; display:block; border-radius:50%; border:0; background:transparent; object-fit:cover; object-position:center center; filter:contrast(1.15) brightness(1.08) saturate(1.15); position:relative; z-index:1; }
         .about-right{ display:none; }
-        .about-name{ font-weight:800; font-size:clamp(36px,6vw,72px); line-height:1.2; color:#000000; letter-spacing:0.2px; margin:0 0 8px; }
+        .about-name{ font-weight:800; font-size:clamp(32px,5.5vw,64px); line-height:1.2; color:#000000; letter-spacing:0.2px; margin:0 0 8px; }
         .hi{ display:block; font-size:clamp(18px,3vw,28px); color:var(--greystone-900); opacity:0.9; margin-bottom:4px; }
         .tagline-rotator{ display:none; }
         .tagline-fade{ opacity:0; transform:translateY(8px); transition:opacity .4s ease, transform .4s ease; }
         .tagline-fade.show{ opacity:1; transform:translateY(0); }
         .emoji-row{ font-size:28px; margin:6px 0 6px; }
-        .about-lead{ margin:10px 0 14px; color:#000000; font-size:20px; max-width:620px; font-family:'Gotham Bold','Gotham','Noto Sans',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; font-weight:700; font-style:normal; white-space:nowrap; }
-        .about-school{ margin:6px 0 8px; color:#000000; font-weight:700; font-size:18px; font-family:'Gotham Bold','Gotham','Noto Sans',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; font-style:normal; }
+        .about-lead{ margin:10px 0 8px; color:#000000; font-size:20px; max-width:100%; font-family:'Gotham Bold','Gotham','Noto Sans',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; font-weight:700; font-style:normal; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+        .about-school{ margin:2px 0 8px; color:#000000; font-weight:700; font-size:18px; font-family:'Gotham Bold','Gotham','Noto Sans',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; font-style:normal; }
         .tagline-text{ margin:8px 0 12px; color:#000000; font-size:16px; line-height:1.6; max-width:620px; font-family:'Gotham Bold Italic','Gotham','Noto Sans',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; font-weight:700; font-style:italic; }
         .marquee{ overflow:hidden; margin:12px 0 12px; max-width:none; display:flex; flex-direction:column; gap:4px; }
         .marquee-text{ display:block; color:#111827; font-weight:800; white-space:nowrap; font-size:18px; will-change:transform; animation:marqueeMove 22s linear infinite; }
@@ -490,6 +490,7 @@
                 
                 if (data) {
                     nameEl.textContent = data.name || '';
+                    // Set title - keep entire text on one line
                     leadEl.textContent = data.title || '';
                     // Auto-generate portrait images if not provided
                     function generateAutoPortrait(name){
@@ -552,7 +553,10 @@
                     const sub = (data.subtitle || '').trim();
                     if (sub){
                         const lead = document.getElementById('about-lead');
-                        if (lead) lead.textContent = sub;
+                        if (lead) {
+                            // Set subtitle - keep entire text on one line
+                            lead.textContent = sub;
+                        }
                     }
                 }
                 // Disable previous tagline rotation
@@ -650,9 +654,9 @@
             <div class="merged-grid">
                 <div class="mid-card">
                     <h3>About Me</h3>
-                    <p>Data scientist with 9+ years across AI, machine learning, data visualization and supply chain optimization — turning complex datasets into actionable insights. Experience at the ILO and multinational firms (Nissan/JATCO, Fortune Brands) bridging technology and public policy to drive data‑informed strategy and impact.</p>
-                    
-                    
+                    <p>Data-driven professional with 9 + years of international experience spanning data science, AI, and evidence-based public policy. Currently pursuing a Master of Science in Computational Analysis and Public Policy (MSCAPP) at The University of Chicago, I specialize in leveraging machine learning, NLP, and statistical modeling to inform global policy decisions and social impact initiatives.</p>
+                    <p>At the International Labour Organization (ILO) in Geneva, I develop scalable data pipelines and interactive dashboards that translate complex youth employment datasets from 100+ countries into actionable insights for global stakeholders. My previous work at Fortune Brands and Nissan (JATCO) focused on supply chain analytics, data governance, and cost-optimization systems, achieving multimillion-dollar savings and operational innovation across teams in Asia and North America.</p>
+                    <p>Fluent in English, Chinese, and Japanese, I bring a multidisciplinary perspective that bridges technology and policy to advance inclusive growth, digital transformation, and sustainable development in the international arena.</p>
                 </div>
             </div>
         </section>

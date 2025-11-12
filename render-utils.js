@@ -400,7 +400,7 @@
     // Render sections with uppercase titles and horizontal lines
     function renderSection(title, items, type){
       if (!items.length) return null;
-      const section = el('section', {class:'pub-section'});
+      const section = el('section', {class:'card pub-section', 'data-type': type});
       const sectionTitle = el('h2', {class:'pub-section-title', text: title.toUpperCase()});
       section.appendChild(sectionTitle);
       section.appendChild(el('hr', {class:'pub-section-divider'}));

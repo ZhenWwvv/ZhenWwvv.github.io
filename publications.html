@@ -90,7 +90,7 @@
         .pub-title-right{ font-size:15px; font-weight:700; color:var(--text-primary); white-space:nowrap; flex-shrink:0; }
         .pub-author{ font-size:15px; line-height:1.5; color:var(--text-primary); margin-bottom:4px; }
         .pub-venue{ font-size:15px; line-height:1.5; color:var(--text-primary); margin-top:4px; }
-        .pub-bullets{ margin:8px 0 0; padding-left:20px; list-style-type:disc; }
+        .pub-bullets{ margin:8px 0 0; padding-left:0; list-style:none; }
         .pub-bullets li{ margin:4px 0; font-size:14px; line-height:1.6; color:var(--text-primary); }
         .pub-bullets li i{ font-style:italic; }
         .pub-bullets li u{ text-decoration:underline; }
@@ -292,29 +292,7 @@
                     </ul>
                 </nav>
             </aside>
-            <div id="pub-content">
-                <section class="card pub-section" data-type="publication">
-                    <h2 class="pub-section-title">Publication</h2>
-                    <div class="pub-entry">
-                        <div class="pub-author">Zhen Wang</div>
-                        <div class="pub-title-row">
-                            <div class="pub-title-left"><i>Analysis of the Future Possibility of Metaverse - A Case Study of Tencent</i></div>
-                        </div>
-                        <div class="pub-venue">Accepted by the 2023 2nd International Conference on Finance, Investment and Business Analysis (FIBA 2023)</div>
-                    </div>
-                </section>
-                <section class="card pub-section" data-type="research">
-                    <h2 class="pub-section-title">Research</h2>
-                    <div class="pub-entry">
-                        <div class="pub-title-row">
-                            <div class="pub-title-left"><strong>Time Series Modeling With Applications in Economics and Public Health (R Programming)</strong></div>
-                            <div class="pub-title-right">09/2022-12/2022</div>
-                        </div>
-                        <div class="pub-detail"><i>Supervisor:</i> Dr. Peter Kempthorne, MIT (Massachusetts Institute of Technology)</div>
-                        <div class="pub-detail">Team lead, Led a time series forecasting project on the Metaverse's prospects (autocorrelation, residual, ARIMA model)</div>
-                    </div>
-                </section>
-            </div>
+            <div id="pub-content"></div>
         </div>
     </main>
 
@@ -356,22 +334,41 @@
             </div>
         </div>
     </footer>
+    <script src="site-content.js"></script>
+    <script src="render-utils.js"></script>
     <script>
     document.addEventListener('DOMContentLoaded', function(){
+        // Render publications and research from site-content.js
+        const container = document.getElementById('pub-content');
+        if (container && window.RenderUtils && window.RenderUtils.renderResearchPublications){
+            window.RenderUtils.renderResearchPublications(container);
+        }
+        
+        // Filter functionality
         const menu = document.getElementById('filter-menu');
-        const sections = Array.from(document.querySelectorAll('#pub-content [data-type]'));
+        const sections = Array.from(document.querySelectorAll('#pub-content .pub-section'));
+        const entries = Array.from(document.querySelectorAll('#pub-content .pub-entry'));
+        
         function setActive(link){
             Array.from(menu.querySelectorAll('.sidebar-link')).forEach(function(a){
                 a.classList.toggle('active', a === link);
             });
         }
+        
         function apply(filter){
             sections.forEach(function(sec){
-                const type = sec.getAttribute('data-type');
+                const type = sec.getAttribute('data-type') || '';
                 const show = filter === 'all' || filter === type;
                 sec.style.display = show ? '' : 'none';
             });
+            // Also filter individual entries if needed
+            entries.forEach(function(entry){
+                const type = entry.getAttribute('data-type') || '';
+                const show = filter === 'all' || filter === type;
+                entry.style.display = show ? '' : 'none';
+            });
         }
+        
         apply('all');
         menu?.addEventListener('click', function(e){
             const link = e.target.closest('.sidebar-link');
