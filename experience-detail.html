@@ -206,27 +206,11 @@
                 });
             }
             
-            // Add videos from Team Moments & Behind the Scenes after images
-            if (item.teamMoments && Array.isArray(item.teamMoments.videos)){
-                item.teamMoments.videos.forEach(function(vid){
-                    const item=document.createElement('div'); item.className='gallery-item';
-                    if (vid.src){
-                        const vidEl=document.createElement('video'); vidEl.src=vid.src; vidEl.controls=true; vidEl.preload='metadata';
-                        item.appendChild(vidEl);
-                    }
-                    if (vid.title){
-                        const title=document.createElement('div'); title.className='gallery-item-title'; title.textContent=vid.title;
-                        item.appendChild(title);
-                    }
-                    grid.appendChild(item);
-                });
-            }
-            
             gallery.appendChild(grid);
             mount.appendChild(gallery);
         }
 
-        // Render Team Moments & Behind the Scenes section (title only, videos moved to gallery)
+        // Render Team Moments & Behind the Scenes section
         if (item.teamMoments){
             const team=document.createElement('div'); team.className='card';
             const h=document.createElement('div'); h.className='section-title'; h.textContent=item.teamMoments.name||'Team Moments & Behind the Scenes';
@@ -260,7 +244,6 @@
                 const note=document.createElement('div'); note.textContent='Team moments coming soon.';
                 team.appendChild(note);
             }
-            // Videos are now displayed in Events Photo Gallery above
             mount.appendChild(team);
         }
 
