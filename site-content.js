@@ -13,16 +13,16 @@ window.SITE_CONTENT = {
     aboutBlurb: "Data scientist with 9+ years across AI, machine learning, data visualization and supply chain optimization — turning complex datasets into actionable insights. Experience at the ILO and multinational firms (Nissan/JATCO, Fortune Brands) bridging technology and public policy to drive data‑informed strategy and impact.",
     // Optional portrait images; use photoSmall as the thumbnail (第三张图),
     // and photoLarge as the zoomed image (第二张图). Fallback to photo.
-    photoSmall: "ren.jpg", // e.g. "assets/thumbnail.jpg"
-    photoLarge: "ren.jpg", // e.g. "assets/fullsize.jpg"
-    photo: "ren.jpg", // legacy single image path (kept for backward compatibility)
+    photoSmall: "assets/images/portrait/ren.jpg",
+    photoLarge: "assets/images/portrait/ren.jpg",
+    photo: "assets/images/portrait/ren.jpg",
     taglines: [
       "Data Science | Software Engineering | AI",
       "Policy Analysis | Public Sector Tech",
       "Coffee, travel, and building useful tools"
     ],
     basedIn: ["Geneva, Switzerland", "Chicago, USA", "Shanghai, China"],
-    coffeePhoto: "微信图片_20251110233207_58_252.jpg", // Geneva view
+    coffeePhoto: "assets/images/coffee/geneva.jpg",
     socials: {
       // Updated per request
       linkedin: "https://www.linkedin.com/in/zhenwww",
@@ -60,7 +60,7 @@ window.SITE_CONTENT = {
       location: "Geneva, Switzerland",
       period: { start: "2025-05", end: "current" },
       logoDomain: "ilo.org",
-      logoUrl: "image003.png",
+      logoUrl: "assets/images/logos/ilo.png",
       orgInfo: {
         name: "Our Organization & Unit Overview",
         desc1: "The International Labour Organization (ILO) is the only tripartite UN agency that brings together governments, employers, and workers to set labour standards, promote decent work, and advance social justice worldwide.",
@@ -76,30 +76,30 @@ window.SITE_CONTENT = {
       gallery: {
         name: "Events Photo Gallery",
         images: [
-          { src: "ee7f93fae4b3d79fd08da49bb4acfadd.jpg", title: "Interesting event during ILC (International Labor Conference)" },
-          { src: "IMG_4145.PNG", title: "The global coalition for social justice seminar" },
-          { src: "DSC_2775.jpg", title: "Youth Employment and the Green Transition" },
-          { src: "48b651a06f942aa20a2814bde7199f0c.JPEG", title: "With colleagues at ILC" },
-          { src: "IMG_6272.JPEG", title: "During AI for good" },
-          { src: "IMG_6444.JPEG", title: "Met the founder of Alibaba Cloud" },
-          { src: "IMG_3609.JPEG", title: "UN Geneva Palais des Nations" }
+          { src: "assets/images/experience/ilo/il-event-interesting.jpg", title: "Interesting event during ILC (International Labor Conference)" },
+          { src: "assets/images/experience/ilo/il-global-coalition.png", title: "The global coalition for social justice seminar" },
+          { src: "assets/images/experience/ilo/il-green-transition.jpg", title: "Youth Employment and the Green Transition" },
+          { src: "assets/images/experience/ilo/il-with-colleagues.jpeg", title: "With colleagues at ILC" },
+          { src: "assets/images/experience/ilo/il-ai-for-good.jpg", title: "During AI for good" },
+          { src: "assets/images/experience/ilo/il-alibaba-cloud-founder.jpg", title: "Met the founder of Alibaba Cloud" },
+          { src: "assets/images/experience/ilo/il-palais-nations.jpg", title: "UN Geneva Palais des Nations" }
         ]
       },
       teamMoments: {
         name: "Team Moments & Behind the Scenes",
         images: [
-          { src: "1_Group photo of my branch.jpg", title: "Group photo of my branch" },
-          { src: "2_Intern Board meeting.jpg", title: "Intern Board meeting" },
-          { src: "3_Fund Raise for events.jpg", title: "Fund Raise for events" },
-          { src: "4_Protest in ILO.jpeg", title: "Protest in ILO" },
-          { src: "5_Colleagues party.jpg", title: "Colleagues party" },
-          { src: "6_Me with flags at the United Nations.jpeg", title: "Me with flags at the United Nations" },
-          { src: "7_Me with sheep at the United Nations.jpeg", title: "Me with sheep at the United Nations" }
+          { src: "assets/images/experience/ilo/il-team-branch-group.jpg", title: "Group photo of my branch" },
+          { src: "assets/images/experience/ilo/il-intern-board-meeting.jpg", title: "Intern Board meeting" },
+          { src: "assets/images/experience/ilo/il-team-fundraise.jpg", title: "Fund Raise for events" },
+          { src: "assets/images/experience/ilo/il-protest.jpg", title: "Protest in ILO" },
+          { src: "assets/images/experience/ilo/il-colleagues-party.jpg", title: "Colleagues party" },
+          { src: "assets/images/experience/ilo/il-un-flags.jpg", title: "Me with flags at the United Nations" },
+          { src: "assets/images/experience/ilo/il-un-sheep.jpg", title: "Me with sheep at the United Nations" }
         ],
         videos: [
-          { src: "IMG_3609.MOV", title: "Video 1" },
-          { src: "IMG_6272.MOV", title: "Video 2" },
-          { src: "IMG_6444.MOV", title: "Video 3" }
+          { src: "assets/videos/ilo/il-video1.mov", title: "Video 1" },
+          { src: "assets/videos/ilo/il-video2.mov", title: "Video 2" },
+          { src: "assets/videos/ilo/il-video3.mov", title: "Video 3" }
         ]
       },
       bullets: [
@@ -115,7 +115,7 @@ window.SITE_CONTENT = {
       location: "Chicago, IL",
       period: { start: "2024-09", end: "2025-05" },
       logoDomain: "chirpradio.org",
-      logoUrl: "niao.jpg",
+      logoUrl: "assets/images/logos/chirp.png",
       bullets: [
         "Led a team of 15 members to design a SaaS-based music library system. Structured project plans, milestones, resource allocation, created roadmaps, timelines, and define assignments/deliverables from scratch.",
         "Developed automated workflows and deployed website for DJs and users by leveraging Python, JS, Flask, SQL, and Mutagen, to improve metadata accuracy, user accessibility, system performance and processing time (40%+).",
@@ -129,7 +129,7 @@ window.SITE_CONTENT = {
       location: "Memphis, TN",
       period: { start: "2024-07", end: "2024-09" },
       logoDomain: "deltahealthalliance.org",
-      logoUrl: "alice.png",
+      logoUrl: "assets/images/logos/deltahealthalliance.png",
       bullets: [
         "Delivered research, data analysis, and visualization for education and health programs.",
         "Analyzed teenage pregnancy, STDs, and infant mortality trends in the U.S. Delta region."
@@ -142,7 +142,7 @@ window.SITE_CONTENT = {
       role: "International Trade, Economic Data Scientist",
       location: "Washington, D.C.",
       period: { start: "2024-06", end: "2024-08" },
-      logoUrl: "屏幕截图 2025-11-11 151635.png",
+      logoUrl: "assets/images/logos/accessbridge.png",
       bullets: [
         "Led supplier consultations for investment site selection in Mexico's semiconductor and NEV sectors.",
         "Developed full-stack dashboard using Python (Plotly Dash), JavaScript, and geospatial tools for real-time visualization and predictive capabilities."
@@ -156,7 +156,7 @@ window.SITE_CONTENT = {
       location: "Guangzhou, China",
       period: { start: "2021-05", end: "2022-06" },
       logoDomain: "moen.com",
-      logoUrl: "moen.png",
+      logoUrl: "assets/images/logos/moen.png",
       orgInfo: {
         name: "Fortune Brands Innovations (NYSE: FBIN)",
         desc1: "A leader in home, security and commercial building markets, focused on accelerating growth through innovation, brand strength and connected-product.",
@@ -183,7 +183,7 @@ window.SITE_CONTENT = {
       location: "Guangzhou, China",
       period: { start: "2017-06", end: "2021-05" },
       logoDomain: "jatco.co.jp",
-      logoUrl: "nissan .png",
+      logoUrl: "assets/images/logos/nissan.png",
       orgInfo: {
         name: "Nissan Motor Corporation",
         desc1: "Nissan Motor Corporation is a leading global automobile manufacturer headquartered in Yokohama, Japan, dedicated to \"driving innovation to enrich people's lives.\" Nissan designs, manufactures, and sells a diverse range of vehicles and mobility technologies worldwide.",
@@ -206,7 +206,7 @@ window.SITE_CONTENT = {
       role: "Senior Purchasing Specialist",
       location: "Guangzhou, China",
       period: { start: "2013-04", end: "2017-05" },
-      logoUrl: "nidec.png",
+      logoUrl: "assets/images/logos/nidec.png",
       bullets: [
         "Designed analysis models and led VAVE to manage cross-departmental cost goals, saving an annual of $6 million.",
         "Developed mold management models."
@@ -261,7 +261,7 @@ window.SITE_CONTENT = {
   projects: [
     {
       title: "Youth Employment Action Plan (YEAP) Analysis Dashboard",
-      image: "1.jpg",
+      image: "assets/images/projects/yeap.jpg",
       tags: ["Streamlit", "Data Visualization", "Policy Analytics"],
       period: { start: "2024", end: "2027" },
       bullets: [
@@ -272,7 +272,7 @@ window.SITE_CONTENT = {
     },
     {
       title: "AccessBridge Regional Investment Support System",
-      image: "2.jpg",
+      image: "assets/images/projects/accessbridge.jpg",
       tags: ["Plotly Dash", "Geospatial", "Full‑stack"],
       period: { start: "2024", end: "2024" },
       bullets: [
@@ -284,7 +284,7 @@ window.SITE_CONTENT = {
     },
     {
       title: "CHIRP Radio Library Application",
-      image: "3.png",
+      image: "assets/images/projects/chirp-app.png",
       tags: ["Flask", "Google Cloud Datastore", "Automation"],
       period: { start: "2024", end: "2025" },
       bullets: [

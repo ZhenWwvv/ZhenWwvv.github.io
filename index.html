@@ -21,10 +21,10 @@
             --purple:#6B46C1;
         }
         *{ box-sizing:border-box; }
-        html{ scroll-behavior:smooth; }
-        body{ margin:0; font-family:'Noto Sans',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; color:var(--text-primary); background:var(--bg); line-height:1.6; }
+        html{ scroll-behavior:smooth; overflow-x:hidden; }
+        body{ margin:0; font-family:'Noto Sans',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; color:var(--text-primary); background:var(--bg); line-height:1.6; overflow-x:hidden; }
         h1,h2,h3,h4,h5,h6,.page-title,.about-name,.brand{ font-family:'Overpass',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; }
-        .site-header{ position:sticky; top:0; z-index:50; background:linear-gradient(90deg,var(--maroon-600) 0%, var(--brick-500) 100%); border-bottom:0; box-shadow:0 10px 32px rgba(91,13,14,0.28); }
+        .site-header{ position:sticky; top:0; z-index:50; background:linear-gradient(90deg,var(--maroon-600) 0%, var(--brick-500) 100%); border-bottom:0; box-shadow:0 10px 32px rgba(91,13,14,0.28); width:100%; left:0; right:0; }
         .nav-container{ max-width:1200px; margin:0 auto; padding:0 16px; display:flex; align-items:center; gap:20px; height:60px; position:relative; }
         .nav{ margin:0; padding:0; list-style:none; display:flex; align-items:center; gap:20px; }
         #nav-left, #nav-right{ flex:1 1 0; display:flex; align-items:center; justify-content:space-evenly; gap:20px; }
@@ -44,9 +44,11 @@
         .contact-btn:hover{ background:#ffffff; color:#7B1113; transform:translateY(-1px); }
         .contact-btn:hover .contact-arrow{ transform:translateX(3px); }
         @media (max-width:900px){ 
-            .nav-container{ padding:0 12px; gap:12px; }
+            .nav-container{ padding:0 12px; gap:8px; }
             .nav-icons{ display:none; } 
-            #nav-left, #nav-right{ flex:0 0 auto; }
+            #nav-left, #nav-right{ flex:0 0 auto; gap:12px; }
+            .nav{ gap:12px; }
+            .nav a{ font-size:14px; padding:4px 2px; }
         }
         .brand{ font-weight:700; color:#ffffff; text-decoration:none; letter-spacing:0.5px; }
         /* Hide leftmost brand Home */
@@ -61,34 +63,91 @@
         .dropdown a:hover{ background:var(--bg-alt); color:var(--text-primary); }
         .nav>li:hover .dropdown{ display:block; }
         .page{ width:100%; margin:0; padding:24px 0 80px; }
+        .content-container{ max-width:1200px; margin:0 auto; padding:0 20px; }
+        @media (max-width:900px){
+            .content-container{ padding:0 16px; }
+        }
         .page-title{ margin:18px 0 14px; font-size:clamp(24px,4vw,34px); line-height:1.2; font-weight:700; }
         .lead{ color:var(--text-secondary); margin-top:6px; }
         .card{ background:#fff; border:1px solid var(--border); border-radius:12px; padding:20px; }
         .grid{ display:grid; grid-template-columns:repeat(12, 1fr); gap:16px; margin-top:16px; }
         /* Home hero (About-style) */
-        .home-hero{ margin:18px 0 24px; display:grid; grid-template-columns:1fr 380px; gap:32px; align-items:start; }
-        .about-left{ grid-column:1 / span 1; }
-        .portrait-wrap{ grid-column:2 / span 1; position:relative; display:flex; align-items:flex-start; justify-content:flex-start; padding:0; overflow:visible; margin-left:-50px; margin-top:2px; }
-        .portrait-container{ position:relative; width:360px; height:360px; max-width:360px; max-height:360px; display:flex; align-items:center; justify-content:center; filter:drop-shadow(0 10px 30px rgba(0,0,0,0.3)); border-radius:50%; overflow:hidden; }
+        .home-hero{ margin:18px auto 24px; display:grid; grid-template-columns:1fr 380px; gap:32px; align-items:start; max-width:1000px; padding:0 20px; }
+        @media (max-width:1200px){
+            .home-hero{ max-width:900px; }
+        }
+        @media (max-width:1000px){
+            .home-hero{ max-width:800px; }
+        }
+        @media (max-width:900px){
+            .home-hero{ max-width:100%; padding:0 16px; }
+        }
+        
+        /* Simplified hero content container */
+        .hero-content-wrapper{ max-width:1000px; margin:0 auto; background:#fff; border:1px solid var(--border); border-radius:16px; padding:32px; box-shadow:0 8px 24px rgba(0,0,0,0.06); }
+        @media (max-width:1200px){
+            .hero-content-wrapper{ max-width:900px; }
+        }
+        @media (max-width:1000px){
+            .hero-content-wrapper{ max-width:800px; }
+        }
+        @media (max-width:900px){
+            .hero-content-wrapper{ max-width:100%; padding:20px; }
+        }
+        @media (max-width:768px){
+            .hero-content-wrapper{ max-width:100%; padding:16px; }
+        }
+        @media (max-width:480px){
+            .hero-content-wrapper{ padding:16px; }
+            .portrait-container{ width:160px; height:160px; }
+            .about-name{ font-size:clamp(24px, 6vw, 36px); }
+            .about-lead{ font-size:18px; }
+        }
+        .portrait-container{ position:relative; width:100%; max-width:320px; aspect-ratio:1; display:flex; align-items:center; justify-content:center; filter:drop-shadow(0 10px 30px rgba(0,0,0,0.3)); border-radius:50%; overflow:hidden; }
+        /* New grid layout for simplified hero */
+        .hero-content-wrapper > div[style*="display: grid"] {
+            grid-template-columns: 1fr 320px;
+        }
+        @media (max-width: 900px) {
+            .hero-content-wrapper > div[style*="display: grid"] {
+                grid-template-columns: 1fr;
+            }
+            .portrait-wrap {
+                order: -1;
+                margin: 0 auto 20px;
+            }
+        }
+        @media (max-width:1200px){
+            .portrait-container{ max-width:260px; }
+        }
+        @media (max-width:1100px){
+            .portrait-container{ max-width:240px; }
+        }
+        @media (max-width:1000px){
+            .portrait-container{ max-width:220px; }
+        }
+        @media (max-width:900px){
+            .portrait-container{ max-width:200px; margin:0 auto; }
+        }
         .blob{ position:absolute; width:100%; height:100%; border-radius:50%; background:linear-gradient(135deg, var(--brand) 0%, var(--brick-500) 100%); z-index:0; opacity:0.9; filter:blur(2px); top:0; left:0; }
         .portrait{ width:100%; height:100%; display:block; border-radius:50%; border:0; background:transparent; object-fit:cover; object-position:center center; filter:contrast(1.15) brightness(1.08) saturate(1.15); position:relative; z-index:1; }
         .about-right{ display:none; }
-        .about-name{ font-weight:800; font-size:clamp(32px,5.5vw,64px); line-height:1.2; color:#000000; letter-spacing:0.2px; margin:0 0 8px; }
+        .about-name{ font-weight:800; font-size:clamp(28px,4.8vw,54px); line-height:1.2; color:#000000; letter-spacing:0.2px; margin:0 0 8px; overflow-wrap:break-word; }
         .hi{ display:block; font-size:clamp(18px,3vw,28px); color:var(--greystone-900); opacity:0.9; margin-bottom:4px; }
         .tagline-rotator{ display:none; }
         .tagline-fade{ opacity:0; transform:translateY(8px); transition:opacity .4s ease, transform .4s ease; }
         .tagline-fade.show{ opacity:1; transform:translateY(0); }
         .emoji-row{ font-size:28px; margin:6px 0 6px; }
-        .about-lead{ margin:10px 0 8px; color:#000000; font-size:20px; max-width:100%; font-family:'Gotham Bold','Gotham','Noto Sans',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; font-weight:700; font-style:normal; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+        .about-lead{ margin:10px 0 8px; color:#000000; font-size:20px; max-width:100%; font-family:'Noto Sans',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; font-weight:400; font-style:normal; overflow:hidden; text-overflow:ellipsis; overflow-wrap:break-word; }
         .about-school{ margin:2px 0 8px; color:#000000; font-weight:700; font-size:18px; font-family:'Gotham Bold','Gotham','Noto Sans',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; font-style:normal; }
-        .tagline-text{ margin:8px 0 12px; color:#000000; font-size:16px; line-height:1.6; max-width:620px; font-family:'Gotham Bold Italic','Gotham','Noto Sans',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; font-weight:700; font-style:italic; }
-        .marquee{ overflow:hidden; margin:12px 0 12px; max-width:none; display:flex; flex-direction:column; gap:4px; }
+        .tagline-text{ margin:8px 0 12px; color:#000000; font-size:16px; line-height:1.6; max-width:100%; font-family:'Gotham Bold Italic','Gotham','Noto Sans',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; font-weight:700; font-style:italic; }
+        .marquee{ overflow:hidden; margin:12px 0 12px; max-width:100%; display:flex; flex-direction:column; gap:4px; }
         .marquee-text{ display:block; color:#111827; font-weight:800; white-space:nowrap; font-size:18px; will-change:transform; animation:marqueeMove 22s linear infinite; }
         .marquee-text:nth-child(2){ animation-duration: 22s; animation-delay: 2s; }
         @keyframes marqueeMove{ 0%{ transform:translateX(0); } 100%{ transform:translateX(-100%); } }
         .marquee-text.animate{ animation-play-state: running; }
         .about-list{ margin:12px 0 16px; padding-left:18px; }
-        .about-list li{ margin:10px 0; }
+        .about-list li{ margin:10px 0; overflow-wrap:break-word; }
         .cta-row{ display:flex; align-items:center; gap:16px; margin-top:18px; flex-wrap:wrap; }
         .action-row{ display:flex; align-items:center; gap:14px; margin:10px 0 12px; flex-wrap:wrap; }
         .social-rail{ grid-column:1 / span 1; display:flex; flex-direction:row; gap:12px; align-items:center; justify-content:flex-start; margin:0; }
@@ -100,10 +159,11 @@
         .pill{ display:inline-block; padding:8px 12px; border-radius:999px; border:1px solid var(--border); text-decoration:none; color:var(--text-primary); background:#fff; font-weight:600; }
         .pill:hover{ background:var(--bg-alt); color:var(--brand); }
         @media (max-width:900px){ 
-            .home-hero{ grid-template-columns:1fr; } 
-            .portrait-wrap{ order:3; grid-column:1 / span 1; min-height:420px; padding:16px; justify-content:center; } 
+            .home-hero{ grid-template-columns:1fr; padding:0 16px; } 
+            .hero-content-wrapper > .hero-card { grid-template-columns:1fr; padding:20px; gap:20px; }
+            .portrait-wrap{ order:3; grid-column:1 / span 1; min-height:auto; padding:16px 0; justify-content:center; margin-left:0; } 
             .about-left{ grid-column:1 / span 1; } 
-            .portrait-container{ width:320px; height:320px; max-width:100%; max-height:320px; }
+            .portrait-container{ width:240px; height:240px; max-width:100%; max-height:240px; }
         }
         
         
@@ -159,9 +219,21 @@
         .meta-value{ color:var(--text-secondary); }
         .skills-list{ display:flex; gap:8px; flex-wrap:wrap; margin-top:8px; }
         .skill-chip{ padding:6px 10px; border:1px solid var(--border); border-radius:999px; background:#fff; }
-        .merged-grid{ display:grid; grid-template-columns:1fr; gap:18px; }
+        .merged-grid{ display:grid; grid-template-columns:1fr; gap:18px; max-width:1000px; margin:0 auto; }
         .merged-col{ grid-column:span 12; }
-        @media (max-width:900px){ .mid-card{ grid-column:span 12; } }
+        @media (max-width:1200px){
+            .merged-grid{ max-width:900px; }
+        }
+        @media (max-width:1000px){
+            .merged-grid{ max-width:800px; }
+        }
+        @media (max-width:900px){ 
+            .mid-card{ grid-column:span 12; }
+            .merged-grid{ max-width:100%; padding:0 16px; }
+        }
+        @media (max-width:768px){
+            .merged-grid{ max-width:100%; padding:0 12px; }
+        }
         /* About section black text */
         #about .mid-card p{ color:#000000 !important; }
         .dark-mode #about .mid-card p{ color:#f3f4f6 !important; }
@@ -180,25 +252,58 @@
         .skill-divider{ height:2px; background:linear-gradient(90deg, rgba(140,59,26,0.6), rgba(140,59,26,0.1)); border:0; margin:10px 0 12px; }
         .skill-body{ color:var(--text-secondary); line-height:1.7; }
         /* Coffee section */
-        .coffee{ margin:38px 0 10px; display:grid; grid-template-columns:1fr; gap:16px; align-items:start; }
+        .coffee{ margin:38px auto 10px; display:grid; grid-template-columns:1fr; gap:16px; align-items:start; max-width:1000px; padding:0 20px; }
+        @media (max-width:1200px){
+            .coffee{ max-width:900px; }
+        }
+        @media (max-width:1000px){
+            .coffee{ max-width:800px; }
+        }
+        @media (max-width:900px){
+            .coffee{ max-width:100%; padding:0 16px; }
+        }
+        @media (max-width:768px){
+            .coffee{ padding:0 12px; }
+        }
         .coffee-text{ grid-column:1 / -1; }
         .coffee-text h2{ margin:0 0 8px; font-size:clamp(22px,3.4vw,30px); }
         .based-in{ margin:6px 0 10px; color:var(--text-primary); font-weight:600; }
         .locations{ display:flex; gap:10px; flex-wrap:wrap; margin-top:8px; }
         .chip{ border:1px solid var(--border); background:#fff; padding:6px 10px; border-radius:999px; font-weight:600; }
-        .coffee-img{ grid-column:1 / -1; width:100%; min-height:520px; margin-top:6px; border-radius:16px; border:1px solid var(--border); background:#eef2f7; position:relative; overflow:hidden; }
-        .coffee-img img{ width:100%; height:100%; object-fit:cover; display:block; border-radius:inherit; }
-        @media (max-width:900px){ .coffee{ gap:14px; } .coffee-img{ min-height:360px; } }
+        .coffee-img{ grid-column:1 / -1; width:100%; margin-top:6px; border-radius:16px; border:1px solid var(--border); background:transparent; position:relative; overflow:hidden; }
+        .coffee-img img{ width:100%; height:auto; display:block; border-radius:inherit; }
+        @media (max-width:900px){ .coffee{ gap:14px; } }
         /* Tencent Docs form embed */
-        .gform-wrap{ max-width:1100px; margin:24px auto 0; padding:0 16px; }
+        .gform-wrap{ max-width:1000px; margin:24px auto 0; padding:0 20px; }
+        @media (max-width:1200px){
+            .gform-wrap{ max-width:900px; }
+        }
+        @media (max-width:1000px){
+            .gform-wrap{ max-width:800px; }
+        }
+        @media (max-width:900px){
+            .gform-wrap{ max-width:100%; padding:0 16px; }
+        }
+        @media (max-width:768px){
+            .gform-wrap{ padding:0 12px; }
+        }
         .gform-note{ color:var(--text-secondary); margin:6px 0 12px; font-size:14px; }
         .gform-iframe{ width:100%; min-height:1100px; border:0; background:#fff; border-radius:12px; box-shadow:0 16px 40px rgba(0,0,0,0.08); }
         @media (max-width:900px){ .gform-iframe{ min-height:1200px; } }
-        .home-gform{ max-width:none; margin:24px 0 0; padding:0; }
-        .home-gform .gform-note{ padding:0 16px; }
+        .home-gform{ max-width:1000px; margin:24px auto 0; padding:0 20px; }
+        .home-gform .gform-note{ padding:0; }
         .home-gform .gform-iframe{ border-radius:16px; }
+        @media (max-width:1200px){
+            .home-gform{ max-width:900px; }
+        }
+        @media (max-width:1000px){
+            .home-gform{ max-width:800px; }
+        }
         @media (max-width:900px){
-            .home-gform{ padding:0 16px; }
+            .home-gform{ max-width:100%; padding:0 16px; }
+        }
+        @media (max-width:768px){
+            .home-gform{ padding:0 12px; }
         }
         /* Lightbox */
         .lightbox-overlay{ position:fixed; inset:0; background:rgba(0,0,0,0.7); display:none; align-items:center; justify-content:center; z-index:1000; }
@@ -215,12 +320,18 @@
             .bottom-nav-inner{ flex-direction:column; gap:16px; }
             .bottom-nav-links{ justify-content:center; }
         }
+        @media (max-width:480px){
+            .nav-container{ padding:0 8px; gap:6px; }
+            .nav{ gap:8px; }
+            .nav a{ font-size:13px; padding:3px 1px; }
+            #nav-left, #nav-right{ gap:8px; }
+        }
         .bottom-nav-icon{ color:#ffffff; font-size:24px; text-decoration:none; transition:color 0.3s ease; }
         .bottom-nav-icon:hover{ color:var(--gold); }
         .sparkle-icon{ color:var(--gold); font-size:16px; margin:0 8px; }
         
-        /* Dark Mode Toggle */
-        .dark-mode-toggle{ position:fixed; top:12px; right:20px; z-index:1000; background:transparent; border:none; border-radius:8px; padding:8px; cursor:pointer; transition:all 0.3s ease; display:flex; align-items:center; justify-content:center; width:36px; height:36px; }
+        /* Dark Mode Toggle - Integrated with Navigation */
+        .dark-mode-toggle{ background:transparent; border:none; border-radius:8px; padding:8px; cursor:pointer; transition:all 0.3s ease; display:flex; align-items:center; justify-content:center; width:36px; height:36px; margin-left:8px; }
         .dark-mode-toggle:hover{ background:rgba(255,255,255,0.1); }
         .dark-mode-toggle svg{ width:20px; height:20px; color:#ffffff; display:block; }
         .dark-mode-toggle.dark{ background:transparent; }
@@ -263,14 +374,86 @@
         .dark-mode .social-rail a:hover{ color:var(--gold) !important; }
         
         /* Hero Section */
+        .dark-mode .hero-card{ background:#374151 !important; border-color:#4b5563 !important; }
         .dark-mode .hero{ background:linear-gradient(135deg, #1f2937 0%, #374151 100%) !important; }
         .dark-mode .blob{ background:linear-gradient(135deg, var(--brand) 0%, var(--brick-500) 100%) !important; opacity:0.7 !important; }
         .dark-mode .portrait-container{ filter:drop-shadow(0 10px 30px rgba(0,0,0,0.5)) !important; }
         .dark-mode .portrait{ filter:contrast(1.25) brightness(1.15) saturate(1.25) !important; }
+        /* Dark mode glow for new card portrait */
+        .dark-mode .mid-card img[alt="Grace Zhen Wang portrait"]{
+            filter: drop-shadow(0 8px 24px rgba(239, 68, 68, 0.3)) !important;
+            box-shadow: 0 0 20px rgba(239, 68, 68, 0.2) !important;
+        }
+        /* Responsive adjustments for new card */
+        @media (max-width: 1200px) {
+            .mid-card[style*="position: relative"] {
+                padding-right: 350px !important;
+            }
+            .mid-card[style*="position: relative"] > div[style*="padding-right: 340px"] {
+                padding-right: 20px !important;
+            }
+        }
+        @media (max-width: 900px) {
+            .mid-card[style*="position: relative"] {
+                padding-right: 20px !important;
+            }
+            .mid-card[style*="position: relative"] img[alt="Grace Zhen Wang portrait"] {
+                width: 200px !important;
+                height: 200px !important;
+                position: relative !important;
+                top: 0 !important;
+                right: 0 !important;
+                margin: 20px auto !important;
+                display: block !important;
+            }
+            .mid-card[style*="position: relative"] > div[style*="padding-right: 340px"] {
+                padding-right: 0 !important;
+            }
+        }
+        @media (max-width: 480px) {
+            .mid-card[style*="position: relative"] img[alt="Grace Zhen Wang portrait"] {
+                width: 150px !important;
+                height: 150px !important;
+            }
+        }
+        /* Keep About Me section headers black in dark mode */
+        .dark-mode .mid-card h3 { color:#000000 !important; }
+        .dark-mode #about .mid-card p { color:#000000 !important; }
+        
+        /* Make specific text elements white in dark mode */
+        .dark-mode #about-name { color:#ffffff !important; }
+        .dark-mode #about-lead { color:#ffffff !important; }
+        .dark-mode #about-school { color:#ffffff !important; }
+        .dark-mode #tagline-text { color:#ffffff !important; }
+        .dark-mode #based-in-label { color:#ffffff !important; }
+        
+        /* Dark mode for hero section card - transparent background and gray text */
+        .dark-mode .mid-card[style*="background: transparent"] { background: transparent !important; }
+        .dark-mode #hero-name-display { color:#ffffff !important; }
+        .dark-mode #hero-lead-display { color:#d1d5db !important; }
+        .dark-mode #hero-school-display { color:#d1d5db !important; }
+        .dark-mode #hero-list-display li { color:#d1d5db !important; }
+        .dark-mode #hero-tagline-display { color:#d1d5db !important; }
+        .dark-mode #hero-emoji-display { color:#d1d5db !important; }
+        
+        /* Dark mode portrait - gray border instead of red */
+        .dark-mode .mid-card img[alt="Grace Zhen Wang portrait"] {
+            filter: drop-shadow(0 12px 32px rgba(156, 163, 175, 0.4)) !important;
+            box-shadow: 0 0 30px rgba(156, 163, 175, 0.3) !important;
+        }
 
         /* Sidebar Styles (Home) */
         .main-grid{ display:grid; grid-template-columns:240px 1fr; gap:32px; width:100%; margin:0 0 0 -20px; }
         @media (max-width:900px){ .main-grid{ grid-template-columns:1fr; margin:0; } }
+        
+        /* Main content area adjustments */
+        .main-content{ width:100%; }
+        @media (max-width:1200px){
+            .main-grid{ gap:24px; }
+        }
+        @media (max-width:1000px){
+            .main-grid{ gap:20px; }
+        }
         .sidebar{ background:#fff; border:1px solid var(--border); border-radius:12px; padding:16px 10px; height:fit-content; position:sticky; top:80px; text-align:center; }
         .sidebar-title{ font-size:18px; font-weight:700; color:var(--text-primary); margin:0 0 16px; padding-bottom:8px; border-bottom:2px solid var(--border); text-align:center; }
         .sidebar-list{ list-style:none; margin:0; padding:0; }
@@ -407,13 +590,6 @@
     </script>
 </head>
 <body>
-    <!-- Dark Mode Toggle -->
-    <button class="dark-mode-toggle" id="darkModeToggle" aria-label="Toggle dark mode">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-        </svg>
-    </button>
-
     <header class="site-header">
         <div class="nav-container">
             <button class="menu-btn" id="menu-btn" aria-label="Toggle menu" aria-expanded="false">
@@ -428,7 +604,7 @@
             <ul id="nav-left" class="nav" role="menubar" aria-label="Primary left">
                 <li class="active"><a href="index.html" aria-current="page">Home</a></li>
                 <li><a href="work-experience.html">Work Experience</a></li>
-                <li><a href="project.html">Project</a></li>
+                <li><a href="projects.html">Project</a></li>
             </ul>
             <div class="nav-icons" id="nav-icons" aria-label="Social and contact">
                 <a href="https://www.linkedin.com/in/zhenwww" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="LinkedIn">
@@ -448,6 +624,12 @@
                     <span class="contact-label">Contact</span>
                     <span class="contact-arrow" aria-hidden="true">▸</span>
                 </a>
+                <!-- Dark Mode Toggle -->
+                <button class="dark-mode-toggle" id="darkModeToggle" aria-label="Toggle dark mode">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
             </div>
             <ul id="nav-right" class="nav" role="menubar" aria-label="Primary right">
                 <li><a href="publications.html">Publications</a></li>
@@ -519,7 +701,13 @@
                     // Do not auto-generate portrait; if missing, hide image so only purple blob shows
                     if (!thumb && portrait){ portrait.style.display = 'none'; }
                     if (thumb){ portrait.src = thumb; portrait.alt = (data.name||'') + ' portrait'; portrait.style.display = 'block'; }
-                    (Array.isArray(data.knownFor) ? data.knownFor : []).forEach(function(line){ const li=document.createElement('li'); li.textContent=line; listEl.appendChild(li); });
+                    if (listEl) {
+                        (Array.isArray(data.knownFor) ? data.knownFor : []).forEach(function(line){ 
+                            const li=document.createElement('li'); 
+                            li.textContent=line; 
+                            listEl.appendChild(li); 
+                        });
+                    }
                     function setHref(id, url){
                         const a=document.getElementById(id);
                         if (!a) return;
@@ -618,33 +806,50 @@
         </aside>
 
         <div class="main-content">
-        <section class="home-hero" aria-label="intro">
-            <div class="about-left">
-                
-                <h1 id="about-name" class="about-name"></h1>
-                <p id="about-lead" class="about-lead"></p>
-                <p id="about-school" class="about-school"></p>
-                <p id="tagline-text" class="tagline-text"></p>
-                <div id="emoji-row" class="emoji-row"></div>
-                <div class="action-row">
-                    <div class="social-rail">
-                        <a id="lnk-linkedin" href="https://www.linkedin.com/in/zhenwww" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-                                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.226.792 24 1.771 24h20.451C23.2 24 24 23.226 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003zM6.556 20.452H4.113V9h2.443v11.452zM5.337 7.433a1.805 1.805 0 110-3.61 1.805 1.805 0 010 3.61zM20.447 20.452H17.2v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.062V9h3.112v1.561h.045c.434-.82 1.494-1.684 3.073-1.684 3.287 0 3.894 2.164 3.894 4.977v6.598z"/></svg>
-                        </a>
-                        <a id="lnk-github" href="https://github.com/ZhenWwvv" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
-                                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.387.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.726-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.757-1.333-1.757-1.089-.745.084-.729.084-.729 1.205.084 1.84 1.236 1.84 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.418-1.305.762-1.605-2.665-.304-5.466-1.332-5.466-5.93 0-1.31.469-2.381 1.236-3.221-.124-.303-.536-1.523.117-3.176 0 0 1.008-.322 3.301 1.23a11.5 11.5 0 013.003-.404c1.019.005 2.045.138 3.003.404 2.291-1.552 3.297-1.23 3.297-1.23.655 1.653.243 2.873.119 3.176.77.84 1.235 1.911 1.235 3.221 0 4.61-2.807 5.624-5.479 5.921.43.371.814 1.102.814 2.222 0 1.605-.015 2.896-.015 3.289 0 .319.216.694.825.576C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12z"/></svg>
-                        </a>
-                        <a id="lnk-instagram" href="https://www.instagram.com/nehzzhenwang/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-                                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.35 3.608 1.325.975.975 1.262 2.242 1.324 3.608.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.062 1.366-.35 2.633-1.324 3.608-.975.975-2.242 1.262-3.608 1.324-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.366-.062-2.633-.35-3.608-1.324-.975-.975-1.262-2.242-1.324-3.608C2.175 15.747 2.163 15.367 2.163 12s.012-3.584.07-4.85c.062-1.366.35-2.633 1.324-3.608C4.532 2.583 5.799 2.296 7.165 2.234 8.431 2.176 8.811 2.163 12 2.163zm0-2.163C8.741 0 8.332.014 7.052.072 5.771.13 4.659.428 3.678 1.409 2.697 2.39 2.399 3.502 2.341 4.783 2.283 6.063 2.269 6.472 2.269 12s.014 5.937.072 7.217c.058 1.281.356 2.393 1.337 3.374.981.981 2.093 1.279 3.374 1.337 1.28.058 1.689.072 7.217.072s5.937-.014 7.217-.072c1.281-.058 2.393-.356 3.374-1.337.981-.981 1.279-2.093 1.337-3.374.058-1.28.072-1.689.072-7.217s-.014-5.937-.072-7.217c-.058-1.281-.356-2.393-1.337-3.374C21.393.428 20.281.13 19 .072 17.72.014 17.311 0 12 0zM12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zm0 10.162a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 11-2.881 0 1.44 1.44 0 012.881 0z"/></svg>
+        
+        <!-- About Me full content -->
+        <section class="mid" aria-label="hero-info">
+            <div class="merged-grid">
+                <div class="mid-card" style="position: relative; border: none; box-shadow: none; background: transparent;">
+                    <!-- Portrait in top-right corner with glow effect -->
+                    <div style="position: absolute; top: 20px; right: 20px; z-index: 10;">
+                        <img src="assets/images/portrait/ren.jpg" alt="Grace Zhen Wang portrait" style="width: 320px; height: 320px; border-radius: 50%; object-fit: cover; filter: drop-shadow(0 12px 32px rgba(97, 97, 97, 0.4)); box-shadow: 0 0 30px rgba(85, 85, 85, 0.3);">
+                    </div>
+                    
+                    <div style="padding-right: 340px;">
+                        <h1 id="hero-name-display" class="about-name">Grace Zhen Wang</h1>
+                        <p id="hero-lead-display" class="about-lead">Data Science | Software Engineering | Artificial Intelligence</p>
+                        <p id="hero-school-display" class="about-school">The University of Chicago</p>
+                        <ul id="hero-list-display" class="about-list">
+                            <li>International Labour Organization – Data Scientist Intern 2025–</li>
+                            <li>The University of Chicago – MSc in Computational Analysis and Public Policy 2023–2026</li>
+                            <li>CHIRP Radio – Full Stack Team Leader &amp; Project Manager 2024–2025</li>
+                            <li>Delta Health Alliance – Data Analyst 2024</li>
+                        </ul>
+                        <p id="hero-tagline-display" class="tagline-text">More than a data gal: I am a political change-maker, a world shaper, an international labour defender, a global problem-solver, and a supply chain strategist.</p>
+                        <div id="hero-emoji-display" class="emoji-row">💻 🎸 ☕ 🧠 ❤️</div>
+                        
+                        <!-- Contact links and button - aligned left -->
+                        <div style="margin-top: 24px; text-align: left;">
+                            <!-- Social icons row - left aligned -->
+                            <div style="display: flex; justify-content: flex-start; gap: 16px; margin-bottom: 16px;">
+                            <a href="https://www.linkedin.com/in/zhenwww" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" style="width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--border); display: inline-flex; align-items: center; justify-content: center; color: var(--brand); text-decoration: none; background: transparent; transition: all 0.2s ease;">
+                                <svg viewBox="0 0 24 24" fill="currentColor" style="width: 20px; height: 20px;"><path d="M22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.226.792 24 1.771 24h20.451C23.2 24 24 23.226 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003zM6.556 20.452H4.113V9h2.443v11.452zM5.337 7.433a1.805 1.805 0 110-3.61 1.805 1.805 0 010 3.61zM20.447 20.452H17.2v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.062V9h3.112v1.561h.045c.434-.82 1.494-1.684 3.073-1.684 3.287 0 3.894 2.164 3.894 4.977v6.598z"/></svg>
+                            </a>
+                            <a href="https://github.com/ZhenWwvv" target="_blank" rel="noopener noreferrer" aria-label="GitHub" style="width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--border); display: inline-flex; align-items: center; justify-content: center; color: var(--brand); text-decoration: none; background: transparent; transition: all 0.2s ease;">
+                                <svg viewBox="0 0 24 24" fill="currentColor" style="width: 20px; height: 20px;"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.387.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.726-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.757-1.333-1.757-1.089-.745.084-.729.084-.729 1.205.084 1.84 1.236 1.84 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.418-1.305.762-1.605-2.665-.304-5.466-1.332-5.466-5.93 0-1.31.469-2.381 1.236-3.221-.124-.303-.536-1.523.117-3.176 0 0 1.008-.322 3.301 1.23a11.5 11.5 0 013.003-.404c1.019.005 2.045.138 3.003.404 2.291-1.552 3.297-1.23 3.297-1.23.655 1.653.243 2.873.119 3.176.77.84 1.235 1.911 1.235 3.221 0 4.61-2.807 5.624-5.479 5.921.43.371.814 1.102.814 2.222 0 1.605-.015 2.896-.015 3.289 0 .319.216.694.825.576C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12z"/></svg>
+                            </a>
+                            <a href="https://www.instagram.com/nehzzhenwang/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" style="width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--border); display: inline-flex; align-items: center; justify-content: center; color: var(--brand); text-decoration: none; background: transparent; transition: all 0.2s ease;">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 20px; height: 20px;"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                            </a>
+                        </div>
+                        
+                        <!-- Contact button -->
+                        <a href="mailto:wangzh@iloguest.org" class="btn" aria-label="Contact" style="display: inline-flex; align-items: center; gap: 10px; background: var(--brand); color: #fff; padding: 14px 22px; border-radius: 14px; text-decoration: none; font-weight: 800; box-shadow: 0 10px 26px rgba(123,17,19,0.28); transition: filter 0.2s ease;">
+                            Contact
+                            <span aria-hidden="true" style="font-size: 16px;">▸</span>
                         </a>
                     </div>
-                    <a href="mailto:wangzh@iloguest.org" class="btn" id="btn-contact" aria-label="Contact me">Contact ▸</a>
-                </div>
-            </div>
-            <div class="portrait-wrap">
-                <div class="portrait-container">
-                    <div class="blob" aria-hidden="true"></div>
-                    <img id="portrait" class="portrait" alt="Portrait" />
                 </div>
             </div>
         </section>
@@ -727,12 +932,12 @@
         
         
         <section class="coffee" aria-label="coffee">
-            <div class="coffee-text">
+            <div class="coffee-text" style="text-align: center;">
                 <h2>Come have a coffee with me?</h2>
                 <div id="based-in-label" class="based-in">Based in: Geneva, Switzerland； Chicago, USA； Shanghai, China</div>
             </div>
             <div id="coffee-img" class="coffee-img" aria-label="Coffee/place photo">
-                <img id="coffee-photo" src="微信图片_20251110233207_58_252.jpg" alt="Geneva view" loading="lazy" decoding="async" />
+                <img id="coffee-photo" src="assets/images/coffee/geneva.jpg" alt="Geneva view" loading="lazy" decoding="async" />
             </div>
         </section>
 

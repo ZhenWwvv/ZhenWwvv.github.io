@@ -398,14 +398,11 @@
       return entryDiv;
     }
 
-    // Render sections with uppercase titles and horizontal lines
+    // Render sections WITHOUT titles (hero banner already provides the title)
     function renderSection(title, items, type){
       if (!items.length) return null;
       const section = el('section', {class:'card pub-section', 'data-type': type});
-      const sectionTitle = el('h2', {class:'pub-section-title', text: title.toUpperCase()});
-      section.appendChild(sectionTitle);
-      section.appendChild(el('hr', {class:'pub-section-divider'}));
-      
+      // Remove the title and divider since hero banner already shows "Publication"
       items.forEach(function(item){
         section.appendChild(createEntry(item, type));
       });
@@ -471,6 +468,62 @@
   }
 
   window.RenderUtils = { renderResume, renderSectorList, renderResearchList, renderResearchOnly, renderPublicationsOnly, renderResearchPublications, renderHonorsList, renderCommunityList, renderMediaList };
+  function insertHeroBanner(opts){
+    const main=document.querySelector('main.page');
+    if(!main) return; const titleEl=main.querySelector('.page-title')||document.querySelector('title');
+    const title=(titleEl?.textContent||document.title||'').trim(); if(!title) return;
+    const hero=document.createElement('div'); hero.className='hero';
+    const canvas=document.createElement('canvas'); const width=1600, height=240; canvas.width=width; canvas.height=height;
+    const ctx=canvas.getContext('2d'); if(!ctx) return;
+    const grad=ctx.createLinearGradient(0,0,width,height); grad.addColorStop(0,'#5e0c0e'); grad.addColorStop(1,'#8C3B1A');
+    ctx.fillStyle=grad; ctx.fillRect(0,0,width,height);
+    ctx.strokeStyle='rgba(255,255,255,0.08)'; ctx.lineWidth=2;
+    for(let i=0;i<42;i++){ ctx.beginPath(); let x=Math.random()*width; let y=0; ctx.moveTo(x,y); for(let j=0;j<5;j++){ x+=(Math.random()-0.5)*120; y+=height/5; ctx.lineTo(x,y);} ctx.stroke(); }
+    const fs = (opts&&opts.fontSize)||48;
+    ctx.font='700 '+fs+'px Overpass, system-ui, Arial, sans-serif'; ctx.fillStyle='#ffffff'; ctx.textAlign='center'; ctx.textBaseline='middle';
+    const tw=ctx.measureText(title).width; const bw=tw+80, bh=84; const bx=(width-bw)/2, by=(height-bh)/2;
+    function roundRect(x,y,w,h,r){ r=Math.min(r,w/2,h/2); ctx.beginPath(); ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r); ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath(); }
+    ctx.strokeStyle='rgba(255,255,255,0.9)'; ctx.lineWidth=6; roundRect(bx,by,bw,bh,16); ctx.stroke();
+    ctx.fillText(title,width/2,height/2);
+    const img=new Image(); img.src=canvas.toDataURL('image/png'); img.alt=title+' banner';
+    hero.appendChild(img); main.insertBefore(hero, main.firstChild);
+  }
+  window.RenderUtils.insertHeroBanner = insertHeroBanner;
+
+  function makeProjectPlaceholder(title){
+    const c=document.createElement('canvas'); const w=960, h=720; c.width=w; c.height=h; const ctx=c.getContext('2d');
+    const g=ctx.createLinearGradient(0,0,w,h); g.addColorStop(0,'#243b55'); g.addColorStop(1,'#141e30'); ctx.fillStyle=g; ctx.fillRect(0,0,w,h);
+    ctx.globalAlpha=0.15; ctx.strokeStyle='#fff';
+    for(let i=0;i<28;i++){ ctx.beginPath(); let x=Math.random()*w; let y=0; ctx.moveTo(x,y); for(let j=0;j<5;j++){ x+=(Math.random()-0.5)*120; y+=h/5; ctx.lineTo(x,y);} ctx.stroke(); }
+    ctx.globalAlpha=1; ctx.fillStyle='#ffffff'; ctx.font='700 54px Overpass, system-ui, Arial'; ctx.textAlign='left'; ctx.textBaseline='bottom';
+    const lines=(title||'').split(/:\s*|\s\|\s/)[0]; ctx.fillText(lines||'Project', 40, h-40);
+    return c;
+  }
+  window.RenderUtils.makeProjectPlaceholder = makeProjectPlaceholder;
+
+  function renderProjects(container){
+    const data = ensureContent();
+    if (!container) return; container.innerHTML='';
+    const items = Array.isArray(data.projects) ? data.projects : [];
+    if (!items.length){ container.innerHTML = '<div class="card">No projects available.</div>'; return; }
+    items.forEach(function(p){
+      const row=document.createElement('section'); row.className='proj-row';
+      const imgBox=document.createElement('div'); imgBox.className='proj-img';
+      if (p.image){ const img=new Image(); img.src=p.image; img.alt=p.title||'Project image'; img.loading='lazy'; imgBox.appendChild(img); }
+      else { imgBox.appendChild(makeProjectPlaceholder(p.title||'')); }
+      const text=document.createElement('div');
+      const h=document.createElement('h2'); h.className='proj-title'; h.textContent=p.title||''; text.appendChild(h);
+      if (Array.isArray(p.bullets) && p.bullets.length){ const d=document.createElement('p'); d.className='proj-body'; d.innerHTML=p.bullets.join('<br><br>'); text.appendChild(d); }
+      else if (p.desc){ const d=document.createElement('p'); d.className='proj-body'; d.textContent=p.desc; text.appendChild(d); }
+      const links=document.createElement('div'); links.className='proj-links';
+      const repo=p.link||p.repo||''; const site=p.site||'';
+      if (site){ const a=document.createElement('a'); a.href=site; a.target='_blank'; a.rel='noopener noreferrer'; a.textContent='Project site'; links.appendChild(a); }
+      if (repo){ if (links.childNodes.length) links.appendChild(document.createTextNode(' · ')); const a=document.createElement('a'); a.href=repo; a.target='_blank'; a.rel='noopener noreferrer'; a.textContent='Repository'; links.appendChild(a); }
+      if (links.childNodes.length){ text.appendChild(links); }
+      row.appendChild(imgBox); row.appendChild(text); container.appendChild(row);
+    });
+  }
+  window.RenderUtils.renderProjects = renderProjects;
 })();
 
 

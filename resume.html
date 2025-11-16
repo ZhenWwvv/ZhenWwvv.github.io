@@ -78,8 +78,7 @@
         .footer-links a:hover{ color:var(--brand); }
         .menu-btn{ display:none; background:none; border:0; font-size:18px; }
         
-        /* Dark Mode Toggle */
-        .dark-mode-toggle{ position:fixed; top:12px; right:20px; z-index:1000; background:transparent; border:none; border-radius:8px; padding:8px; cursor:pointer; transition:all 0.3s ease; display:flex; align-items:center; justify-content:center; width:36px; height:36px; }
+        .dark-mode-toggle{ background:transparent; border:none; border-radius:8px; padding:8px; cursor:pointer; transition:all 0.3s ease; display:flex; align-items:center; justify-content:center; width:36px; height:36px; margin-left:8px; }
         .dark-mode-toggle:hover{ background:rgba(255,255,255,0.1); }
         .dark-mode-toggle svg{ width:20px; height:20px; color:#ffffff; display:block; }
         .dark-mode-toggle.dark{ background:transparent; }
@@ -224,26 +223,7 @@
                 localStorage.setItem('theme', isDark ? 'dark' : 'light');
             });
             
-            // Auto-generate hero image from title
-            (function(){
-                const main=document.querySelector('main.page');
-                if(!main) return; const titleEl=main.querySelector('.page-title')||document.querySelector('title');
-                const title=(titleEl?.textContent||document.title||'').trim(); if(!title) return;
-                const hero=document.createElement('div'); hero.className='hero';
-                const canvas=document.createElement('canvas'); const width=1600, height=240; canvas.width=width; canvas.height=height;
-                const ctx=canvas.getContext('2d'); if(!ctx) return;
-                const grad=ctx.createLinearGradient(0,0,width,height); grad.addColorStop(0,'#5e0c0e'); grad.addColorStop(1,'#8C3B1A');
-                ctx.fillStyle=grad; ctx.fillRect(0,0,width,height);
-                ctx.strokeStyle='rgba(255,255,255,0.08)'; ctx.lineWidth=2;
-                for(let i=0;i<42;i++){ ctx.beginPath(); let x=Math.random()*width; let y=0; ctx.moveTo(x,y); for(let j=0;j<5;j++){ x+=(Math.random()-0.5)*120; y+=height/5; ctx.lineTo(x,y);} ctx.stroke(); }
-                ctx.font='700 48px Overpass, system-ui, Arial, sans-serif'; ctx.fillStyle='#ffffff'; ctx.textAlign='center'; ctx.textBaseline='middle';
-                const tw=ctx.measureText(title).width; const bw=tw+80, bh=84; const bx=(width-bw)/2, by=(height-bh)/2;
-                function roundRect(x,y,w,h,r){ r=Math.min(r,w/2,h/2); ctx.beginPath(); ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r); ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath(); }
-                ctx.strokeStyle='rgba(255,255,255,0.9)'; ctx.lineWidth=6; roundRect(bx,by,bw,bh,16); ctx.stroke();
-                ctx.fillText(title,width/2,height/2);
-                const img=new Image(); img.src=canvas.toDataURL('image/png'); img.alt=title+' banner';
-                hero.appendChild(img); main.insertBefore(hero, main.firstChild);
-            })();
+            if (window.RenderUtils && window.RenderUtils.insertHeroBanner){ window.RenderUtils.insertHeroBanner(); }
             
             // Ensure download works without navigation
             const downloadBtn = document.getElementById('btn-download-resume');
@@ -254,15 +234,9 @@
             }
         });
     </script>
+    <script src="render-utils.js"></script>
 </head>
 <body>
-    <!-- Dark Mode Toggle -->
-    <button class="dark-mode-toggle" id="darkModeToggle" aria-label="Toggle dark mode">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-        </svg>
-    </button>
-
     <header class="site-header">
         <div class="nav-container">
             <a class="brand" href="index.html">Home</a>
@@ -270,7 +244,7 @@
             <ul id="nav-left" class="nav" role="menubar" aria-label="Primary left">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="work-experience.html">Work Experience</a></li>
-                <li><a href="project.html">Project</a></li>
+                <li><a href="projects.html">Project</a></li>
             </ul>
             <div class="nav-icons" id="nav-icons" aria-label="Social and contact">
                 <a href="https://www.linkedin.com/in/zhenwww" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="LinkedIn">
@@ -290,6 +264,11 @@
                     <span class="contact-label">Contact</span>
                     <span class="contact-arrow" aria-hidden="true">▸</span>
                 </a>
+                <button class="dark-mode-toggle" id="darkModeToggle" aria-label="Toggle dark mode">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
             </div>
             <ul id="nav-right" class="nav" role="menubar" aria-label="Primary right">
                 <li><a href="publications.html">Publications</a></li>
@@ -300,11 +279,11 @@
     </header>
 
     <main class="page" role="main">
-        <h1 class="page-title">Resume</h1>
-        <p><a id="btn-download-resume" class="btn" href="CV_Zhen_Wang.pdf" download="CV_Zhen_Wang.pdf">Download Resume (PDF)</a></p>
+        
+        <p><a id="btn-download-resume" class="btn" href="assets/docs/cv.pdf" download="cv.pdf">Download Resume (PDF)</a></p>
         <!-- Resume Image Preview -->
         <div class="card" style="margin-top:20px; padding:0; overflow:hidden;">
-            <img src="CV_ZhenWang.png" alt="Resume" style="width:90%; height:auto; display:block; margin: 0 auto; border-radius:12px;" title="Resume Preview">
+            <img src="assets/images/resume/cv-preview.png" alt="Resume" style="width:90%; height:auto; display:block; margin: 0 auto; border-radius:12px;" title="Resume Preview">
         </div>
         <!-- Google Docs embed -->
         <section class="gform-wrap" aria-label="resume document" style="margin-top:40px;">

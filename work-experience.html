@@ -63,7 +63,7 @@
         }
 
         /* Sidebar Styles (left categories) */
-        .main-grid{ display:grid; grid-template-columns:220px 1fr; gap:24px; width:100%; margin:0; }
+        .main-grid{ display:grid; grid-template-columns:200px 1fr; gap:16px; width:100%; margin:0; padding-left:16px; }
         @media (max-width:900px){ .main-grid{ grid-template-columns:1fr; } }
         .sidebar{ background:#fff; border:1px solid var(--border); border-radius:12px; padding:16px; height:fit-content; position:sticky; top:80px; }
         .sidebar-title{ font-size:16px; font-weight:700; color:var(--text-primary); margin:0 0 12px; padding-bottom:6px; border-bottom:2px solid var(--border); }
@@ -76,11 +76,11 @@
         /* Timeline frame (light style) */
         .timeline-frame{ background:transparent; border-radius:0; padding:20px 0; box-shadow:none; }
         .timeline{ position:relative; max-width:1100px; margin:0 auto; }
-        .timeline::before{ content:""; position:absolute; left:164px; top:0; bottom:0; width:4px; background:rgba(0,0,0,0.06); }
-        .t-item{ position:relative; display:grid; grid-template-columns:160px 1fr; gap:20px; align-items:center; padding:18px 16px; }
+        .timeline::before{ content:""; position:absolute; left:64px; top:0; bottom:0; width:4px; background:rgba(0,0,0,0.06); }
+        .t-item{ position:relative; display:grid; grid-template-columns:120px 1fr; gap:16px; align-items:center; padding:18px 8px; }
         .t-item.hidden{ display:none; }
-        .t-logo{ display:flex; align-items:center; justify-content:center; margin-left:32px; width:112px; height:112px; border-radius:50%; background:transparent; border:3px solid rgba(0,0,0,0.06); overflow:hidden; box-shadow:none; }
-        .t-logo img{ width:100%; height:100%; object-fit:contain; object-position:center; display:block; background:transparent; }
+        .t-logo{ display:flex; align-items:center; justify-content:center; margin-left:0px; width:100px; height:100px; border-radius:50%; background:#ffffff; border:3px solid rgba(0,0,0,0.06); overflow:hidden; box-shadow:none; position:relative; z-index:4; transition:all 0.3s ease; }
+        .t-logo img{ width:100%; height:100%; object-fit:cover; object-position:center; display:block; background:transparent; image-rendering:-webkit-optimize-contrast; image-rendering:crisp-edges; }
         .t-card{ background:#ffffff; color:var(--text-primary); border-radius:14px; padding:20px 22px; box-shadow:0 8px 20px rgba(0,0,0,0.08); border:1px solid var(--border); }
         .t-org{ font-weight:800; font-size:24px; color:var(--brand); margin:0 0 6px; }
         .t-role{ font-weight:700; color:var(--brick-700); margin:0 0 4px; }
@@ -90,11 +90,11 @@
         .t-details[open] > summary{ color:var(--text-primary); }
         .t-details ul{ margin:8px 0 0; padding-left:18px; }
         .t-details li{ margin:6px 0; }
-        @media (max-width:900px){ .timeline::before{ left:120px; } .t-item{ grid-template-columns:140px 1fr; } .t-logo{ width:92px; height:92px; margin-left:20px; } }
+        @media (max-width:900px){ .timeline::before{ left:60px; } .t-item{ grid-template-columns:100px 1fr; } .t-logo{ width:90px; height:90px; margin-left:0px; } }
 
         /* Connector line and start node */
         .t-bridge{ position:absolute; height:0; border-top:2px solid rgba(0,0,0,0.12); pointer-events:none; }
-        .t-node{ position:absolute; transform:translate(-50%,-50%); background:#6B46C1; border:0; color:#ffffff; font-size:16px; padding:8px 12px; border-radius:999px; box-shadow:0 6px 14px rgba(0,0,0,0.14); pointer-events:none; white-space:nowrap; font-weight:700; }
+        .t-node{ position:absolute; transform:translate(-50%,-50%); background:#6B46C1; border:0; color:#ffffff; font-size:14px; padding:6px 10px; border-radius:999px; box-shadow:0 4px 10px rgba(0,0,0,0.12); pointer-events:none; white-space:nowrap; font-weight:700; z-index:3; margin-left:-10px; }
         .dark-mode .t-bridge{ border-top-color: rgba(255,255,255,0.18); }
         .dark-mode .t-node{ background:#6B46C1; border-color:transparent; color:#ffffff; }
 
@@ -114,8 +114,8 @@
         .bottom-nav-icon:hover{ color:var(--gold); }
         .sparkle-icon{ color:var(--gold); font-size:16px; margin:0 8px; }
         
-        /* Dark Mode Toggle */
-        .dark-mode-toggle{ position:fixed; top:12px; right:20px; z-index:1000; background:transparent; border:none; border-radius:8px; padding:8px; cursor:pointer; transition:all 0.3s ease; display:flex; align-items:center; justify-content:center; width:36px; height:36px; }
+        /* Dark Mode Toggle - Integrated with Navigation */
+        .dark-mode-toggle{ background:transparent; border:none; border-radius:8px; padding:8px; cursor:pointer; transition:all 0.3s ease; display:flex; align-items:center; justify-content:center; width:36px; height:36px; margin-left:8px; }
         .dark-mode-toggle:hover{ background:rgba(255,255,255,0.1); }
         .dark-mode-toggle svg{ width:20px; height:20px; color:#ffffff; display:block; }
         .dark-mode-toggle.dark{ background:transparent; }
@@ -165,7 +165,7 @@
         .dark-mode .tab.active{ background:var(--brand); border-color:var(--brand); color:#fff; }
         /* Hide leftmost brand Home */
         .brand{ display:none; }
-        .page{ padding:24px 16px 80px; }
+        .page{ padding:24px 0px 80px 0px; }
         .hero{ margin:12px calc(50% - 50vw) 28px; position:relative; width:100vw; max-width:none; }
         .hero img{ width:100%; height:auto; display:block; border-radius:12px; border:0; box-shadow:0 8px 24px rgba(0,0,0,0.12); }
         @media (max-width:600px){
@@ -210,36 +210,11 @@
                 activate(match);
             }
 
-            // Auto-generate hero image from title
-            (function(){
-                const main=document.querySelector('main.page');
-                if(!main) return; const titleEl=main.querySelector('.page-title')||document.querySelector('title');
-                const title=(titleEl?.textContent||document.title||'').trim(); if(!title) return;
-                const hero=document.createElement('div'); hero.className='hero';
-                const canvas=document.createElement('canvas'); const width=1600, height=240; canvas.width=width; canvas.height=height;
-                const ctx=canvas.getContext('2d'); if(!ctx) return;
-                const grad=ctx.createLinearGradient(0,0,width,height); grad.addColorStop(0,'#5e0c0e'); grad.addColorStop(1,'#8C3B1A');
-                ctx.fillStyle=grad; ctx.fillRect(0,0,width,height);
-                ctx.strokeStyle='rgba(255,255,255,0.08)'; ctx.lineWidth=2;
-                for(let i=0;i<42;i++){ ctx.beginPath(); let x=Math.random()*width; let y=0; ctx.moveTo(x,y); for(let j=0;j<5;j++){ x+=(Math.random()-0.5)*120; y+=height/5; ctx.lineTo(x,y);} ctx.stroke(); }
-                ctx.font='700 48px Overpass, system-ui, Arial, sans-serif'; ctx.fillStyle='#ffffff'; ctx.textAlign='center'; ctx.textBaseline='middle';
-                const tw=ctx.measureText(title).width; const bw=tw+80, bh=84; const bx=(width-bw)/2, by=(height-bh)/2;
-                function roundRect(x,y,w,h,r){ r=Math.min(r,w/2,h/2); ctx.beginPath(); ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r); ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath(); }
-                ctx.strokeStyle='rgba(255,255,255,0.9)'; ctx.lineWidth=6; roundRect(bx,by,bw,bh,16); ctx.stroke();
-                ctx.fillText(title,width/2,height/2);
-                const img=new Image(); img.src=canvas.toDataURL('image/png'); img.alt=title+' banner';
-                hero.appendChild(img); main.insertBefore(hero, main.firstChild);
-            })();
+            if (window.RenderUtils && window.RenderUtils.insertHeroBanner){ window.RenderUtils.insertHeroBanner(); }
         });
     </script>
 </head>
 <body>
-    <!-- Dark Mode Toggle -->
-    <button class="dark-mode-toggle" id="darkModeToggle" aria-label="Toggle dark mode">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-        </svg>
-    </button>
 
     <header class="site-header">
         <div class="nav-container">
@@ -248,7 +223,7 @@
             <ul id="nav-left" class="nav" role="menubar" aria-label="Primary left">
                 <li><a href="index.html">Home</a></li>
                 <li class="active"><a href="work-experience.html" aria-current="page">Work Experience</a></li>
-                <li><a href="project.html">Project</a></li>
+                <li><a href="projects.html">Project</a></li>
             </ul>
             <div class="nav-icons" id="nav-icons" aria-label="Social and contact">
                 <a href="https://www.linkedin.com/in/zhenwww" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="LinkedIn">
@@ -268,6 +243,11 @@
                     <span class="contact-label">Contact</span>
                     <span class="contact-arrow" aria-hidden="true">▸</span>
                 </a>
+                <button class="dark-mode-toggle" id="darkModeToggle" aria-label="Toggle dark mode">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
             </div>
             <ul id="nav-right" class="nav" role="menubar" aria-label="Primary right">
                 <li><a href="publications.html">Publications</a></li>
@@ -361,14 +341,15 @@
                 if(!p) return ''; 
                 const startStr = p.start || '';
                 const endStr = p.end || '';
+                const fmtYM = function(y,m){ return String(y) + '·' + String(m).padStart(2,'0'); };
                 if(endStr === 'current'){ 
-                    const startMonth = toMonth(startStr);
-                    return startMonth ? startMonth.year + '-' + String(startMonth.month).padStart(2,'0') + ' — Present' : (toYear(startStr)||'') + ' — Present';
+                    const sm = toMonth(startStr);
+                    return sm ? fmtYM(sm.year, sm.month) + ' — Present' : (toYear(startStr)||'') + ' — Present';
                 }
-                const startMonth = toMonth(startStr);
-                const endMonth = toMonth(endStr);
-                if(startMonth && endMonth){
-                    return startMonth.year + '-' + String(startMonth.month).padStart(2,'0') + ' — ' + endMonth.year + '-' + String(endMonth.month).padStart(2,'0');
+                const sm = toMonth(startStr);
+                const em = toMonth(endStr);
+                if(sm && em){
+                    return fmtYM(sm.year, sm.month) + ' — ' + fmtYM(em.year, em.month);
                 }
                 const s=toYear(startStr); const e=toYear(endStr)||new Date().getFullYear();
                 return (s||'') + ' — ' + (e||'');
@@ -389,29 +370,11 @@
                     let years = endMonth.year - startMonth.year;
                     let months = endMonth.month - startMonth.month;
                     if(months < 0){ years--; months += 12; }
-                    // Calculate total months
-                    // For current positions: month difference (start to current month, excluding current month)
-                    // For ended positions: if same year and months >= 2, add 1 (includes both start and end months)
-                    // Exception: AccessBridge uses month difference directly (excludes end month)
                     let totalMonths;
                     if(endStr === 'current'){
-                        // For current: month difference (excludes current month)
                         totalMonths = years * 12 + months;
                     } else {
-                        // For ended positions
-                        if(years === 0 && months >= 2){
-                            // Same year, 2+ months difference
-                            if(orgName && orgName.toLowerCase().includes('accessbridge')){
-                                // AccessBridge: use month difference (excludes end month)
-                                totalMonths = months;
-                            } else {
-                                // Other organizations: add 1 to include end month
-                                totalMonths = months + 1;
-                            }
-                        } else {
-                            // Different years or 1 month: use difference (excludes end month)
-                            totalMonths = years * 12 + months;
-                        }
+                        totalMonths = years * 12 + months + 1;
                     }
                     // If less than 12 months, show months
                     if(totalMonths < 12){
@@ -432,7 +395,8 @@
 
             items.forEach(function(ex){
                 const row = document.createElement('div'); row.className = 't-item';
-                const logo = document.createElement('div'); logo.className = 't-logo'; logo.appendChild(makeAvatar(ex.organization||'', ex.logoDomain, ex.logoUrl, ex.logoSvg));
+                const logo = document.createElement('div'); logo.className = 't-logo';
+                logo.appendChild(makeAvatar(ex.organization||'', ex.logoDomain, ex.logoUrl, ex.logoSvg));
                 const card = document.createElement('div'); card.className = 't-card';
 
                 const org = document.createElement('div'); org.className='t-org'; org.textContent = ex.organization || '';
@@ -502,7 +466,7 @@
                         line.style.top = y + 'px';
                         line.style.width = width + 'px';
                         if (node){
-                            node.style.left = (leftEdge + width/2) + 'px';
+                            node.style.left = (leftEdge + 30) + 'px';
                             node.style.top = y + 'px';
                         }
                     });
