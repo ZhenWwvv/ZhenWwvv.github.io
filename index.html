@@ -153,6 +153,8 @@
         .social-rail{ grid-column:1 / span 1; display:flex; flex-direction:row; gap:12px; align-items:center; justify-content:flex-start; margin:0; }
         .social-rail a{ width:34px; height:34px; display:grid; place-items:center; border-radius:10px; color:var(--brand); text-decoration:none; }
         .social-rail a svg{ width:22px; height:22px; fill:currentColor; }
+        .social-icon{ width:34px; height:34px; display:grid; place-items:center; border-radius:10px; color:var(--brand); text-decoration:none; background:transparent; border:1px solid var(--border); transition:all 0.2s ease; }
+        .social-icon:hover{ background:var(--bg-alt); color:var(--brand); border-color:var(--brand); }
         .btn{ display:inline-flex; align-items:center; gap:10px; background:var(--brand); color:#fff; padding:14px 22px; border-radius:14px; text-decoration:none; font-weight:800; box-shadow:0 10px 26px rgba(123,17,19,0.28); }
         .btn:hover{ filter:brightness(1.05); }
         .pills{ display:flex; gap:10px; margin-top:16px; flex-wrap:wrap; }
@@ -432,7 +434,7 @@
         .dark-mode #hero-name-display { color:#ffffff !important; }
         .dark-mode #hero-lead-display { color:#d1d5db !important; }
         .dark-mode #hero-school-display { color:#d1d5db !important; }
-        .dark-mode #hero-list-display li { color:#d1d5db !important; }
+        .dark-mode #hero-university-display { color:#d1d5db !important; }
         .dark-mode #hero-tagline-display { color:#d1d5db !important; }
         .dark-mode #hero-emoji-display { color:#d1d5db !important; }
         
@@ -624,18 +626,18 @@
                     <span class="contact-label">Contact</span>
                     <span class="contact-arrow" aria-hidden="true">▸</span>
                 </a>
-                <!-- Dark Mode Toggle -->
-                <button class="dark-mode-toggle" id="darkModeToggle" aria-label="Toggle dark mode">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                    </svg>
-                </button>
             </div>
             <ul id="nav-right" class="nav" role="menubar" aria-label="Primary right">
                 <li><a href="publications.html">Publications</a></li>
                 <li><a href="resume.html">Resume</a></li>
                 <li><a href="some-fun.html">Some Fun</a></li>
             </ul>
+            <!-- Dark Mode Toggle - moved to far right -->
+            <button class="dark-mode-toggle" id="darkModeToggle" aria-label="Toggle dark mode" style="margin-left: auto;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                </svg>
+            </button>
         </div>
         <div class="nav-overlay" id="nav-overlay"></div>
     </header>
@@ -646,34 +648,32 @@
         <script>
             document.addEventListener('DOMContentLoaded', function(){
                 const data = window.SITE_CONTENT?.profile;
-                const nameEl = document.getElementById('about-name');
-                const leadEl = document.getElementById('about-lead');
-                const listEl = document.getElementById('about-list');
+                const nameEl = document.getElementById('hero-name-display');
+                const leadEl = document.getElementById('hero-lead-display');
                 const portrait = document.getElementById('portrait');
-                const schoolEl = document.getElementById('about-school');
+                const schoolEl = document.getElementById('hero-school-display');
                 
-                // School line from education - always load regardless of profile data
-                const edus = Array.isArray(window.SITE_CONTENT?.education) ? window.SITE_CONTENT.education : [];
-                if (edus && edus.length > 0){
-                    const e = edus[0] || {};
-                    if (schoolEl && e.school) {
-                        schoolEl.textContent = e.school;
-                    }
-                } else if (schoolEl) {
-                    // Fallback if education data is not available
-                    schoolEl.textContent = 'The University of Chicago';
+                // School line - use the title from data as school information
+                if (schoolEl && data.title) {
+                    schoolEl.textContent = data.title;
+                }
+                
+                // University line - always show The University of Chicago
+                const universityEl = document.getElementById('hero-university-display');
+                if (universityEl) {
+                    universityEl.textContent = 'The University of Chicago';
                 }
                 
                 // Tagline text below school - always load
-                const taglineText = document.getElementById('tagline-text');
+                const taglineText = document.getElementById('hero-tagline-display');
                 if (taglineText){
                     taglineText.textContent = 'More than a data gal: I am a political change-maker, a world shaper, an international labour defender, a global problem-solver, and a supply chain strategist.';
                 }
                 
                 if (data) {
                     nameEl.textContent = data.name || '';
-                    // Set title - keep entire text on one line
-                    leadEl.textContent = data.title || '';
+                    // Set subtitle for lead display (Data Science | Public Policy | Machine Learning | Artificial Intelligence)
+                    leadEl.textContent = data.subtitle || '';
                     // Auto-generate portrait images if not provided
                     function generateAutoPortrait(name){
                         function draw(w,h){
@@ -701,13 +701,7 @@
                     // Do not auto-generate portrait; if missing, hide image so only purple blob shows
                     if (!thumb && portrait){ portrait.style.display = 'none'; }
                     if (thumb){ portrait.src = thumb; portrait.alt = (data.name||'') + ' portrait'; portrait.style.display = 'block'; }
-                    if (listEl) {
-                        (Array.isArray(data.knownFor) ? data.knownFor : []).forEach(function(line){ 
-                            const li=document.createElement('li'); 
-                            li.textContent=line; 
-                            listEl.appendChild(li); 
-                        });
-                    }
+
                     function setHref(id, url){
                         const a=document.getElementById(id);
                         if (!a) return;
@@ -736,16 +730,8 @@
                     overlay?.addEventListener('click', function(){ overlay.classList.remove('open'); overlayImg.src=''; });
 
                     // Render subtitle and emojis (screenshot-style); stop rotating taglines
-                    const emojiRow = document.getElementById('emoji-row');
+                    const emojiRow = document.getElementById('hero-emoji-display');
                     if (emojiRow && data.emojis){ emojiRow.textContent = data.emojis; }
-                    const sub = (data.subtitle || '').trim();
-                    if (sub){
-                        const lead = document.getElementById('about-lead');
-                        if (lead) {
-                            // Set subtitle - keep entire text on one line
-                            lead.textContent = sub;
-                        }
-                    }
                 }
                 // Disable previous tagline rotation
                 const taglineEl = document.getElementById('tagline');
@@ -813,21 +799,15 @@
                 <div class="mid-card" style="position: relative; border: none; box-shadow: none; background: transparent;">
                     <!-- Portrait in top-right corner with glow effect -->
                     <div style="position: absolute; top: 20px; right: 20px; z-index: 10;">
-                        <img src="assets/images/portrait/ren.jpg" alt="Grace Zhen Wang portrait" style="width: 320px; height: 320px; border-radius: 50%; object-fit: cover; filter: drop-shadow(0 12px 32px rgba(97, 97, 97, 0.4)); box-shadow: 0 0 30px rgba(85, 85, 85, 0.3);">
+                        <img id="portrait" src="assets/images/portrait/ren.jpg" alt="Grace Zhen Wang portrait" style="width: 320px; height: 320px; border-radius: 50%; object-fit: cover; filter: drop-shadow(0 12px 32px rgba(97, 97, 97, 0.4)); box-shadow: 0 0 30px rgba(85, 85, 85, 0.3);">
                     </div>
                     
                     <div style="padding-right: 340px;">
                         <h1 id="hero-name-display" class="about-name">Grace Zhen Wang</h1>
-                        <p id="hero-lead-display" class="about-lead">Data Science | Software Engineering | Artificial Intelligence</p>
-                        <p id="hero-school-display" class="about-school">The University of Chicago</p>
-                        <ul id="hero-list-display" class="about-list">
-                            <li>International Labour Organization – Data Scientist Intern 2025–</li>
-                            <li>The University of Chicago – MSc in Computational Analysis and Public Policy 2023–2026</li>
-                            <li>CHIRP Radio – Full Stack Team Leader &amp; Project Manager 2024–2025</li>
-                            <li>Delta Health Alliance – Data Analyst 2024</li>
-                        </ul>
+                        <p id="hero-lead-display" class="about-lead" style="font-size: 18px;">Data Science | Public Policy | Machine Learning | Artificial Intelligence</p>
+                        <p id="hero-school-display" class="about-school">Master of Science in Computational Analysis and Public Policy (MSCAPP)</p>
+                        <p id="hero-university-display" class="about-school">The University of Chicago</p>
                         <p id="hero-tagline-display" class="tagline-text">More than a data gal: I am a political change-maker, a world shaper, an international labour defender, a global problem-solver, and a supply chain strategist.</p>
-                        <div id="hero-emoji-display" class="emoji-row">💻 🎸 ☕ 🧠 ❤️</div>
                         
                         <!-- Contact links and button - aligned left -->
                         <div style="margin-top: 24px; text-align: left;">
@@ -842,13 +822,11 @@
                             <a href="https://www.instagram.com/nehzzhenwang/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" style="width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--border); display: inline-flex; align-items: center; justify-content: center; color: var(--brand); text-decoration: none; background: transparent; transition: all 0.2s ease;">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 20px; height: 20px;"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
                             </a>
+                            <!-- Contact button -->
+                             <a href="mailto:wangzh@iloguest.org" class="social-icon" aria-label="Contact" style="font-size: 16px; font-weight: 600; font-family: 'Overpass', system-ui, sans-serif; width: 80px;">
+                                 Contact
+                             </a>
                         </div>
-                        
-                        <!-- Contact button -->
-                        <a href="mailto:wangzh@iloguest.org" class="btn" aria-label="Contact" style="display: inline-flex; align-items: center; gap: 10px; background: var(--brand); color: #fff; padding: 14px 22px; border-radius: 14px; text-decoration: none; font-weight: 800; box-shadow: 0 10px 26px rgba(123,17,19,0.28); transition: filter 0.2s ease;">
-                            Contact
-                            <span aria-hidden="true" style="font-size: 16px;">▸</span>
-                        </a>
                     </div>
                 </div>
             </div>

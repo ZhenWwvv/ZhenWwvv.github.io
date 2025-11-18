@@ -8,8 +8,8 @@ window.SITE_CONTENT = {
     phone: "+41 762685041",
     location: "5035 S East End Ave., Chicago, IL, 60615 U.S.",
     title: "Master of Science in Computational Analysis and Public Policy (MSCAPP)",
-    subtitle: "Data Science | Software Engineering | Artificial Intelligence",
-    emojis: "💻 🎸 ☕ 🧠 ❤️",
+    subtitle: "Data Science | Public Policy | Machine Learning | Artificial Intelligence",
+    emojis: "",
     aboutBlurb: "Data scientist with 9+ years across AI, machine learning, data visualization and supply chain optimization — turning complex datasets into actionable insights. Experience at the ILO and multinational firms (Nissan/JATCO, Fortune Brands) bridging technology and public policy to drive data‑informed strategy and impact.",
     // Optional portrait images; use photoSmall as the thumbnail (第三张图),
     // and photoLarge as the zoomed image (第二张图). Fallback to photo.
@@ -79,10 +79,10 @@ window.SITE_CONTENT = {
           { src: "assets/images/experience/ilo/il-event-interesting.jpg", title: "Interesting event during ILC (International Labor Conference)" },
           { src: "assets/images/experience/ilo/il-global-coalition.png", title: "The global coalition for social justice seminar" },
           { src: "assets/images/experience/ilo/il-green-transition.jpg", title: "Youth Employment and the Green Transition" },
-          { src: "assets/images/experience/ilo/il-with-colleagues.jpeg", title: "With colleagues at ILC" },
-          { src: "assets/images/experience/ilo/il-ai-for-good.jpg", title: "During AI for good" },
-          { src: "assets/images/experience/ilo/il-alibaba-cloud-founder.jpg", title: "Met the founder of Alibaba Cloud" },
-          { src: "assets/images/experience/ilo/il-palais-nations.jpg", title: "UN Geneva Palais des Nations" }
+          { src: "assets/images/experience/ilo/with-colleagues-at ILC.jpg", title: "With colleagues at ILC" },
+          { src: "assets/images/experience/ilo/During AI for good.jpg", title: "During AI for good" },
+          { src: "assets/images/experience/ilo/Met the founder of Alibaba Cloud.jpg", title: "Met the founder of Alibaba Cloud" },
+          { src: "assets/images/experience/ilo/UN Geneva Palais des Nations.jpg", title: "UN Geneva Palais des Nations" }
         ]
       },
       teamMoments: {
@@ -91,10 +91,10 @@ window.SITE_CONTENT = {
           { src: "assets/images/experience/ilo/il-team-branch-group.jpg", title: "Group photo of my branch" },
           { src: "assets/images/experience/ilo/il-intern-board-meeting.jpg", title: "Intern Board meeting" },
           { src: "assets/images/experience/ilo/il-team-fundraise.jpg", title: "Fund Raise for events" },
-          { src: "assets/images/experience/ilo/il-protest.jpg", title: "Protest in ILO" },
+          { src: "assets/images/experience/ilo/4_Protest in ILO.jpg", title: "Protest in ILO" },
           { src: "assets/images/experience/ilo/il-colleagues-party.jpg", title: "Colleagues party" },
-          { src: "assets/images/experience/ilo/il-un-flags.jpg", title: "Me with flags at the United Nations" },
-          { src: "assets/images/experience/ilo/il-un-sheep.jpg", title: "Me with sheep at the United Nations" }
+          { src: "assets/images/experience/ilo/6_Me with flags at the United Nations.jpg", title: "Me with flags at the United Nations" },
+          { src: "assets/images/experience/ilo/7_Me with sheep at the United Nations.jpg", title: "Me with sheep at the United Nations" }
         ],
         videos: [
           { src: "assets/videos/ilo/il-video1.mov", title: "Video 1" },
@@ -131,8 +131,8 @@ window.SITE_CONTENT = {
       logoDomain: "deltahealthalliance.org",
       logoUrl: "assets/images/logos/deltahealthalliance.png",
       bullets: [
-        "Delivered research, data analysis, and visualization for education and health programs.",
-        "Analyzed teenage pregnancy, STDs, and infant mortality trends in the U.S. Delta region."
+        "Delivered the research, data analysis and visualization for education and health programs, producing reports.",
+        "Analyzed teenage pregnancy, STDs awareness, and infant mortality trends in the U.S. Delta region, assessing intervention impact and demographic disparities."
       ]
     },
     {
@@ -170,9 +170,9 @@ window.SITE_CONTENT = {
         url: "https://www.moen.com/"
       },
       bullets: [
-        "Led 34 new category projects, optimized supply chain saving over $1.12 million.",
-        "Created analytical reports with Qlik.",
-        "Won the High Five Award."
+        "Led 34 new category projects, from market analysis, Brand Design & Innovation Conference planning, budgeting to implementation. Optimized supply chain of 5 entry level faucets, saving more than $1.12 million.",
+        "Created analytical reports with Qlik for purchasing management, raw material studies, and project analysis.",
+        "Won the High Five Award (The top 5 best practice teams with significant projects and achievements)"
       ]
     },
     {
@@ -195,9 +195,9 @@ window.SITE_CONTENT = {
         url: "https://www.jatco.co.jp/english/"
       },
       bullets: [
-        "Conducted global EV supply chain and OEM research, led deep localization of 260+ target parts saving approx. $95.45 million annually.",
-        "Designed data-driven systems for purchase performance review and personnel evaluation.",
-        "Received the President Award."
+        "Conducted global EV supply chain and OEM research, supporting EV transformation and market expansion. Led deep localization of 260+ target parts, yearly saving 12.3% (approx.$95.45million).",
+        "Designed data-driven systems for purchase performance review and personnel evaluation, enabling 3-year cost reduction forecasting, multidimensional decision analytics, and a skill-based incentive framework.",
+        "Received the President Award (for top departmental professional excellence)"
       ]
     },
     {
@@ -208,8 +208,8 @@ window.SITE_CONTENT = {
       period: { start: "2013-04", end: "2017-05" },
       logoUrl: "assets/images/logos/nidec.png",
       bullets: [
-        "Designed analysis models and led VAVE to manage cross-departmental cost goals, saving an annual of $6 million.",
-        "Developed mold management models."
+        "Designed analysis models and led VAVE to manage cross-departmental cost goals, saved an annual of $6 million.",
+        "Developed mold management models to oversee service life and investment planning"
       ]
     }
   ],
