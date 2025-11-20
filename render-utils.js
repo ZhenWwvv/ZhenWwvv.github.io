@@ -402,7 +402,9 @@
     function renderSection(title, items, type){
       if (!items.length) return null;
       const section = el('section', {class:'card pub-section', 'data-type': type});
-      // Remove the title and divider since hero banner already shows "Publication"
+      // Section title
+      const titleEl = el('h2', {class:'pub-section-title', text: title});
+      section.appendChild(titleEl);
       items.forEach(function(item){
         section.appendChild(createEntry(item, type));
       });
@@ -411,11 +413,11 @@
 
     // Render Publications first, then Research
     if (pubItems.length){
-      const pubSection = renderSection('PUBLICATION', pubItems, 'publication');
+      const pubSection = renderSection('Publication', pubItems, 'publication');
       if (pubSection) container.appendChild(pubSection);
     }
     if (researchItems.length){
-      const researchSection = renderSection('RESEARCH', researchItems, 'research');
+      const researchSection = renderSection('Research', researchItems, 'research');
       if (researchSection) container.appendChild(researchSection);
     }
   }
